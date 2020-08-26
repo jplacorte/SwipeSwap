@@ -1,0 +1,254 @@
+@media only screen and (max-width: 375px) {
+  .category-box{
+    padding: 66px!important;
+  }
+}
+
+
+/* Extra small devices (phones, 675px and down) */
+@media only screen and (max-width: 675px) {
+  .ss-logo-splash{
+    height: 170px!important;
+    width: auto;
+    margin-top: 226px;
+  }
+  .ss-logo-text{
+    font-size: 40px!important;
+  }
+  .intro-form-page{
+    padding: 35px 8%!important;
+  }
+  .category-box{
+    max-height: 130px;
+    min-height: 130px;
+    max-width: 130px;
+    min-width: 130px;
+    padding: 70px;
+  }
+  .category-name{
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+  }
+  label img {
+    height: 130px;
+    width: 130px;
+    transition-duration: 0.2s;
+    transform-origin: 50% 50%;
+    object-fit: cover;
+  }
+  .intro-form-container{
+    height: 100%;
+    width: 100%;
+  }
+
+  .intro-form-title{
+    text-align: left!important;
+  }
+
+  .intro-form-desc{
+    text-align: left!important;
+  }
+
+  .next-back-btn{
+    border: none;
+    background-color: transparent;
+    color: #167D7F;
+    font-size: 20px;
+    float: right!important;
+  }
+
+  .homepage-container{
+    margin-top: 80px!important;
+  }
+
+  .swiper{
+    margin-top: -20px;
+  }
+
+  .conversation-container{
+    margin-top: 80px!important;
+  }
+
+  .notifications-container{
+    margin-top: 80px!important;
+  }
+
+  .item-img{
+    object-fit: cover;
+    object-position: center!important;
+    height: 50px;
+    width: 50px;
+    border-radius: 10px;
+    background-color: lightgray;
+  }
+
+  .select-item{
+    margin-top: 2%!important;
+  }
+
+  .select-item-name{
+    font-size: 14px!important;
+  }
+
+  .select-item-icon{
+    font-size: 20px!important;
+  }
+
+  .select-item-icon > div{
+    font-size: 10px!important;
+    display: none!important;
+  }
+
+  .notification{
+    max-height: auto!important;   
+  }
+
+  .notif-message{
+    color: white;
+    font-size: 14px;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    display: -webkit-box;
+   -webkit-line-clamp: 2; /* number of lines to show */
+   -webkit-box-orient: vertical;
+  }
+
+  .chat-swap-img{
+    height: 110px;
+    width: 110px;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .chat-swap-img img{
+    height: 110px;
+    width: 110px;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .chat-swap-avatar img{
+    height: 30px;
+    width: 30px;
+    border: 2px solid white;
+  }
+
+  
+  .chat-swap-btn-ignore{
+    background-color: white!important;
+    border-radius: 10px!important;
+    color: black;
+    text-transform: capitalize;
+    font-size: 14px!important;
+    width: 100px;
+    padding: 2%;
+  }
+
+  .chat-swap-btn-approve{
+    background-color: #167D7F!important;
+    border-radius: 10px!important;
+    text-transform: capitalize;
+    font-size: 14px!important;
+    width: 100px;
+    padding: 2%;
+  }
+
+  .conversation-search{
+    margin-top: -30px;
+  }
+
+  img.profile-avatar{
+    height: 70px;
+    width: 70px;
+    margin-right: 10px;
+  }
+
+  .profile-name{
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .profile-address{
+    font-size: 14px;
+  }
+
+  .profile-details{
+    font-size: 16px;
+    margin-top: 5px!important;
+  }
+
+  .item-gallery-grid-container{
+    height: 260px!important;
+  }
+
+  /* .chat-screen-input{
+    display: flex;
+    padding: 5px;
+    bottom: 0;
+    width: 100%;
+    bottom: 0px;
+    position: fixed;
+    border-top: 1px solid lightgray;
+  } */
+  
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (max-width: 990px) {
+
+  .ss-btns-dsk{
+    display: none;
+  }
+
+  .ss-btns-m{
+    display: block;
+  }
+
+  @media only screen and (max-width: 992px) {
+    .chat-screen-input{
+      display: flex;
+      padding: 5px;
+      bottom: 0;
+      width: 100%;
+      bottom: 0px;
+      position: fixed;
+      border-top: 1px solid lightgray;
+    }
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (max-width: 992px) {
+  .chat-screen-input{
+    display: flex;
+    padding: 5px;
+    bottom: 0;
+    width: 100%;
+    bottom: 0px;
+    position: fixed;
+    border-top: 1px solid lightgray;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1100px) {
+  .profile-container{
+    padding: 0px 15%;
+  }
+  .profile-tabs{
+    padding: 0% 16%;
+  }
+
+  .profile-tab-content{
+    padding: 0% 16%;
+  }
+
+}

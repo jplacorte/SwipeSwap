@@ -1,0 +1,6 @@
+{
+    "mongoURI": "mongodb+srv://swipeAdmin:admin@swipe.86tb1.mongodb.net/swipeSwap?retryWrites=true&w=majority",
+    
+    "jwtSecret": "secrettoken"
+    
+}
