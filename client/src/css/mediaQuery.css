@@ -8,9 +8,9 @@
 /* Extra small devices (phones, 675px and down) */
 @media only screen and (max-width: 675px) {
   .ss-logo-splash{
-    height: 170px!important;
+    height: 120px!important;
     width: auto;
-    margin-top: 226px;
+    margin-top: 195px;
   }
   .ss-logo-text{
     font-size: 40px!important;
@@ -180,7 +180,7 @@
     margin-top: 5px!important;
   }
 
-  .item-gallery-grid-container{
+  .item-gallery-container{
     height: 260px!important;
   }
 

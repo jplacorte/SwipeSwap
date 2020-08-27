@@ -24,9 +24,9 @@
 }
 
 .ss-logo-splash{
-    height: 250px;
+    height: 200px;
     width: auto;
-    margin-top: 170px;
+    margin-top: 185px;
 }
 
 .login-modal{
@@ -565,8 +565,8 @@ img.image-preview{
 }
 
 .chat-image{
-  height: 40px;
-  width: 40px;
+  height: 60px;
+  width: 60px;
 }
 
 .page-title{
@@ -595,6 +595,11 @@ img.image-preview{
   display: flex;
   align-items: center;
   padding: 10px;
+}
+
+.chat-screen-image{
+  height: 40px;
+  width: 40px;
 }
 
 .chat-screen-text{
@@ -768,6 +773,8 @@ img.profile-avatar{
 
 .edit-profile-btn{
   border-radius: 10px;
+  padding: 2px;
+  border-color: grey!important;
 }
 
 .edit-profile-btn:hover{
@@ -805,8 +812,8 @@ img.profile-avatar{
 .item-gallery-image{
   height: 100%;
   width: 100%;
-  background-image: url(../assets/images/plus.png);
-  background-size: contain;
+  background-image: url(../assets/images/additem.png);
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -822,4 +829,88 @@ img.profile-avatar{
   height: 50%!important;
 }
 
+.swapped-item img{
+  opacity: 0.5!important;
+  height: 100%;
+  width: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+
+.swapped-item img:hover{
+  opacity: 1.0!important;
+  cursor: pointer;
+}
+
+.swap-item-img{
+  height: 50px;
+  width: 50px;
+  border-radius: 10px;
+  object-position: center;
+  object-fit: cover;
+}
+
+.badges-title{
+  font-weight: bold;
+  font-size: 20px;
+  color: #167D7F;
+}
+
+.badge-icon{
+  height: 40px;
+  width: 40px;
+  object-position: center;
+  object-fit: contain;
+}
+
+.badges{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  border-bottom: 1px solid lightgrey;
+  padding: 10px 0px;
+}
+
+.badges-details p{
+  font-size: 14px;
+  color: grey;
+  font-weight: normal;
+}
+
+.badges-details{
+  flex: 1;
+  font-size: 18px;
+  color: grey;
+  font-weight: bold;
+}
+
+.badges-count{
+  font-size: 14px;
+  color: #167D7F;
+}
+
+.reviews{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+  border-bottom: 1px solid lightgrey;
+}
+
+.reviews-details p{
+  font-size: 12px;
+  color: grey;
+  font-weight: normal;
+}
+
+.reviews-details{
+  flex: 1;
+  font-size: 16px;
+  color: grey;
+}
+
+a.profile-link{
+  color: #167D7F!important;
+}
 

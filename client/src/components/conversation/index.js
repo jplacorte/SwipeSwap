@@ -26,8 +26,8 @@ class Conversation extends React.Component {
 
           {/* Modals */}
 
-        {/* //Modals */}
-
+          {/* //Modals */}
+          
           <MDBContainer className="conversation-container">
             <MDBRow>
               <MDBCol md="12" className="border-bottom pb-3">
