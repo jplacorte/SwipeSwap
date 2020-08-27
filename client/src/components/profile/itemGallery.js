@@ -1,6 +1,5 @@
 import React from 'react';
-import { MDBCol, MDBRow, MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
-import UploadItem from '../../assets/images/upload2.png';
+import { MDBCol, MDBRow, MDBView, MDBMask} from 'mdbreact';
 
 function ItemGallery() {
   const [Item] = [
@@ -14,39 +13,44 @@ function ItemGallery() {
 
   return (
 
-        // <div className="d-flex bd-highlight example-parent align-content-stretch" style={{ height: '500px' }}>
-        //   <div className="bd-highlight col-example item-gallery-image item-grid">
-        //       <img src={Item.img}/>
-        //   </div>
-        //   <div className="bd-highlight col-example item-gallery-image item-grid">
-        //       <img src={Item.img}/>
-        //   </div>
-        //   <div className="bd-highlight col-example item-gallery-image item-grid">
-        //       <img src={Item.img}/>
-        //   </div>
-        // </div>
+        <MDBRow className="mx-auto item-gallery-container" style={{ height: '650px' }}>
+          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+              <img src={Item.img} alt={Item.title}/>
+          </MDBCol>
+          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+              <img src={Item.img} alt={Item.title}/>
+          </MDBCol>
+          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+              <img src={Item.img} alt={Item.title}/>
+          </MDBCol>
+          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+              <img/>
+          </MDBCol>
+          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+              <img/>
+          </MDBCol>
+          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+              <img/>
+          </MDBCol>
 
-        <MDBRow className="mx-auto item-gallery-grid-container" style={{ height: '650px' }}>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+          <MDBCol size="12" className="my-3 text-center">
+              <div>Swapped Items</div>
+          </MDBCol>
+          
+
+          {/* Swapped Items */}
+          <MDBCol size="4" className="p-0 swapped-item item-grid">
               <img src={Item.img} alt={Item.title}/>
           </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+
+          <MDBCol size="4" className="p-0 swapped-item item-grid">
               <img src={Item.img} alt={Item.title}/>
           </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+          <MDBCol size="4" className="p-0 swapped-item item-grid">
               <img src={Item.img} alt={Item.title}/>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-              <img/>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-              <img/>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-              <img/>
           </MDBCol>
         </MDBRow>
-    
+        
 
   );
 }

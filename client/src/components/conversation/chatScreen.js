@@ -80,7 +80,7 @@ function ChatScreen() {
                           <div style={{fontSize: '12px', color: 'grey'}}>Active 40 seconds ago</div>
                       </div>
                       <div className="bd-highlight col-example">
-                      <img src={"https://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20%283%29.jpg"} className="rounded-circle chat-image ml-2 mt-1" alt="KB" />
+                      <img src={"https://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20%283%29.jpg"} className="rounded-circle chat-screen-image ml-2 mt-1" alt="KB" />
                       </div>
                       <div>
                       <MDBDropdown className="pt-1" style={{fontSize: '10px!important'}} dropleft>
@@ -113,7 +113,7 @@ function ChatScreen() {
                 <div className="chat-screen-message">
                     <img 
                         src={message.image} 
-                        className="rounded-circle chat-image mb-2"   
+                        className="rounded-circle chat-screen-image mb-2"   
                         alt={message.name}
                     />
                     <p className="chat-screen-text">{message.message}</p>

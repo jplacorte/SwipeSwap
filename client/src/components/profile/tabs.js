@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { MDBRow, MDBCol, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBNavLink } from "mdbreact";
 import ItemGallery from "./itemGallery";
+import Swaps from "./swaps";
+import Badges from "./badges";
+import Reviews from "./reviews";
 
 class ProfileTabs extends Component {
   state = {
@@ -22,7 +25,7 @@ class ProfileTabs extends Component {
 
   render() {
     return (
-            <div className="mt-1 mb-5">
+            <div className="mt-1">
               <MDBNav className="nav-pills profile-tabs">
                 <MDBNavItem className="profile-tab">
                   <MDBNavLink link to="#" active={this.state.items["default"] === "1"} onClick={this.togglePills("default", "1")} >
@@ -52,34 +55,15 @@ class ProfileTabs extends Component {
                     </div>
                 </MDBTabPane>
                 <MDBTabPane tabId="2">
-                  <p>
-                    Ad pariatur nostrud pariatur exercitation ipsum ipsum culpa
-                    mollit commodo mollit ex. Aute sunt incididunt amet commodo
-                    est sint nisi deserunt pariatur do. Aliquip ex eiusmod
-                    voluptate exercitation cillum id incididunt elit sunt. Qui
-                    minim sit magna Lorem id et dolore velit Lorem amet
-                    exercitation duis deserunt. Anim id labore elit adipisicing
-                    ut in id occaecat pariatur ut ullamco ea tempor duis.
-                  </p>
+                    <div className="swaps-tab">
+                        <Swaps/>
+                    </div>
                 </MDBTabPane>
                 <MDBTabPane tabId="3">
-                  <p>
-                    Est quis nulla laborum officia ad nisi ex nostrud culpa
-                    Lorem excepteur aliquip dolor aliqua irure ex. Nulla ut duis
-                    ipsum nisi elit fugiat commodo sunt reprehenderit laborum
-                    veniam eu veniam. Eiusmod minim exercitation fugiat irure ex
-                    labore incididunt do fugiat commodo aliquip sit id deserunt
-                    reprehenderit aliquip nostrud. Amet ex cupidatat excepteur
-                    aute veniam incididunt mollit cupidatat esse irure officia
-                    elit do ipsum ullamco Lorem. Ullamco ut ad minim do mollit
-                    labore ipsum laboris ipsum commodo sunt tempor enim
-                    incididunt. Commodo quis sunt dolore aliquip aute tempor
-                    irure magna enim minim reprehenderit. Ullamco consectetur
-                    culpa veniam sint cillum aliqua incididunt velit ullamco
-                    sunt ullamco quis quis commodo voluptate. Mollit nulla
-                    nostrud adipisicing aliqua cupidatat aliqua pariatur mollit
-                    voluptate voluptate consequat non.
-                  </p>
+                        <Badges/>
+                </MDBTabPane>
+                <MDBTabPane tabId="4">
+                        <Reviews/>
                 </MDBTabPane>
               </MDBTabContent>
               </div>
