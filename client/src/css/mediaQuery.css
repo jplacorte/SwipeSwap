@@ -77,8 +77,8 @@
   .item-img{
     object-fit: cover;
     object-position: center!important;
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
     border-radius: 10px;
     background-color: lightgray;
   }
@@ -182,6 +182,33 @@
 
   .item-gallery-container{
     height: 260px!important;
+  }
+
+  .profile-item-details{
+    margin-top: 61px!important;
+  }
+
+  .profile-item-details-card{
+    padding: 0%!important;
+    box-shadow: none;
+  }
+
+  .item-img-car{
+    height: 375px!important;
+    width: 100%!important;
+    max-width: 100%;
+  }
+
+  .settings-container{
+    margin-top: 80px;
+  }
+
+  .edit-categories-container{
+    margin-top: 80px;
+  }
+
+  .avatar-img-upload:before{
+    font-size: 20px!important;
   }
 
   /* .chat-screen-input{

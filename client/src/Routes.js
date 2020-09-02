@@ -8,6 +8,9 @@ import Conversation from "./components/conversation";
 import ChatScreen from "./components/conversation/chatScreen";
 import Notifications from "./components/notifications";
 import Profile from "./components/profile";
+import ItemDetails from "./components/profile/itemDetails";
+import Settings from "./components/settings";
+import EditCategories from "./components/settings/editCategories";
 
 
 class Routes extends React.Component {
@@ -22,6 +25,9 @@ class Routes extends React.Component {
         <Route exact path="/chatScreen" component={ChatScreen} />
         <Route exact path="/notifications" component={Notifications} />
         <Route exact path="/profile" component={Profile} />
+        <Route exact path="/itemDetails" component={ItemDetails} />
+        <Route exact path="/settings" component={Settings} />
+        <Route exact path="/editCategories" component={EditCategories} />
         <Route
           render={function () {
             return <h1>Not Found</h1>;

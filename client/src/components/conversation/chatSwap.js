@@ -17,7 +17,7 @@ function ChatSwap({ name, message, profilePic, timestamp }) {
     const handleShow = () => setShow(true);
 
     return (
-      <div className="text-center">
+      <div className="">
 
         {/* Modals */}
         <MDBModal isOpen={show} onHide={handleClose}>
@@ -30,7 +30,7 @@ function ChatSwap({ name, message, profilePic, timestamp }) {
             <MDBRow className="p-3">
               <MDBCol md="12">
                 <div className="d-flex bd-highlight example-parent">
-                  <div className="w-100 bd-highlight col-example item-name">Sample Name</div>
+                  <div className="bd-highlight col-example item-name">Sample Name</div>
                   <div className="bd-highlight col-example ml-auto"><ItemCondition /></ div>
                 </div>
                 <div className="item-distance">8km<span> • Delivery</span></div>
@@ -93,7 +93,7 @@ function ChatSwap({ name, message, profilePic, timestamp }) {
           </MDBView>
       </div>
 
-      <div className="mb-3">
+      <div className="mb-3 text-center">
           <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger">Ignore</MDBBtn>
           <MDBBtn className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
       </div>

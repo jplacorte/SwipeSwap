@@ -26,15 +26,25 @@ function Reviews() {
   return (
         <MDBRow className="reviews-container mx-auto px-2 py-3">
             <MDBCol md="12">
-                <div className="reviews">
-                    <img src={ItemImg} className="item-img rounded-circle mr-3" alt="KB" />
-                    <div className="reviews-details pt-3">
-                      <div>By:<span><a className="profile-link"> Sample Name</a></span></div>
-                      <MDBRating data={basic} />
-                      <p>Excellent Item, product is as good as new, trader is responsive.</p>
-                    </div>
-                    
-                </div>
+              <div className="reviews">
+                  <img src={ItemImg} className="item-img rounded-circle mr-3" alt="KB" />
+                  <div className="reviews-details pt-3">
+                    <div className="grey-text">By:<span><a className="profile-link"> SampleName</a></span><span className="float-right">03/08/2020</span></div>
+                    <MDBRating 
+                    data={basic} 
+                    iconFaces 
+                    fillColors={[
+                      'red-text',
+                      'orange-text',
+                      'yellow-text',
+                      'lime-text',
+                      'light-green-text'
+                    ]}  
+                    iconRegular 
+                    />
+                    <p>Excellent Item, product is as good as new, trader is responsive.</p>
+                  </div>    
+              </div>
             </MDBCol>
         </MDBRow>
         

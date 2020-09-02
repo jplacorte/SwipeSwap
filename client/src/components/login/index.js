@@ -2,7 +2,7 @@ import React from 'react';
 import { MDBRow, MDBCol, MDBBtn, MDBIcon, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-import Logo from "../../assets/images/sslogo.png";
+import Logo from "../../assets/icons/sslogo2.png";
 import Facebook from '../Facebook';
 
 class LoginPage extends React.Component {

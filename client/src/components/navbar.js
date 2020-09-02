@@ -4,7 +4,7 @@ import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse,
 import 'react-pro-sidebar/dist/css/styles.css';
 import Sidebar from "react-sidebar";
 import { BrowserRouter as Router } from 'react-router-dom';
-import SSLogo from '../assets/icons/sslogo.png';
+import SSLogo from '../assets/icons/sslogo2.png';
 
 class Navbar extends React.Component {
   
@@ -46,7 +46,9 @@ class Navbar extends React.Component {
           </NavLink>
           <MDBListGroupItem hover><MDBIcon icon="shopping-cart" className="mr-3" />Marketplace</MDBListGroupItem>
           <MDBListGroupItem hover><MDBIcon icon="coins" className="mr-3" />Swap Coins</MDBListGroupItem>
+          <NavLink to="/settings" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="cog" className="mr-3" />Settings</MDBListGroupItem>
+          </NavLink>
           <MDBListGroupItem hover><MDBIcon icon="question" className="mr-3" />Support</MDBListGroupItem>
           <MDBListGroupItem className="red-text" href="#" hover><MDBIcon icon="trash-alt" className="mr-3" />Delete Account</MDBListGroupItem>
         </MDBListGroup>

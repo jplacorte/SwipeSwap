@@ -190,6 +190,8 @@ img.image-preview{
   border-radius: 10px;
   border: none!important;
   border-color: transparent!important;
+  object-fit: cover;
+  object-position: center;
 }
 
 .previewText{
@@ -656,11 +658,11 @@ img.image-preview{
   max-height: 100px!important;
 }
 
-.read-notification{
+.read-notification div{
   border-radius: 10px;
   background-color: #98D7C2;
+  color: black!important;
 }
-
 
 .notifications-container{
   margin-top: 90px;
@@ -913,4 +915,93 @@ img.profile-avatar{
 a.profile-link{
   color: #167D7F!important;
 }
+
+.profile-item-details{
+  margin-top: 100px;
+}
+
+.profile-item-details-content{
+  max-width: 100%;
+}
+
+.item-img-car{
+  height: 375px!important;
+  width: 100%!important;
+  max-width: 375px;
+}
+
+.item-img-car img{
+  height: 375px;
+  width: auto;
+  object-position: center;
+  object-fit: cover;
+}
+
+.settings-container{
+  margin-top: 90px;
+}
+
+.settings-header{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.settings-list{
+  color: #167D7F;
+  font-size: 16px;
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  padding: 12px 12px!important;
+}
+
+.settings-list:hover{
+  background-color: #167D7F;
+  color: white;
+  cursor: pointer;
+}
+
+.edit-categories-container{
+  margin-top: 90px;
+}
+
+.avatar-upload {
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  padding: 6px;
+  cursor: pointer;
+  background: #167D7F;
+  margin-bottom: 25px;
+}
+
+.avatar-img-wrap{
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.avatar-img-upload:before{
+  content: url('../assets/icons/upload.png');
+  font-size: 190px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border-radius: 50%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #fff;
+}
+
+.avatar-img-upload:hover:before{
+ opacity: 1;
+}
+
+.avatar-upload input[type="file"] {
+  display: none;
+}
+
 

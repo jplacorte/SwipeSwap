@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MDBCol, MDBRow, MDBView, MDBMask} from 'mdbreact';
 
 function ItemGallery() {
@@ -15,13 +16,19 @@ function ItemGallery() {
 
         <MDBRow className="mx-auto item-gallery-container" style={{ height: '650px' }}>
           <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+            <Link to="/itemDetails">
               <img src={Item.img} alt={Item.title}/>
+            </Link>
           </MDBCol>
           <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+            <Link to="/">
               <img src={Item.img} alt={Item.title}/>
+            </Link>
           </MDBCol>
           <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+            <Link to="/">
               <img src={Item.img} alt={Item.title}/>
+            </Link>
           </MDBCol>
           <MDBCol size="4" className="p-0 item-gallery-image item-grid">
               <img/>

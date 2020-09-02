@@ -21,6 +21,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.0",
     "nodemon": "^2.0.4",
+    "react-images-uploader": "^1.2.0-rc1",
+    "react-progress-button": "^5.1.0",
+    "react-progress-button-for-images-uploader": "^5.1.2",
     "request": "^2.88.2"
   }
 }

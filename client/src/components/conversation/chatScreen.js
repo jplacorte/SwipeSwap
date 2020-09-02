@@ -70,7 +70,7 @@ function ChatScreen() {
                 <div className="d-flex bd-highlight example-parent p-2 mx-auto w-100">
                   <div className="flex-fill bd-highlight col-example">
                     <Link to="/conversation" >
-                    <MDBIcon icon="angle-left" className="pt-2 ml-2" style={{fontSize: '32px', color: '#167D7F'}} />
+                    <MDBIcon icon="angle-left" className="pt-2 ml-4" style={{fontSize: '32px', color: '#167D7F'}} />
                     </Link>
                    </div>
                    <div className="flex-fill bd-highlight col-example text-right">
@@ -82,14 +82,14 @@ function ChatScreen() {
                       <div className="bd-highlight col-example">
                       <img src={"https://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20%283%29.jpg"} className="rounded-circle chat-screen-image ml-2 mt-1" alt="KB" />
                       </div>
-                      <div>
+                      <div className="text-right">
                       <MDBDropdown className="pt-1" style={{fontSize: '10px!important'}} dropleft>
                         <MDBDropdownToggle nav>
                           <span><MDBIcon icon="ellipsis-v" style={{color: '#167D7F'}} /></span>
                         </MDBDropdownToggle>
                         <MDBDropdownMenu>
                           <MDBDropdownItem onClick={handleShow}><MDBIcon far icon="calendar-alt" /> Set Schedule</MDBDropdownItem>
-                          <MDBDropdownItem style={{color: '#167D7F'}} ><MDBIcon far icon="thumbs-up"/> Deal</MDBDropdownItem>
+                          <MDBDropdownItem style={{color: '#167D7F'}} ><MDBIcon far icon="thumbs-up"/> Approve</MDBDropdownItem>
                           <MDBDropdownItem style={{color: 'red'}} ><MDBIcon far icon="times-circle" /> Ignore</MDBDropdownItem>
                         </MDBDropdownMenu>
                       </MDBDropdown>
