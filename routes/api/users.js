@@ -1,39 +1,40 @@
 const express = require('express')
 const router = express.Router()
+const gravatar = require('gravatar')
 const bcrypt = require('bcryptjs')
-const auth = require('../../middleware/auth')
 const jwt = require('jsonwebtoken')
 const config = require('config')
-const { check, validationResult } = require('express-validator')
+const {check, validationResult} = require('express-validator')
 
 const User = require('../../models/User')
 
-// @route   GET api/auth
-// @des     Test route
+// @route   POST api/users
+// @des     Register user
 // @access  public
-router.get('/', auth, async (req, res) => {
-    try{
-        const user = await User.findById(req.user.id)
-        res.json(user)
-    }
-    catch(err){
-        console.error(err.message)
-        res.status(500).send('Server Error')
-    }
-})
-
-// @route   POST api/auth
-// @des     Authenticate user & get token
-// @access  Public
 router.post('/', async (req, res) => {
-  const { email, password } = req.body
+
+        const { name, email } = req.body
         
         try {
             let user = await User.findOne({ email })
 
-            if(!user){
-                return res.send(false)
+            if(user){
+                return res.send(true)
             }
+            
+            const avatar = gravatar.url(email, {
+                s:'200',
+                r:'pg',
+                d:'mm'
+            })
+
+            user = new User({
+                name,
+                avatar,
+                email
+            })
+            
+            await user.save()
 
             const payload = {
                 user: {
@@ -55,6 +56,7 @@ router.post('/', async (req, res) => {
             console.error(err.message)
             res.status(500).send('Server error') 
         }
+        
         
     }
 )

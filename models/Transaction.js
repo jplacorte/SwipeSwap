@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const TransactionSchema = new mongoose.Schema({
+    match: {
+        type: Schema.Types.ObjectId,
+        ref: 'match'
+    },
     schedule: {
         type: String
     },

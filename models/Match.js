@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 
 const MatchSchema = new mongoose.Schema({
+    isMatch:{
+        type: Boolean
+    },
     like: {
         user: {
             type: mongoose.Schema.Types.ObjectId,
@@ -10,11 +13,6 @@ const MatchSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'item'
         },
-    },
-    status: {
-        match:{
-            type: Boolean
-        }
     }
 })
 

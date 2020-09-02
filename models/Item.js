@@ -14,6 +14,9 @@ const ItemSchema = new mongoose.Schema({
     status: {
         type: String
     },
+    photo: {
+        type: String
+    },
     category: [
         {
             name:{
