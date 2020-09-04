@@ -7,6 +7,8 @@ const config = require('config')
 const { check, validationResult } = require('express-validator')
 
 const User = require('../../models/User')
+const Profile = require('../../models/Profile')
+
 
 // @route   GET api/auth
 // @des     Test route
@@ -26,13 +28,29 @@ router.get('/', auth, async (req, res) => {
 // @des     Authenticate user & get token
 // @access  Public
 router.post('/', async (req, res) => {
-  const { email, password } = req.body
+  const { name, email } = req.body
         
         try {
             let user = await User.findOne({ email })
 
-            if(!user){
-                return res.send(false)
+            if(!user){            
+                user = new User({
+                    name,
+                    email
+                })
+                await user.save( async (err, docs) => {
+                    const profileFields = {}
+                    profileFields.user = docs._id
+                    
+                    profileFields.social = {}
+                    profileFields.social.google = "Google"
+                    profileFields.social.facebook = "Facebook"
+                    profileFields.social.instagram = "Instagram"
+
+                    profile = new Profile(profileFields)
+                    await profile.save()
+                })   
+                
             }
 
             const payload = {

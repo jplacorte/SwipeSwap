@@ -14,7 +14,7 @@ const User = require('../../models/User')
 // @access  Private
 router.get('/me', auth, async (req, res) => {
     try{
-        const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name'])
+        const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'email'])
 
         if(!profile){
             return res.status(400).json({ msg: 'There is no profile for this user' })
@@ -35,7 +35,10 @@ router.post('/', auth, async (req, res) => {
     const {
         dateofbirth,
         location,
-        avatar
+        avatar,
+        google,
+        facebook,
+        instagram
     } = req.body
 
     const profileFields = {}
@@ -43,6 +46,12 @@ router.post('/', auth, async (req, res) => {
     if(dateofbirth) profileFields.dateofbirth = dateofbirth
     if(location) profileFields.location = location
     if(avatar) profileFields.avatar = avatar
+
+    //Build social object
+    profileFields.social = {}
+    if(google) {profileFields.social.google = google}else{profileFields.social.google ="Google"}
+    if(facebook) {profileFields.social.facebook = facebook}else{profileFields.social.facebook ="Facebook"}
+    if(instagram) {profileFields.social.instagram = instagram}else{profileFields.social.instagram ="Instagram"}
 
     try {
         
@@ -58,7 +67,25 @@ router.post('/', auth, async (req, res) => {
 
             return res.json(profile)
         }
+
+        //Create 
+        profile = new Profile(profileFields)
+        await profile.save()
+        res.json(profile)
         
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+// @route   POST api/profile
+// @des     Get all profiles
+// @access  Public
+router.get('/', async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', [ 'name', 'email' ])
+        res.json(profiles)
     } catch (err) {
         console.error(err.message)
         res.status(500).send('Server Error')
@@ -83,7 +110,6 @@ router.get('/user/:user_id', async (req, res) => {
         res.status(500).send('Server Error')
     }
 })
-
 
 // @route   POST api/profile/subslevel
 // @des     Create/Update records level

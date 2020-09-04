@@ -1,5 +1,7 @@
 const express = require('express')
 const connectDB = require('./config/db')
+const bodyParser = require('body-parser')
+const path = require('path')
 
 const app = express()
 
@@ -7,8 +9,9 @@ const app = express()
 connectDB()
 
 // Init Middleware
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+app.use(express.static(path.join(__dirname, 'client/build')))
 
 app.get('/', (req, res) => res.send("API running"))
 

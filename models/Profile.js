@@ -3,19 +3,17 @@ const Schema = mongoose.Schema
 
 const ProfileSchema = new mongoose.Schema({
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'user'
     },
     dateofbirth: {
         type: String
     },
     location: {
-        type: String,
-        required: true
+        type: String
     },
     subscriptionlevel: {
         type: String,
-        required: true
     },
     totalswaps: {
         type: String
@@ -41,7 +39,18 @@ const ProfileSchema = new mongoose.Schema({
                 type: String
             }
         }
-    ]
+    ],
+    social: {
+        google: {
+            type: String
+        },
+        facebook: {
+            type: String
+        },
+        instagram: {
+            type: String
+        }
+    }
 })
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema)

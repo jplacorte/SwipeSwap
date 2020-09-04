@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const gravatar = require('gravatar')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('config')
@@ -22,15 +21,8 @@ router.post('/', async (req, res) => {
                 return res.send(true)
             }
             
-            const avatar = gravatar.url(email, {
-                s:'200',
-                r:'pg',
-                d:'mm'
-            })
-
             user = new User({
                 name,
-                avatar,
                 email
             })
             
@@ -60,5 +52,18 @@ router.post('/', async (req, res) => {
         
     }
 )
+
+// @route   POST api/users
+// @des     Get all users
+// @access  Public
+router.get('/', async (req, res) => {
+    try {
+        const users = await User.find()
+        res.json(users)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
 
 module.exports = router

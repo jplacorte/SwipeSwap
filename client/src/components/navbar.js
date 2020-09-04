@@ -5,6 +5,7 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import Sidebar from "react-sidebar";
 import { BrowserRouter as Router } from 'react-router-dom';
 import SSLogo from '../assets/icons/sslogo2.png';
+import Logout from './Logout';
 
 class Navbar extends React.Component {
   
@@ -52,7 +53,7 @@ class Navbar extends React.Component {
           <MDBListGroupItem hover><MDBIcon icon="question" className="mr-3" />Support</MDBListGroupItem>
           <MDBListGroupItem className="red-text" href="#" hover><MDBIcon icon="trash-alt" className="mr-3" />Delete Account</MDBListGroupItem>
         </MDBListGroup>
-        <a className="sidemenu-footer px-3 py-2 white-text"><MDBIcon icon="power-off" className="mr-3" /><Link to="/" />Log-out</a>
+        <Logout/>
         </b>}
         open={this.state.sidebarOpen}
         onSetOpen={this.onSetSidebarOpen}

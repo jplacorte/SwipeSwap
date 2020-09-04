@@ -7,11 +7,11 @@ const MatchSchema = new mongoose.Schema({
     },
     like: {
         user: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'user'
         },
         item: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'item'
         },
     }
