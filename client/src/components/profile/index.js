@@ -45,6 +45,7 @@ useEffect(() =>{
 
   setFormData({
     name: loading || !profile.user.name ? '' : profile.user.name,
+    email: loading || !profile.user.email ? '' : profile.user.email,
     location: loading || !profile.location ? '' : profile.location,
     dateofbirth: loading || !profile.dateofbirth ? '' : profile.dateofbirth,
     facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,

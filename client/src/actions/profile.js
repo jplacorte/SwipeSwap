@@ -9,7 +9,7 @@ import {
 // Get current users profile
 export const getCurrentProfile = () => async dispatch => {
     try {
-        const res = await axios.get('/api/profile/me');
+        const res = await axios.get('profile/me');
 
         dispatch({
             type: GET_PROFILE,
@@ -38,7 +38,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
             }
         }
 
-        const res = await axios.post('api/profile/', formData, config)
+        const res = await axios.post('profile/', formData, config)
 
         dispatch({
             type: GET_PROFILE,

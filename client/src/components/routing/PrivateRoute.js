@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 const PrivateRoute = ({ component: Component, auth: { isAuthenticated, loading }, ...rest }) => (
     <Route { ...rest } render={
-        props => !isAuthenticated && !loading ? window.location.href="/"
+        props => !isAuthenticated && !loading ? (<Redirect to="/"/>)
         : (<Component { ...props }/>)
      }
     />

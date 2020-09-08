@@ -16,11 +16,11 @@ app.use(express.static(path.join(__dirname, 'client/build')))
 app.get('/', (req, res) => res.send("API running"))
 
 // Define Routes
-app.use('/api/users', require('./routes/api/users'))
-app.use('/api/auth', require('./routes/api/auth'))
-app.use('/api/profile', require('./routes/api/profile'))
-app.use('/api/item', require('./routes/api/item'))
-app.use('/api/transaction', require('./routes/api/transaction'))
+app.use('/users', require('./routes/api/users'))
+app.use('/auth', require('./routes/api/auth'))
+app.use('/profile', require('./routes/api/profile'))
+app.use('/item', require('./routes/api/item'))
+app.use('/transaction', require('./routes/api/transaction'))
 
 const PORT = process.env.PORT || 5000
 
