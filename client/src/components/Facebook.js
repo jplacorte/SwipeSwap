@@ -1,16 +1,10 @@
 import React, { useState, Fragment } from 'react';
 import { MDBBtn, MDBIcon } from 'mdbreact';
 import FacebookLogin from 'react-facebook-login';
-<<<<<<< HEAD
 import { Link, Redirect } from 'react-router-dom';
 import { MDBIcon } from 'mdbreact';
 import "../css/style.css";
 import "../css/mediaQuery.css";
-=======
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { login, register } from '../actions/auth';
->>>>>>> 40c7879f554ffcb7ce52b37e2cdb1ca100f9e111
 
 import 'react-toastify/dist/ReactToastify.css';
 
