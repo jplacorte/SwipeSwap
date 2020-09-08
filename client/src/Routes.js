@@ -11,7 +11,8 @@ import Profile from "./components/profile";
 import ItemDetails from "./components/profile/itemDetails";
 import Settings from "./components/settings";
 import EditCategories from "./components/settings/editCategories";
-import PrivateRoute from "./components/routing/PrivateRoute";
+import SwapCoins from "./components/swapCoins.js";
+import Support from "./components/support";
 
 
 class Routes extends React.Component {
@@ -20,15 +21,17 @@ class Routes extends React.Component {
     <Fragment>
       <Switch>
         <Route exact path="/" component={LoginPage} />
-        <PrivateRoute exact path="/introForm" component={IntroFormPage} />
-        <PrivateRoute exact path="/homepage" component={HomePage} />
-        <PrivateRoute exact path="/conversation" component={Conversation} />
-        <PrivateRoute exact path="/chatScreen" component={ChatScreen} />
-        <PrivateRoute exact path="/notifications" component={Notifications} />
-        <PrivateRoute exact path="/profile" component={Profile} />
-        <PrivateRoute exact path="/itemDetails" component={ItemDetails} />
-        <PrivateRoute exact path="/settings" component={Settings} />
-        <PrivateRoute exact path="/editCategories" component={EditCategories} />
+        <Route exact path="/introForm" component={IntroFormPage} />
+        <Route exact path="/homepage" component={HomePage} />
+        <Route exact path="/conversation" component={Conversation} />
+        <Route exact path="/chatScreen" component={ChatScreen} />
+        <Route exact path="/notifications" component={Notifications} />
+        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/itemDetails" component={ItemDetails} />
+        <Route exact path="/settings" component={Settings} />
+        <Route exact path="/editCategories" component={EditCategories} />
+        <Route exact path="/swapCoins" component={SwapCoins} />
+        <Route exact path="/support" component={Support} />
         <Route
           render={function () {
             return <h1>Not Found</h1>;
