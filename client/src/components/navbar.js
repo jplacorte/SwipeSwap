@@ -38,21 +38,36 @@ class Navbar extends React.Component {
         sidebar={<b>
         <div className="sidemenu-logo my-4 mx-5">SWIPE<span>SWAP</span></div>
          <MDBListGroup className="sidemenu-list">
+
           <NavLink to="/homepage" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="sync" className="mr-3" />SwipeSwap</MDBListGroupItem>
           </NavLink>
+
           <NavLink to="/profile" activeStyle={{ fontWeight: "bold",color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="user" className="mr-3" />My Profile</MDBListGroupItem>
           </NavLink>
+
           <MDBListGroupItem hover><MDBIcon icon="shopping-cart" className="mr-3" />Marketplace</MDBListGroupItem>
+
+          <NavLink to="/swapCoins" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="coins" className="mr-3" />Swap Coins</MDBListGroupItem>
+          </NavLink>
+
           <NavLink to="/settings" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="cog" className="mr-3" />Settings</MDBListGroupItem>
           </NavLink>
+          
+          <NavLink to="/support" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="question" className="mr-3" />Support</MDBListGroupItem>
+          </NavLink>
+
           <MDBListGroupItem className="red-text" href="#" hover><MDBIcon icon="trash-alt" className="mr-3" />Delete Account</MDBListGroupItem>
-        </MDBListGroup>
-        <a className="sidemenu-footer px-3 py-2 white-text"><MDBIcon icon="power-off" className="mr-3" /><Link to="/" />Log-out</a>
+          </MDBListGroup>
+        
+        <Link to="/">
+        <div className="sidemenu-footer px-3 py-2 white-text"><MDBIcon icon="power-off" className="mr-3" />Log-out</div>
+        </Link>
+
         </b>}
         open={this.state.sidebarOpen}
         onSetOpen={this.onSetSidebarOpen}

@@ -9,7 +9,7 @@ const ImgSlider = () => {
       <MDBCarousel
         activeItem={1}
         length={3}
-        showControls={true}
+        showControls={false}
         showIndicators={true}
         className="z-depth-1 item-img-slider"
         interval={false}

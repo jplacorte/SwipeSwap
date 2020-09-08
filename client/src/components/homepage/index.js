@@ -8,7 +8,6 @@ import Navbar from '../navbar';
 import SwipeImage from '../../assets/images/item1.jpg';
 import SwipeImage2 from '../../assets/images/item7.jpg';
 
-
 const items = [
   { value: '1', label: 'Item 1' },
   { value: '2', label: 'Item 2' },
@@ -95,6 +94,7 @@ class HomePage extends React.Component {
           </MDBModal>
 
         {/* //Modals */}
+        
           <MDBContainer className="homepage-container">
             <MDBRow>
             <MDBCol lg="6" className="px-4">

@@ -1,8 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Select from 'react-select';
-import Stepper from 'react-js-stepper';
-import { MDBRow, MDBCol, MDBMask, MDBView } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 
@@ -15,11 +12,11 @@ const categories = [
 ];
 
 const conditions = [
-  { value: '1', label: 'Condition 1' },
-  { value: '2', label: 'Condition 2' },
-  { value: '3', label: 'Condition 3' },
-  { value: '4', label: 'Condition 4' },
-  { value: '5', label: 'Condition 5' }
+  { value: '1', label: 'Very Bad' },
+  { value: '2', label: 'Poor' },
+  { value: '3', label: 'Ok' },
+  { value: '4', label: 'Good' },
+  { value: '5', label: 'Excellent' }
 ];
 
 class UploadItem extends React.Component {
@@ -99,6 +96,7 @@ class UploadItem extends React.Component {
             <input type="text" id="" className="form-control mt-3" placeholder="Description" />
             <Select
               className="mt-3"
+              defaultValue={[categories[0], categories[1]]}
               value={selectedOption}
               onChange={this.handleChange}
               options={categories}
@@ -106,6 +104,7 @@ class UploadItem extends React.Component {
             />
             <Select
               className="mt-3"
+              defaultValue={[conditions[0]]}
               value={selectedOption}
               onChange={this.handleChange}
               options={conditions}

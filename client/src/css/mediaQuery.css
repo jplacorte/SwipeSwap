@@ -8,10 +8,11 @@
 /* Extra small devices (phones, 675px and down) */
 @media only screen and (max-width: 675px) {
   .ss-logo-splash{
-    height: 120px!important;
+    height: 55px!important;
     width: auto;
     margin-top: 195px;
   }
+
   .ss-logo-text{
     font-size: 40px!important;
   }

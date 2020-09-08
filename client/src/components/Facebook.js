@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
 import { Link, Redirect } from 'react-router-dom';
 import { MDBIcon } from 'mdbreact';
+import "../css/style.css";
+import "../css/mediaQuery.css";
 
 export default class Facebook extends Component {
     state = {

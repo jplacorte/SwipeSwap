@@ -29,7 +29,7 @@ class ProfileTabs extends Component {
               <MDBNav className="nav-pills profile-tabs">
                 <MDBNavItem className="profile-tab">
                   <MDBNavLink link to="#" active={this.state.items["default"] === "1"} onClick={this.togglePills("default", "1")} >
-                    Home
+                    Items
                   </MDBNavLink>
                 </MDBNavItem>
                 <MDBNavItem className="profile-tab">
