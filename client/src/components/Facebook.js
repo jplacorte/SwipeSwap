@@ -1,49 +1,54 @@
-import React, { Component } from 'react';
+import React, { useState, Fragment } from 'react';
+import { MDBBtn, MDBIcon } from 'mdbreact';
 import FacebookLogin from 'react-facebook-login';
+<<<<<<< HEAD
 import { Link, Redirect } from 'react-router-dom';
 import { MDBIcon } from 'mdbreact';
 import "../css/style.css";
 import "../css/mediaQuery.css";
+=======
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { login, register } from '../actions/auth';
+>>>>>>> 40c7879f554ffcb7ce52b37e2cdb1ca100f9e111
 
-export default class Facebook extends Component {
-    state = {
-        isLoggedin: false,
-        userID: '',
-        name:'',
-        email:'',
-        picture:''
+import 'react-toastify/dist/ReactToastify.css';
+
+const Facebook = ({ login, register, isAuthenticated }) => {
+
+    const responseFacebook = response => {
+        login(response.name, response.email)
     }
 
-    responseFacebook = response => {
-       this.setState({
-           isLoggedin:true,
-           userID: response.userID,
-           name: response.name,
-           email: response.email,
-           pciture: response.pciture
-       })
-    }
-    componentClicked = () => console.log("clicked")
-    render() {
-        let fbContent;
+    let fbContent;
 
-        if(this.state.isLoggedin){
-           return <Redirect to="/homepage"/>
-        }else{
-        fbContent= (<FacebookLogin
-            appId="234313264450632"
-            autoLoad={true}
-            fields="name,email,picture"
-            onClick={this.componentClicked}
-            callback={this.responseFacebook} 
-            icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
-            />)
-        }
-        return (
-            <div>
-                {fbContent}
-                {/* <MDBBtn className="fb-btn my-2 px-5" color="blue-grey"><MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />Login with Facebook</MDBBtn> */}
-            </div>
-        )
+    fbContent= (<FacebookLogin
+        appId="1015477185542718"
+        fields="name,email,picture"
+        callback={responseFacebook}
+        textButton="Login with facebook"
+        icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
+    />)
+
+    if(isAuthenticated){
+        return window.location.href="/profile"
     }
+    return (               
+        <Fragment>
+        <div>
+            {fbContent}
+        </div>
+        </Fragment>     
+    )
 }
+
+Facebook.propTypes = {
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
+}
+  
+const mapStateProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+  
+export default connect(mapStateProps, { login, register } )(Facebook)

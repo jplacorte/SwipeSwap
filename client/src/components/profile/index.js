@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon, MDBFormInline, MDBTabPane, MDBTabContent, MDBNavLink, MDBNavItem, MDBNav } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Avatar from '../../assets/images/avatar.png';
 import Navbar from '../navbar';
 import ProfileTabs from './tabs';
+import { createProfile, getCurrentProfile } from '../../actions/profile';
+
 
 const ImgUpload =({
   onChange,
@@ -19,43 +24,75 @@ const ImgUpload =({
   );
 }
 
-class Profile extends React.Component {
-  scrollToTop = () => window.scrollTo(0, 0);
+const Profile = ({ profile:{ profile, loading }, createProfile,  getCurrentProfile, history }) => {
 
-  state = {
-    modal: false
-  }
-  
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
-  
+const [showModal, setShowModal] = useState(false);  
+const handleClose = () => setShowModal(false);
+const handleShow = () => setShowModal(true);
 
-  render() {
+const [formData, setFormData] = useState({
+    name: '',
+    location: '',
+    email: '',
+    dateofbirth: '',
+    facebook: '',
+    instagram: '',
+    google: ''
+})
+
+useEffect(() =>{
+  getCurrentProfile()
+
+  setFormData({
+    name: loading || !profile.user.name ? '' : profile.user.name,
+    email: loading || !profile.user.email ? '' : profile.user.email,
+    location: loading || !profile.location ? '' : profile.location,
+    dateofbirth: loading || !profile.dateofbirth ? '' : profile.dateofbirth,
+    facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
+    instagram: loading || !profile.social.instagram ? '' : profile.social.instagram,
+    google: loading || !profile.social.google ? '' : profile.social.google
+    
+  })
+}, [loading]);
+
+const {
+    name,
+    location,
+    email,
+    dateofbirth,
+    facebook,
+    instagram,
+    google
+} = formData;
+
+const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+const onSubmit = e => {
+  e.preventDefault();
+  createProfile(formData, history);
+  handleClose()
+};
+
+
     return (
       <>
       {/* Modals */}
 
-      <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-        <MDBModalHeader toggle={this.toggle}>Edit Profile</MDBModalHeader>
+      <MDBModal isOpen={showModal} toggle={handleClose}>
+        <MDBModalHeader >Edit Profile</MDBModalHeader>
         <MDBModalBody className="px-4 text-center">
+          <form onSubmit={e => onSubmit(e)}>
           <ImgUpload />
-          <input type="text" id="" className="form-control" placeholder="Username" />
-          <input type="text" id="" className="form-control mt-3" placeholder="Full Name" />
-          <input type="text" id="" className="form-control mt-3" placeholder="Address" />
-          <input type="text" id="" className="form-control mt-3" placeholder="Mobile Number" />
-          <input type="email" id="" className="form-control mt-3" placeholder="Email" />
-          <input type="date" id="" className="form-control mt-3" placeholder="Birthdate" />
-          <input type="text" id="" className="form-control mt-3" placeholder="Facebook Link" />
-          <input type="text" id="" className="form-control mt-3" placeholder="Instagram Link" />
-          <input type="text" id="" className="form-control mt-3" placeholder="Gmail Link" />
-          <input type="password" id="" className="form-control mt-3" placeholder="Password" />
-          <input type="password" id="" className="form-control mt-3" placeholder="Confirm Password" />
+          <input type="text" id="" name="name" value={name} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Name" />
+          <input type="text" id="" name="location" value={location} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Address" />
+          <input type="email" id="" name="email" value={email} className="form-control mt-3" placeholder="Email" disabled/>
+          <input type="date" id="" name="dateofbirth" value={dateofbirth} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Birthdate" />
+          <input type="text" id="" name="facebook" value={facebook} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Facebook Link" />
+          <input type="text" id="" name="instagram" value={instagram} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Instagram Link" />
+          <input type="text" id="" name="google" value={google} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Gmail Link" />
+          <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5" type="submit">Confirm</MDBBtn>
+          </form>
         </MDBModalBody>
-
-        <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5" >Confirm</MDBBtn>
 
       </MDBModal>
       
@@ -72,8 +109,8 @@ class Profile extends React.Component {
                 </div>
                 <div className="flex-grow-1 bd-highlight col-example">
                   <div className="">
-                    <div className="profile-name">username</div>
-                    <div className="profile-address">Sample Address, Sample Address</div>
+                    <div className="profile-name">{name}</div>
+                    <div className="profile-address">{location}</div>
                   </div>
                 </div>
               </div>
@@ -99,7 +136,7 @@ class Profile extends React.Component {
               </div>
               </MDBCol>
               <MDBCol lg="12" className="text-center flex-center">
-                <div className="edit-profile-btn my-3 mx-2" onClick={this.toggle}>Edit Profile</div>
+                <div className="edit-profile-btn my-3 mx-2" onClick={handleShow}>Edit Profile</div>
               </MDBCol>
             </MDBRow>    
           </div>
@@ -107,7 +144,16 @@ class Profile extends React.Component {
         </div>
       </> 
     );
-  }
 }
 
-export default Profile;
+Profile.propTypes = {
+  createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(withRouter(Profile));

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const ItemSchema = new mongoose.Schema({
     user: {
@@ -12,6 +13,9 @@ const ItemSchema = new mongoose.Schema({
         type: String
     },
     status: {
+        type: String
+    },
+    photo: {
         type: String
     },
     category: [
