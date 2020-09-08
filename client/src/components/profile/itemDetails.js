@@ -2,7 +2,6 @@ import React from 'react';
 import ImageUploader from 'react-images-upload';
 import Select from 'react-select';
 import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBMask, MDBBtn, MDBCarouselCaption } from 'mdbreact';
-import { Container, Button } from 'react-floating-action-button';
 import { Link }  from 'react-router-dom';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
