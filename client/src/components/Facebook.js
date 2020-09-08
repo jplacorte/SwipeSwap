@@ -1,8 +1,10 @@
 import React, { useState, Fragment } from 'react';
 import { MDBBtn, MDBIcon } from 'mdbreact';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { login, register } from '../actions/auth';
 import FacebookLogin from 'react-facebook-login';
 import { Link, Redirect } from 'react-router-dom';
-import { MDBIcon } from 'mdbreact';
 import "../css/style.css";
 import "../css/mediaQuery.css";
 
