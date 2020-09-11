@@ -10,11 +10,13 @@ import ItemCondition from '../itemCondition';
 import Navbar from '../navbar';
 
 const categories = [
-  { value: '1', label: 'Category 1' },
-  { value: '2', label: 'Category 2' },
-  { value: '3', label: 'Category 3' },
-  { value: '4', label: 'Category 4' },
-  { value: '5', label: 'Category 5' }
+  { value: '1', label: 'Health & Beauty' },
+  { value: '2', label: 'Appliances' },
+  { value: '3', label: 'Sports & Recreation' },
+  { value: '4', label: 'Fashion & Accessories' },
+  { value: '5', label: 'Children Prodcuts' },
+  { value: '6', label: 'Computers & Games' },
+  { value: '7', label: 'Electronics' }
 ];
 
 const conditions = [
@@ -100,11 +102,11 @@ class ItemGallery extends React.Component {
             maxFileSize={5242880}
             withPreview={true}
             />
-            <input type="text" id="" className="form-control mt-3" placeholder="Sample Name" />
+            <input type="text" id="" className="form-control mt-3" placeholder="Item Name" />
             <textarea type="text" id="" className="form-control mt-3" placeholder="Description" />
             <Select
               className="mt-3"
-              defaultValue={[categories[0], categories[1]]}
+              placeholder="Select Category"
               value={selectedOption}
               onChange={this.handleChange}
               options={categories}
@@ -112,7 +114,7 @@ class ItemGallery extends React.Component {
             />
             <Select
               className="mt-3"
-              defaultValue={[conditions[0]]}
+              placeholder="Select Condition"
               value={selectedOption}
               onChange={this.handleChange}
               options={conditions}
@@ -130,22 +132,6 @@ class ItemGallery extends React.Component {
             <Link to="/itemDetails">
               <img src={Item.img} alt={Item.title}/>
             </Link>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-            <Link to="/itemDetails">
-              <img src={Item.img} alt={Item.title}/>
-            </Link>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-            <Link to="/itemDetails">
-              <img src={Item.img} alt={Item.title}/>
-            </Link>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-              <img onClick={() => alert('Purchase Slot to Add an Item!')} />
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-              <img onClick={() => alert('Purchase Slot to Add an Item!')} />
           </MDBCol>
           <MDBCol size="4" className="p-0 item-gallery-image item-grid">
               <img onClick={() => alert('Purchase Slot to Add an Item!')} />

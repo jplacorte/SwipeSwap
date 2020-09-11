@@ -1,5 +1,4 @@
-import React, { useState, Fragment } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../actions/auth';
@@ -9,9 +8,7 @@ const Logout = ({ isAuthenticated, logout }) => {
 
     return (        
         <Fragment>
-            <div>
-            <a onClick={logout} href="#!" className="sidemenu-footer px-3 py-2 white-text"><MDBIcon icon="power-off" className="mr-3"/>Log-out</a>
-            </div>
+            <div onClick={logout} className="sidemenu-footer px-3 py-2 white-text"><MDBIcon icon="power-off" className="mr-3" />Logout</div>
         </Fragment>
     )
 }

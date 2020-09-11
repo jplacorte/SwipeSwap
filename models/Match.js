@@ -5,16 +5,21 @@ const MatchSchema = new mongoose.Schema({
     isMatch:{
         type: Boolean
     },
-    like: {
+    match: [
+    {
         user: {
             type: Schema.Types.ObjectId,
             ref: 'user'
+        },
+        name: {
+            type: String
         },
         item: {
             type: Schema.Types.ObjectId,
             ref: 'item'
         },
     }
+]
 })
 
 module.exports = Match = mongoose.model('match', MatchSchema)

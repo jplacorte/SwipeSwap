@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon, MDBFormInline, MDBTabPane, MDBTabContent, MDBNavLink, MDBNavItem, MDBNav } from 'mdbreact';
+import { MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBIcon } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Avatar from '../../assets/images/avatar.png';
@@ -17,7 +17,7 @@ const ImgUpload =({
   return(
     <label for="photo-upload" className="avatar-upload flex-center">
       <div className="avatar-img-wrap avatar-img-upload" >
-        <img for="photo-upload" src={Avatar} className="rounded-circle" />
+        <img for="photo-upload" src="https://scontent.fceb2-1.fna.fbcdn.net/v/t1.0-9/97800975_540167353556709_138032904499363840_o.jpg?_nc_cat=101&_nc_sid=09cbfe&_nc_ohc=W5vlzJYYn9kAX9Q1auo&_nc_ht=scontent.fceb2-1.fna&oh=93d088e56fa9d5679bc473f29007eaea&oe=5F7F25A1" alt="avatar" className="rounded-circle" />
       </div>
       <input id="photo-upload" type="file" onChange={onChange}/> 
     </label>
@@ -105,7 +105,7 @@ const onSubmit = e => {
               <MDBCol lg="6">
               <div className="d-flex bd-highlight example-parent flex-center">
                 <div className="bd-highlight col-example mx-2">
-                  <img src={Avatar} className="rounded-circle profile-avatar" />
+                  <img src="https://scontent.fceb2-1.fna.fbcdn.net/v/t1.0-9/97800975_540167353556709_138032904499363840_o.jpg?_nc_cat=101&_nc_sid=09cbfe&_nc_ohc=W5vlzJYYn9kAX9Q1auo&_nc_ht=scontent.fceb2-1.fna&oh=93d088e56fa9d5679bc473f29007eaea&oe=5F7F25A1" alt="avatar" className="rounded-circle profile-avatar" />
                 </div>
                 <div className="flex-grow-1 bd-highlight col-example">
                   <div className="">
@@ -118,19 +118,19 @@ const onSubmit = e => {
               <MDBCol lg="6" className="text-center">
               <div className="d-flex bd-highlight example-parent profile-details flex-center">
                 <div className="p-2 flex-fill bd-highlight col-example px-3">
-                  <div className="font-weight-bold">15</div>
+                  <div className="font-weight-bold">0</div>
                   <div>Swaps</div>
                 </div>
                 <div className="p-2 flex-fill bd-highlight col-example px-3">
-                  <div className="font-weight-bold">4.5</div>
+                  <div className="font-weight-bold">0</div>
                   <div>Rating</div>
                 </div>
                 <div className="p-2 flex-fill bd-highlight col-example px-3">
-                  <div className="font-weight-bold">24 <MDBIcon icon="award" className="text-color-1" /></div>
+                  <div className="font-weight-bold">0 <MDBIcon icon="award" className="text-color-1" /></div>
                   <div>Badges</div>
                 </div>
                 <div className="p-2 flex-fill bd-highlight col-example px-3">
-                  <div className="font-weight-bold">15 <MDBIcon icon="coins" style={{color: 'gold'}} /></div>
+                  <div className="font-weight-bold">00.00 <MDBIcon icon="coins" style={{color: 'gold'}} /></div>
                   <div>SwapCoins</div>
                 </div>
               </div>

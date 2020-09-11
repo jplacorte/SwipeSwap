@@ -114,7 +114,7 @@ router.get('/user/:user_id', async (req, res) => {
 // @route   POST api/profile/subslevel
 // @des     Create/Update records level
 // @access  Private
-router.post('/records', async (req, res) => {
+router.post('/records', auth, async (req, res) => {
     const {
         subscriptionlevel,
         totalswaps,

@@ -25,11 +25,13 @@ const TransactionSchema = new mongoose.Schema({
         {
             user:{
                 type: Schema.Types.ObjectId,
-                ref: 'users'
+                ref: 'user'
+            },
+            name: {
+                type: String
             },
             text:{
-                type: String,
-                required: true
+                type: String
             },
         }
     ]
