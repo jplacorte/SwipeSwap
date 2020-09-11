@@ -1,7 +1,7 @@
 import React from 'react';
 import { Item, AppContainer, ExtraInfo, Code } from "./swipestyle";
 import Carousel from "./carousel";
-import { MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBCloseIcon, MDBView, MDBMask, MDBListGroupItem } from 'mdbreact';
+import { MDBRow, MDBCol, MDBBtn, MDBModal,  MDBModalFooter, MDBView, MDBMask, MDBListGroupItem } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import SwipeImage from '../../assets/images/item1.jpg';

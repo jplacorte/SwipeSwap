@@ -47,8 +47,10 @@ class Navbar extends React.Component {
           <NavLink to="/profile" activeStyle={{ fontWeight: "bold",color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="user" className="mr-3" />My Profile</MDBListGroupItem>
           </NavLink>
-
+          
+          <NavLink to="/marketplace" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="shopping-cart" className="mr-3" />Marketplace</MDBListGroupItem>
+          </NavLink>
 
           <NavLink to="/swapCoins" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="coins" className="mr-3" />Swap Coins</MDBListGroupItem>

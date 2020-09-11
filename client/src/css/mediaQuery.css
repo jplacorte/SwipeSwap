@@ -4,7 +4,6 @@
   }
 }
 
-
 /* Extra small devices (phones, 675px and down) */
 @media only screen and (max-width: 675px) {
   .ss-logo-splash{
@@ -13,12 +12,20 @@
     margin-top: 195px;
   }
 
+  .swap{
+    vertical-align: 0.1;
+    margin-top: -1px!important;
+    height: 60px!important;
+  }
+
   .ss-logo-text{
     font-size: 40px!important;
   }
+
   .intro-form-page{
     padding: 35px 8%!important;
   }
+
   .category-box{
     max-height: 130px;
     min-height: 130px;
@@ -212,6 +219,20 @@
     font-size: 20px!important;
   }
 
+  .marketplace-col{
+    height: 200px;
+    width: 150px;
+    margin: 3px!important;
+  }
+
+  .marketplace-item-value{
+    font-size: 16px;
+  }
+
+  .marketplace-item-details{
+    font-size: 14px;
+  }
+
   /* .chat-screen-input{
     display: flex;
     padding: 5px;
@@ -245,7 +266,18 @@
       position: fixed;
       border-top: 1px solid lightgray;
     }
+
+    .marketplace-swapcoins{
+      color: #167D7F;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .marketplace-swapcoins i{
+      margin-left: 14px;
+    }
   }
+  
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
