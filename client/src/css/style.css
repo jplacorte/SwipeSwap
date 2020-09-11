@@ -32,10 +32,11 @@ main{
     max-width: 100%;
     z-index: 0;
     overflow: hidden;
-}
+    position: fixed;
+} 
 
 .ss-logo-splash{
-    height: 90px;
+    height: 85px;
     width: auto;
     margin-top: 195px;
 }
@@ -43,6 +44,7 @@ main{
 .swap{
   vertical-align: 0.1;
   margin-top: -1px!important;
+  height: 93px;
 }
 
 .login-container{
@@ -1145,4 +1147,64 @@ a.profile-link{
 .add-item-btn:hover{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.1);
   font-size: 24px!important;
+}
+
+.marketplace-container{
+  margin-top: 90px;
+}
+
+.marketplace-search{
+  border-color: #167D7F!important;
+  max-width: 600px;
+  border: 2px solid;
+  border-radius: 10px;
+}
+
+.marketplace-swapcoins{
+  color: #167D7F;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.marketplace-col{
+  height: 350px;
+  width: 250px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.custom-mask:hover{
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.marketplace-item{
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  background-image: url(../assets/icons/sslogo2.png);
+  background-size: contain;
+  background-color: #167D7F;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.marketplace-item img{
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+  object-position: center;
+  object-fit: cover;
+}
+
+.marketplace-item-value{
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.marketplace-item-details{
+  position: absolute;
+  bottom: 0;
+  font-size: 18px;
 }

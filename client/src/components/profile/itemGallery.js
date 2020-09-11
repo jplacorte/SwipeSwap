@@ -6,8 +6,6 @@ import { Link }  from 'react-router-dom';
 import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-import ItemCondition from '../itemCondition';
-import Navbar from '../navbar';
 
 const categories = [
   { value: '1', label: 'Health & Beauty' },
@@ -90,7 +88,7 @@ class ItemGallery extends React.Component {
       {/* Modals */}
 
       <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-        <MDBModalHeader toggle={this.toggle}>Edit Info</MDBModalHeader>
+        <MDBModalHeader toggle={this.toggle}>Add Item</MDBModalHeader>
         <MDBModalBody className="px-4">
           <form>
           <ImageUploader
@@ -154,8 +152,11 @@ class ItemGallery extends React.Component {
               <img src={Item.img} alt={Item.title}/>
           </MDBCol>
 
+          
+          
           <Container className="add-item-container">
-          <MDBAnimation type="heartBeat" className="slower" infinite>
+          <MDBAnimation type="zoomIn" className="fast">
+          <MDBAnimation type="heartBeat" className="slower" delay="1s" infinite>
             <Button
                 className="add-item-btn"
                 tooltip="Add Item"
@@ -163,7 +164,9 @@ class ItemGallery extends React.Component {
                 onClick={this.toggle}
                />
                </MDBAnimation>
+               </MDBAnimation>
           </Container>
+          
 
         </MDBRow>
       </> 

@@ -13,6 +13,7 @@ import Settings from "./components/settings";
 import EditCategories from "./components/settings/editCategories";
 import SwapCoins from "./components/swapCoins.js";
 import Support from "./components/support";
+import Marketplace from "./components/marketplace";
 import PrivateRoute from "./components/routing/PrivateRoute";
 
 
@@ -33,6 +34,7 @@ class Routes extends React.Component {
         <PrivateRoute exact path="/editCategories" component={EditCategories} />
         <PrivateRoute exact path="/swapCoins" component={SwapCoins} />
         <PrivateRoute exact path="/support" component={Support} />
+        <PrivateRoute exact path="/marketplace" component={Marketplace} />
         <Route
           render={function () {
             return <h1>Not Found</h1>;
