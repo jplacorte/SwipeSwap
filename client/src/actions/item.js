@@ -9,7 +9,7 @@ import {
 // @route   GET item/
 // @des     Get all item from user
 // @access  Private
-export const getAllItems = () => async dispatch => {
+export const getAllItemsByUser = () => async dispatch => {
     try {
 
         const res = await axios.get('/item');

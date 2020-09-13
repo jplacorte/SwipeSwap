@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Facebook = ({ login, register, isAuthenticated }) => {
 
     const responseFacebook = response => {
-        login(response.name, response.email)
+        login(response.name, response.email, response.picture)
     }
 
     let fbContent;

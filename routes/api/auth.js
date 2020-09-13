@@ -27,8 +27,15 @@ router.get('/', auth, async (req, res) => {
 // @route   POST api/auth
 // @des     Authenticate user & get token
 // @access  Public
-router.post('/', async (req, res) => {
-  const { name, email } = req.body
+router.post('/', [
+    check('email', 'Please include a valid email')
+        .isEmail()
+    ],async (req, res) => {
+    const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(400).json({ errors: errors.array() })
+    }
+    const { name, email, avatar } = req.body
         
         try {
             let user = await User.findOne({ email })
@@ -41,6 +48,7 @@ router.post('/', async (req, res) => {
                 await user.save( async (err, docs) => {
                     const profileFields = {}
                     profileFields.user = docs._id
+                    profileFields.avatar = avatar.data.url
                     
                     profileFields.social = {}
                     profileFields.social.google = "Google"

@@ -10,20 +10,6 @@ import Navbar from '../navbar';
 import ProfileTabs from './tabs';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
 
-
-const ImgUpload =({
-  onChange,
-})=>{
-  return(
-    <label for="photo-upload" className="avatar-upload flex-center">
-      <div className="avatar-img-wrap avatar-img-upload" >
-        <img for="photo-upload" src="https://scontent.fceb2-1.fna.fbcdn.net/v/t1.0-9/97800975_540167353556709_138032904499363840_o.jpg?_nc_cat=101&_nc_sid=09cbfe&_nc_ohc=W5vlzJYYn9kAX9Q1auo&_nc_ht=scontent.fceb2-1.fna&oh=93d088e56fa9d5679bc473f29007eaea&oe=5F7F25A1" alt="avatar" className="rounded-circle" />
-      </div>
-      <input id="photo-upload" type="file" onChange={onChange}/> 
-    </label>
-  );
-}
-
 const Profile = ({ profile:{ profile, loading }, createProfile,  getCurrentProfile, history }) => {
 
 const [showModal, setShowModal] = useState(false);  
@@ -37,7 +23,8 @@ const [formData, setFormData] = useState({
     dateofbirth: '',
     facebook: '',
     instagram: '',
-    google: ''
+    google: '',
+    avatar:''
 })
 
 useEffect(() =>{
@@ -50,7 +37,8 @@ useEffect(() =>{
     dateofbirth: loading || !profile.dateofbirth ? '' : profile.dateofbirth,
     facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
     instagram: loading || !profile.social.instagram ? '' : profile.social.instagram,
-    google: loading || !profile.social.google ? '' : profile.social.google
+    google: loading || !profile.social.google ? '' : profile.social.google,
+    avatar: loading || !profile.avatar ? Avatar : profile.avatar
     
   })
 }, [loading]);
@@ -62,7 +50,8 @@ const {
     dateofbirth,
     facebook,
     instagram,
-    google
+    google,
+    avatar
 } = formData;
 
 const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -73,6 +62,19 @@ const onSubmit = e => {
   handleClose()
 };
 
+
+const ImgUpload =({
+  onChange,
+})=>{
+  return(
+    <label for="photo-upload" className="avatar-upload flex-center">
+      <div className="avatar-img-wrap avatar-img-upload" >
+        <img for="photo-upload" src={avatar} alt="avatar" className="rounded-circle" />
+      </div>
+      <input id="photo-upload" type="file" onChange={onChange}/> 
+    </label>
+  );
+}
 
     return (
       <>
@@ -105,7 +107,7 @@ const onSubmit = e => {
               <MDBCol lg="6">
               <div className="d-flex bd-highlight example-parent flex-center">
                 <div className="bd-highlight col-example mx-2">
-                  <img src="https://scontent.fceb2-1.fna.fbcdn.net/v/t1.0-9/97800975_540167353556709_138032904499363840_o.jpg?_nc_cat=101&_nc_sid=09cbfe&_nc_ohc=W5vlzJYYn9kAX9Q1auo&_nc_ht=scontent.fceb2-1.fna&oh=93d088e56fa9d5679bc473f29007eaea&oe=5F7F25A1" alt="avatar" className="rounded-circle profile-avatar" />
+                  <img src={avatar} alt="avatar" className="rounded-circle profile-avatar" />
                 </div>
                 <div className="flex-grow-1 bd-highlight col-example">
                   <div className="">

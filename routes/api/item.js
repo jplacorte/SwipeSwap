@@ -62,7 +62,8 @@ router.put('/:item_id', auth, async (req, res) => {
     const {
         itemname,
         description,
-        status
+        status,
+        category
     } = req.body
 
     //Build Item Objects
@@ -71,6 +72,9 @@ router.put('/:item_id', auth, async (req, res) => {
     if(itemname) itemFields.itemname = itemname
     if(description) itemFields.description = description
     if(status) itemFields.status = status
+    if(category){
+        itemFields.category = category.split(', ').map(cat => cat.trim())
+    }
 
     let item = await Item.findOne({ _id: req.params.item_id })
     //Update Item
@@ -113,64 +117,6 @@ router.put('/photo', auth, async (req, res) => {
 
 })
 
-// @route   PUT api/item/category
-// @des     Add category
-// @access  Private
-router.put('/category/:id', auth, async (req, res) => {
-    const {
-        name
-    } = req.body
-
-    const newCategory = {
-        name
-    }
-    try {
-
-        const item = await Item.findById(req.params.id)
-
-        item.category.unshift(newCategory)
-        
-        await item.save()
-
-        res.json(item)
-
-    } catch (err) {
-
-        console.error(err.message)
-        res.status(500).send('Server Error')
-
-    }
-
-})
-
-// @route   PUT api/item/:cat_id
-// @des     Update category
-// @access  Private
-router.put('/category/:item_id/:cat_id', auth, async (req, res) => {
-    const {
-        name
-    } = req.body
-
-    try {
-
-        let item = await Item.findById(req.params.item_id)
-
-        item.category.findByIdAndUpdate({
-            _id: req.params.cat_id,
-            name: name
-        })
-        
-        res.json(item)
-
-    } catch (err) {
-
-        console.error(err.message)
-        res.status(500).send('Server Error')
-
-    }
-
-})
-
 // @route   POST api/item/review
 // @des     Review an item
 // @access  Private
@@ -182,7 +128,7 @@ router.post('/review', [ auth, [
           return res.status(400).json({ errors: errors.array() })
       }
       try {
-          const user = await User.findById(req.user.id).select('-password')
+          const user = await User.findById(req.user.id)
           const item = await Item.findById(req.params.id)
 
           const newReview = {

@@ -22,14 +22,9 @@ const ItemSchema = new mongoose.Schema({
             }
         }
     ],
-    category: [
-        {
-            name:{
-                type: String,
-                required: true
-            }
-        }
-    ],
+    category: {
+        type: [String]
+    },
     review: [
         {
             user:{
