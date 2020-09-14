@@ -30,7 +30,7 @@ router.get('/', auth, async (req, res) => {
 router.post('/', [
     check('email', 'Please include a valid email')
         .isEmail()
-    ],async (req, res) => {
+    ], async (req, res) => {
     const errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(400).json({ errors: errors.array() })
