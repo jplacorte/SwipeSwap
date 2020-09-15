@@ -10,12 +10,12 @@ const User = require('../../models/User')
 const Profile = require('../../models/Profile')
 
 
-// @route   GET api/auth
-// @des     Test route
-// @access  public
+// @route    GET api/auth
+// @desc     Get user by token
+// @access   Private
 router.get('/', auth, async (req, res) => {
     try{
-        const user = await User.findById(req.user.id)
+        const user = await User.findById(req.user.id).select('-name')
         res.json(user)
     }
     catch(err){
