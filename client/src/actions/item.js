@@ -12,7 +12,7 @@ import {
 export const getAllItemsByUser = () => async dispatch => {
     try {
 
-        const res = await axios.get('/item');
+        const res = await axios.get('api/item');
 
         dispatch({
             type: GET_ITEMS,

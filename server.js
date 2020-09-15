@@ -2,6 +2,12 @@ const express = require('express')
 const connectDB = require('./config/db')
 const path = require('path')
 
+const users = require('./routes/api/users')
+const auth = require('./routes/api/auth')
+const profile = require('./routes/api/profile')
+const transaction = require('./routes/api/transaction')
+const item = require('./routes/api/item')
+
 const app = express()
 
 // Connect Database
@@ -11,11 +17,11 @@ connectDB()
 app.use(express.json({ extended: false }))
 
 // Define Routes
-app.use('/users', require('./routes/api/users'))
-app.use('/auth', require('./routes/api/auth'))
-app.use('/profile', require('./routes/api/profile'))
-app.use('/item', require('./routes/api/item'))
-app.use('/transaction', require('./routes/api/transaction'))
+app.use('/api/users', users)
+app.use('/api/auth', auth)
+app.use('/api/profile', profile)
+app.use('/api/item', item)
+app.use('/api/transaction', transaction)
 
 // Set static folder
 app.use(express.static('client/build'))
