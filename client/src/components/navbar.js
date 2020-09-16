@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink} from 'react-router-dom';
-import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBNavLink, MDBIcon, MDBListGroup, MDBListGroupItem } from 'mdbreact';
+import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBNavLink, MDBIcon, MDBListGroup, MDBListGroupItem, MDBBadge } from 'mdbreact';
 import 'react-pro-sidebar/dist/css/styles.css';
 import Sidebar from "react-sidebar";
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -49,7 +49,7 @@ class Navbar extends React.Component {
           </NavLink>
           
           <NavLink to="/marketplace" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
-          <MDBListGroupItem hover><MDBIcon icon="shopping-cart" className="mr-3" />Marketplace</MDBListGroupItem>
+          <MDBListGroupItem hover><MDBIcon icon="shopping-cart" className="mr-3" />Marketplace<MDBBadge className="ml-2" color="teal">Coming Soon!</MDBBadge></MDBListGroupItem>
           </NavLink>
 
           <NavLink to="/swapCoins" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>

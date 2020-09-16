@@ -7,6 +7,7 @@ import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBNavbar, MDBView, MDBMask, MDB
 import ChatSwap from './chatSwap';
 
 function ChatScreen() {
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);

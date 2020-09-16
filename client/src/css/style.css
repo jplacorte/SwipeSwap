@@ -791,6 +791,8 @@ img.profile-avatar{
   object-fit: cover;
   object-position: center;
   margin-right: 50px;
+  border: 3px solid #167D7F;
+  padding: 1%;
 }
 
 .profile-avatar{
@@ -1207,4 +1209,10 @@ a.profile-link{
   position: absolute;
   bottom: 0;
   font-size: 18px;
+}
+
+.coming-soon{
+  font-size: 36px;
+  color: white;
+  font-weight: bold;
 }
