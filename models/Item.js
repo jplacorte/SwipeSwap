@@ -25,15 +25,20 @@ const ItemSchema = new mongoose.Schema({
     category: {
         type: [String]
     },
+    rating: {
+        type: String
+    },
     review: [
         {
-            user:{
+            user: {
                 type: Schema.Types.ObjectId,
                 ref: 'users'
             },
+            name: {
+                type: String
+            },
             reviewdetails: {
-                type: String,
-                required: true
+                type: String
             }
         }
     ],

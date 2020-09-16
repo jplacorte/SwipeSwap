@@ -39,6 +39,7 @@ router.post('/', auth, async (req, res) => {
     //Build Item Objects
     const itemFields = {}
     itemFields.user = req.user.id
+    itemFields.rating = "0"
     if(itemname) itemFields.itemname = itemname
     if(description) itemFields.description = description
     if(status) itemFields.status = status
@@ -117,35 +118,39 @@ router.put('/photo', auth, async (req, res) => {
 
 })
 
-// @route   POST api/item/review
+// @route   PUT api/item/review/:item_id
 // @des     Review an item
 // @access  Private
-router.post('/review', [ auth, [  
-    check('reviewdetails').not().isEmpty()
-  ] ], async (req, res) => {
-      const errors = validationResult(req)
-      if(!errors.isEmpty()){
-          return res.status(400).json({ errors: errors.array() })
-      }
-      try {
-          const user = await User.findById(req.user.id)
-          const item = await Item.findById(req.params.id)
+router.put('/review/:id', auth, async (req, res) => {
+    const {
+        rating,
+        reviewdetails
+    } = req.body
 
-          const newReview = {
-              reviewdetails: req.body.reviewdetails,
-              name: user.name
-          }
+    let userName =  await User.findById(req.user.id)
 
-          item.review.unshift(newReview)
+    const itemFields = {}
+    if(rating) itemFields.rating = rating
+    itemFields.review = {}
+    itemFields.review.user = req.user.id
+    itemFields.review.name = userName.name
+    if(reviewdetails) itemFields.review.reviewdetails = reviewdetails
 
-          await item.save()
+    try {
+        let item = await Item.findOne({ _id: req.params.id })
 
-          res.json(item.review)
+        item = await Item.findByIdAndUpdate(
+            { _id: req.params.id },
+            { $set: itemFields },
+            { new: true }
+        )
+        res.json(item)
+    } catch (err) {
 
-      } catch (err) {
-          console.error(err.message)
-          res.status(500).send('Server Error') 
-      }
-  })
+        console.error(err.message)
+        res.status(500).send('Server Error')
+
+    }
+})
 
 module.exports = router
