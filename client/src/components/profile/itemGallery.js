@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import ImageUploader from 'react-images-upload';
 import Select from 'react-select';
 import { MDBIcon, MDBRow, MDBCol, MDBModal, MDBModalHeader, MDBModalBody, MDBBtn, MDBAnimation } from 'mdbreact';
@@ -6,119 +9,116 @@ import { Link }  from 'react-router-dom';
 import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
+import { getAllItemsByUser } from '../../actions/item';
 
-const categories = [
-  { value: '1', label: 'Category 1' },
-  { value: '2', label: 'Category 2' },
-  { value: '3', label: 'Category 3' },
-  { value: '4', label: 'Category 4' },
-  { value: '5', label: 'Category 5' }
-];
 
-const conditions = [
-  { value: '1', label: 'Very Bad' },
-  { value: '2', label: 'Poor' },
-  { value: '3', label: 'Ok' },
-  { value: '4', label: 'Good' },
-  { value: '5', label: 'Excellent' }
-];
+const ItemGallery = ({ getAllItemsByUser }) => {
 
-const [Item] = [
-    {
-      img:
-        "https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg",
-      title: 'image',
-    },
-    
+  const categories = [
+    { value: 'Vehicles', label: 'Vehicles' },
+    { value: 'Apparel', label: 'Apparel ' },
+    { value: 'Electronics', label: 'Electronics' },
+    { value: 'Entertainment', label: 'Entertainment' },
+    { value: 'Pet Supplies', label: 'Pet Supplies' },
+    { value: 'Sporting Goods', label: 'Sporting Goods' },
+    { value: 'Toys & Games', label: 'Toys & Games' },
+    { value: 'Office Supplies', label: 'Office Supplies' },
+    { value: 'Musical Instruments', label: 'Musical Instruments' },
+    { value: 'Home Goods', label: 'Home Goods' },
+    { value: 'Garden & Outdoor', label: 'Garden & Outdoor' } 
   ];
-
-class ItemGallery extends React.Component {
   
-  scrollToTop = () => window.scrollTo(0, 0);
-
-  state = {
-    modal: false
-  }
+  const conditions = [
+    { value: '1', label: 'Very Bad' },
+    { value: '2', label: 'Poor' },
+    { value: '3', label: 'Ok' },
+    { value: '4', label: 'Good' },
+    { value: '5', label: 'Excellent' }
+  ];
   
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
+  const [Item] = [
+      {
+        img:
+          "https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg",
+        title: 'image',
+      },
+      
+    ];
 
-  constructor(props) {
-    super(props);
-     this.state = { pictures: [] };
-     this.onDrop = this.onDrop.bind(this);
-  }
+    const [showModal, setShowModal] = useState(false);  
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
-  onDrop(picture) {
-      this.setState({
-          pictures: this.state.pictures.concat(picture),
-      });
-  }
 
-    state = {
-      selectedCategories: null,
-    };
-    handleChange = selectedCategories => {
-      this.setState(
-        { selectedCategories },
-        () => console.log(`Option selected:`, this.state.selectedCategories)
-      );
-    };
-  
-    state = {
-      selectedConditions: null,
-    };
-    handleChange = selectedConditions => {
-      this.setState(
-        { selectedConditions },
-        () => console.log(`Option selected:`, this.state.selectedConditions)
-      );
-    };
+    const [formData, setFormData] = useState({
+      photo: '',
+      category:'',
+      status:'',
+      description:'',
+      itemname:''
+    })
 
-  render() {
+    const {
+      photo,
+      category,
+      status,
+      description,
+      itemname
+    } = formData;
 
-    const { selectedOption } = this.state;
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const catChange = category => {
+      setFormData({ category })
+      console.log(`Value:${category}`)
+    }
+
+    const statChange = status => {
+      setFormData({ status })
+      console.log(`Value:${status}`)
+    }
 
     return (
       <>
       {/* Modals */}
 
-      <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-        <MDBModalHeader toggle={this.toggle}>Add Item</MDBModalHeader>
+      <MDBModal isOpen={showModal} toggle={handleShow}>
+        <MDBModalHeader toggle={handleClose}>Add Item</MDBModalHeader>
         <MDBModalBody className="px-4">
           <form>
           <ImageUploader
             className="item-imgs"
             withIcon={false}
+            name="photo"
+            value={photo}
             buttonText='Choose images (Max. 4)'
-            onChange={this.onDrop}
+            onChange={ e => onChange(e) }
             imgExtension={['.jpg', '.gif', '.png', '.gif', 'webp', 'jpeg']}
             maxFileSize={5242880}
             withPreview={true}
             />
-            <input type="text" id="" className="form-control mt-3" placeholder="Sample Name" />
-            <textarea type="text" id="" className="form-control mt-3" placeholder="Description" />
+            <input type="text" name="itemname" value={itemname} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Item Name" />
+            <textarea type="text" name="description" value={description} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Description" />
             <Select
+              name="category"
               className="mt-3"
-              defaultValue={[categories[0], categories[1]]}
-              value={selectedOption}
-              onChange={this.handleChange}
+              placeholder="Select Category"
+              value={category}
+              onChange={catChange}
               options={categories}
               isMulti  
             />
             <Select
+              name="status"
               className="mt-3"
-              defaultValue={[conditions[0]]}
-              value={selectedOption}
-              onChange={this.handleChange}
+              value={status}
+              placeholder="Select Condition"
+              onChange={statChange}
               options={conditions}
             />
             </form>
         </MDBModalBody>
-        <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5" >Confirm</MDBBtn>
+        <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5">Confirm</MDBBtn>
         
       </MDBModal>
 
@@ -129,25 +129,6 @@ class ItemGallery extends React.Component {
             <Link to="/itemDetails">
               <img src={Item.img} alt={Item.title}/>
             </Link>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-            <Link to="/itemDetails">
-              <img src={Item.img} alt={Item.title}/>
-            </Link>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-            <Link to="/itemDetails">
-              <img src={Item.img} alt={Item.title}/>
-            </Link>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-              <img onClick={() => alert('Purchase Slot to Add an Item!')} />
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-              <img onClick={() => alert('Purchase Slot to Add an Item!')} />
-          </MDBCol>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-              <img onClick={() => alert('Purchase Slot to Add an Item!')} />
           </MDBCol>
 
           <MDBCol size="12" className="my-3 text-center">
@@ -176,7 +157,7 @@ class ItemGallery extends React.Component {
                 className="add-item-btn"
                 tooltip="Add Item"
                 icon="fas fa-plus"
-                onClick={this.toggle}
+                onClick={handleShow}
                />
                </MDBAnimation>
                </MDBAnimation>
@@ -186,7 +167,13 @@ class ItemGallery extends React.Component {
         </MDBRow>
       </> 
     );
-  }
 }
 
-export default ItemGallery;
+ItemGallery.propTypes = {
+  getAllItemsByUser: PropTypes.func.isRequired
+}
+  
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+export default connect(mapStateToProps, { getAllItemsByUser })(withRouter(ItemGallery));

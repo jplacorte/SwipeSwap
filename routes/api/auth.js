@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const bcrypt = require('bcryptjs')
 const auth = require('../../middleware/auth')
 const jwt = require('jsonwebtoken')
 const config = require('config')
@@ -10,12 +9,12 @@ const User = require('../../models/User')
 const Profile = require('../../models/Profile')
 
 
-// @route   GET api/auth
-// @des     Test route
-// @access  public
+// @route    GET api/auth
+// @desc     Get user by token
+// @access   Private
 router.get('/', auth, async (req, res) => {
     try{
-        const user = await User.findById(req.user.id)
+        const user = await User.findById(req.user.id).select('-name')
         res.json(user)
     }
     catch(err){
@@ -27,8 +26,15 @@ router.get('/', auth, async (req, res) => {
 // @route   POST api/auth
 // @des     Authenticate user & get token
 // @access  Public
-router.post('/', async (req, res) => {
-  const { name, email } = req.body
+router.post('/', [
+    check('email', 'Please include a valid email')
+        .isEmail()
+    ], async (req, res) => {
+    const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(400).json({ errors: errors.array() })
+    }
+    const { name, email, avatar } = req.body
         
         try {
             let user = await User.findOne({ email })
@@ -41,6 +47,7 @@ router.post('/', async (req, res) => {
                 await user.save( async (err, docs) => {
                     const profileFields = {}
                     profileFields.user = docs._id
+                    profileFields.avatar = avatar.data.url
                     
                     profileFields.social = {}
                     profileFields.social.google = "Google"

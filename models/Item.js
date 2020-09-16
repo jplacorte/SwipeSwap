@@ -15,17 +15,16 @@ const ItemSchema = new mongoose.Schema({
     status: {
         type: String
     },
-    photo: {
-        type: String
-    },
-    category: [
+    photo: [
         {
-            name:{
-                type: String,
-                required: true
-            },
+            url:{
+                type: String
+            }
         }
     ],
+    category: {
+        type: [String]
+    },
     review: [
         {
             user:{
@@ -37,7 +36,26 @@ const ItemSchema = new mongoose.Schema({
                 required: true
             }
         }
-    ]
+    ],
+    want: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'user'
+            }
+        }
+    ],
+    superwant: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'user'
+            }
+        }
+    ],
+    match:{
+        type: Boolean
+    }
 })
 
 module.exports = Item = mongoose.model('item', ItemSchema)

@@ -67,9 +67,9 @@ class Navbar extends React.Component {
           <MDBListGroupItem className="red-text" href="#" hover><MDBIcon icon="trash-alt" className="mr-3" />Delete Account</MDBListGroupItem>
           </MDBListGroup>
         
-        <Link to="/">
-        <div className="sidemenu-footer px-3 py-2 white-text"><MDBIcon icon="power-off" className="mr-3" />Log-out</div>
-        </Link>
+        
+        <Logout/>
+        
 
         </b>}
         open={this.state.sidebarOpen}

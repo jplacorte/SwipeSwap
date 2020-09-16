@@ -1,28 +1,14 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon } from 'mdbreact';
+import { MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBIcon } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Avatar from '../../assets/images/avatar.png';
 import Navbar from '../navbar';
 import ProfileTabs from './tabs';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
-
-
-const ImgUpload =({
-  onChange,
-})=>{
-  return(
-    <label for="photo-upload" className="avatar-upload flex-center">
-      <div className="avatar-img-wrap avatar-img-upload" >
-        <img for="photo-upload" src={Avatar} className="rounded-circle" />
-      </div>
-      <input id="photo-upload" type="file" onChange={onChange}/> 
-    </label>
-  );
-}
 
 const Profile = ({ profile:{ profile, loading }, createProfile,  getCurrentProfile, history }) => {
 
@@ -37,7 +23,8 @@ const [formData, setFormData] = useState({
     dateofbirth: '',
     facebook: '',
     instagram: '',
-    google: ''
+    google: '',
+    avatar:''
 })
 
 useEffect(() =>{
@@ -50,7 +37,8 @@ useEffect(() =>{
     dateofbirth: loading || !profile.dateofbirth ? '' : profile.dateofbirth,
     facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
     instagram: loading || !profile.social.instagram ? '' : profile.social.instagram,
-    google: loading || !profile.social.google ? '' : profile.social.google
+    google: loading || !profile.social.google ? '' : profile.social.google,
+    avatar: loading || !profile.avatar ? Avatar : profile.avatar
     
   })
 }, [loading]);
@@ -62,7 +50,8 @@ const {
     dateofbirth,
     facebook,
     instagram,
-    google
+    google,
+    avatar
 } = formData;
 
 const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -73,6 +62,19 @@ const onSubmit = e => {
   handleClose()
 };
 
+
+const ImgUpload =({
+  onChange,
+})=>{
+  return(
+    <label for="photo-upload" className="avatar-upload flex-center">
+      <div className="avatar-img-wrap avatar-img-upload" >
+        <img for="photo-upload" src={avatar} alt="avatar" className="rounded-circle" />
+      </div>
+      <input id="photo-upload" type="file" onChange={onChange}/> 
+    </label>
+  );
+}
 
     return (
       <>
@@ -105,7 +107,7 @@ const onSubmit = e => {
               <MDBCol lg="6">
               <div className="d-flex bd-highlight example-parent flex-center">
                 <div className="bd-highlight col-example mx-2">
-                  <img src={Avatar} className="rounded-circle profile-avatar" />
+                  <img src={avatar} alt="avatar" className="rounded-circle profile-avatar" />
                 </div>
                 <div className="flex-grow-1 bd-highlight col-example">
                   <div className="">
@@ -118,19 +120,19 @@ const onSubmit = e => {
               <MDBCol lg="6" className="text-center">
               <div className="d-flex bd-highlight example-parent profile-details flex-center">
                 <div className="p-2 flex-fill bd-highlight col-example px-3">
-                  <div className="font-weight-bold">15</div>
+                  <div className="font-weight-bold">0</div>
                   <div>Swaps</div>
                 </div>
                 <div className="p-2 flex-fill bd-highlight col-example px-3">
-                  <div className="font-weight-bold">4.5</div>
+                  <div className="font-weight-bold">0</div>
                   <div>Rating</div>
                 </div>
                 <div className="p-2 flex-fill bd-highlight col-example px-3">
-                  <div className="font-weight-bold">24 <MDBIcon icon="award" className="text-color-1" /></div>
+                  <div className="font-weight-bold">0 <MDBIcon icon="award" className="text-color-1" /></div>
                   <div>Badges</div>
                 </div>
                 <div className="p-2 flex-fill bd-highlight col-example px-3">
-                  <div className="font-weight-bold">15 <MDBIcon icon="coins" style={{color: 'gold'}} /></div>
+                  <div className="font-weight-bold">00.00 <MDBIcon icon="coins" style={{color: 'gold'}} /></div>
                   <div>SwapCoins</div>
                 </div>
               </div>

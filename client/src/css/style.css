@@ -795,6 +795,11 @@ img.profile-avatar{
   padding: 1%;
 }
 
+.profile-avatar{
+  border: solid 4px #167D7F;
+  padding: 1%;
+}
+
 .profile-name{
   font-weight: bold;
   font-size: 22px;

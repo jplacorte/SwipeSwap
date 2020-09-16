@@ -1,19 +1,18 @@
-import React, { useState, Fragment } from 'react';
-import { MDBBtn, MDBIcon } from 'mdbreact';
+import React, { Fragment } from 'react';
+import { MDBIcon } from 'mdbreact';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login, register } from '../actions/auth';
+import { login } from '../actions/auth';
 import FacebookLogin from 'react-facebook-login';
-import { Link, Redirect } from 'react-router-dom';
 import "../css/style.css";
 import "../css/mediaQuery.css";
 
 import 'react-toastify/dist/ReactToastify.css';
 
-const Facebook = ({ login, register, isAuthenticated }) => {
+const Facebook = ({ login, isAuthenticated }) => {
 
     const responseFacebook = response => {
-        login(response.name, response.email)
+        login(response.name, response.email, response.picture)
     }
 
     let fbContent;
@@ -47,4 +46,4 @@ const mapStateProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 })
   
-export default connect(mapStateProps, { login, register } )(Facebook)
+export default connect(mapStateProps, { login } )(Facebook)
