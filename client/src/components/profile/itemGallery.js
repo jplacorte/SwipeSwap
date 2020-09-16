@@ -33,6 +33,7 @@ const [Item] = [
   ];
 
 class ItemGallery extends React.Component {
+  
   scrollToTop = () => window.scrollTo(0, 0);
 
   state = {

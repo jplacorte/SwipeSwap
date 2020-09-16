@@ -55,6 +55,7 @@ class Marketplace extends React.Component {
       {/* //Modals */}
 
       <Navbar />
+      <MDBView>
         <div className="marketplace mb-4">
           <MDBContainer className="marketplace-container">
             <MDBRow className="mx-auto">
@@ -143,6 +144,10 @@ class Marketplace extends React.Component {
             </MDBRow>
           </MDBContainer>
         </div>
+          <MDBMask className="flex-center" overlay="black-strong">
+              
+          </MDBMask>
+        </MDBView>
       </> 
     );
   }

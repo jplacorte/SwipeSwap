@@ -5,24 +5,23 @@ import ItemImg from '../../assets/images/item1.jpg';
 
 function Reviews() {
     const [basic] = useState([
-        {
-          tooltip: 'Very Bad'
-        },
-        {
-          tooltip: 'Poor'
-        },
-        {
-          tooltip: 'Ok',
-          choosed: true
-        },
-        {
-          tooltip: 'Good'
-        },
-        {
-          tooltip: 'Excellent'
-        }
-      ]);
-
+      {
+        tooltip: 'Poor'
+      },
+      {
+        tooltip: 'Unsatisfactory'
+      },
+      {
+        tooltip: 'Satisfactory',
+        choosed: true
+      },
+      {
+        tooltip: 'Very Satisfactory'
+      },
+      {
+        tooltip: 'Outstanding'
+      }
+    ]);
   return (
         <MDBRow className="reviews-container mx-auto px-2 py-3">
             <MDBCol md="12">
