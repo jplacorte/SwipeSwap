@@ -137,15 +137,12 @@ class Marketplace extends React.Component {
                       <div className="marketplace-item-details p-2">Sample Name</div>
                     </MDBMask>
                 </MDBView>
-
               </div>
-
               </MDBCol>
             </MDBRow>
           </MDBContainer>
         </div>
           <MDBMask className="flex-center" overlay="black-strong">
-              
           </MDBMask>
         </MDBView>
       </> 
