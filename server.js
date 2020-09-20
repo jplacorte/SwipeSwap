@@ -17,11 +17,11 @@ connectDB()
 app.use(express.json({ extended: false }))
 
 // Define Routes
-app.use('/api/users', users)
-app.use('/api/auth', auth)
-app.use('/api/profile', profile)
-app.use('/api/item', item)
-app.use('/api/transaction', transaction)
+app.use('/users', users)
+app.use('/auth', auth)
+app.use('/profile', profile)
+app.use('/item', item)
+app.use('/transaction', transaction)
 
 // Set static folder
 // app.use(express.static('client/build'))

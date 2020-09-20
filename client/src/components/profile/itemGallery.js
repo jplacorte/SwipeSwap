@@ -9,10 +9,11 @@ import { Link }  from 'react-router-dom';
 import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-import { getAllItemsByUser } from '../../actions/item';
+import { getAllItemsByUser, addItem } from '../../actions/item';
+import Items from './ItemGalleryItems';
 
 
-const ItemGallery = ({ getAllItemsByUser, item: { items, loading } }) => {
+const ItemGallery = ({ getAllItemsByUser, item:{ items }, addItem }) => {
 
   useEffect(() => {
 
@@ -65,6 +66,13 @@ const ItemGallery = ({ getAllItemsByUser, item: { items, loading } }) => {
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+    const onSubmit = async e => {
+      e.preventDefault();
+         handleClose();
+         addItem(formData);
+         getAllItemsByUser();
+    }
+
     const catChange = category => {
       setFormData({ category })
       console.log(`Value:${category}`)
@@ -101,7 +109,7 @@ const ItemGallery = ({ getAllItemsByUser, item: { items, loading } }) => {
               className="mt-3"
               placeholder="Select Category"
               value={category}
-              onChange={catChange}
+              onChange={e => onChange(e)}
               options={categories}
               isMulti  
             />
@@ -115,7 +123,7 @@ const ItemGallery = ({ getAllItemsByUser, item: { items, loading } }) => {
             />
             </form>
         </MDBModalBody>
-        <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5">Confirm</MDBBtn>
+        <MDBBtn onClick={onSubmit} className="confirm-btn color1 mx-auto my-4 py-2 px-5">Confirm</MDBBtn>
         
       </MDBModal>
 
@@ -124,12 +132,8 @@ const ItemGallery = ({ getAllItemsByUser, item: { items, loading } }) => {
       <MDBRow className="mx-auto item-gallery-container" style={{ height: '650px' }}>
         {
           items.length > 0 ? (
-            items.map(item => (
-            <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-              <Link to="/itemDetails">
-              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.png"/>
-              </Link>
-            </MDBCol>
+            items.map((item) => (
+              <Items key={item._id} item={item}/>
             ))
           ) : (<h4>No items found...</h4>)
         }
@@ -173,10 +177,11 @@ const ItemGallery = ({ getAllItemsByUser, item: { items, loading } }) => {
 
 ItemGallery.propTypes = {
   getAllItemsByUser: PropTypes.func.isRequired,
+  addItem: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired
 }
   
 const mapStateToProps = state => ({
   item: state.item
 });
-export default connect(mapStateToProps, { getAllItemsByUser })(withRouter(ItemGallery));
+export default connect(mapStateToProps, { getAllItemsByUser, addItem })(withRouter(ItemGallery));

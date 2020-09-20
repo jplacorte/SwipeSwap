@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import ImageUploader from 'react-images-upload';
 import Select from 'react-select';
 import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBMask, MDBBtn, MDBCarouselCaption } from 'mdbreact';
@@ -7,103 +9,87 @@ import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import ItemCondition from '../itemCondition';
 import Navbar from '../navbar';
+import { getItemById } from '../../actions/item';
 
-const categories = [
-  { value: '1', label: 'Category 1' },
-  { value: '2', label: 'Category 2' },
-  { value: '3', label: 'Category 3' },
-  { value: '4', label: 'Category 4' },
-  { value: '5', label: 'Category 5' }
-];
+const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
 
-const conditions = [
-  { value: '1', label: 'Very Bad' },
-  { value: '2', label: 'Poor' },
-  { value: '3', label: 'Ok' },
-  { value: '4', label: 'Good' },
-  { value: '5', label: 'Excellent' }
-];
+  const [formData, setFormData] = useState({
+        itemname:'',
+        description:'',
+        status:'',
+        category:'',
+        photo:'',
+  })
 
-class ItemDetails extends React.Component {
-  scrollToTop = () => window.scrollTo(0, 0);
-  state = {
-    modal: false
-  }
+  useEffect(() => {
+    getItemById(match.params.id)
+
+    setFormData({
+      itemname: loading || !item.itemname ? '' : item.itemname,
+      description: loading || !item.description ? '' : item.description,
+      status: loading || !item.status ? '' : item.status,
+      category: loading || !item.category ? '' : item.category,
+      photo: loading || !item.photo ? '' : item.photo,
+    })
+  }, [getItemById, match.params.id, loading])
+
+  const {
+        itemname,
+        description,
+        status,
+        category,
+        photo
+  } = formData
+
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const [showModal, setShowModal] = useState(false);  
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
   
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
-
-  constructor(props) {
-    super(props);
-     this.state = { pictures: [] };
-     this.onDrop = this.onDrop.bind(this);
-  }
-
-  onDrop(picture) {
-      this.setState({
-          pictures: this.state.pictures.concat(picture),
-      });
-  }
-
-    state = {
-      selectedCategories: null,
-    };
-    handleChange = selectedCategories => {
-      this.setState(
-        { selectedCategories },
-        () => console.log(`Option selected:`, this.state.selectedCategories)
-      );
-    };
+  const categories = [
+    { value: '1', label: 'Category 1' },
+    { value: '2', label: 'Category 2' },
+    { value: '3', label: 'Category 3' },
+    { value: '4', label: 'Category 4' },
+    { value: '5', label: 'Category 5' }
+  ];
   
-    state = {
-      selectedConditions: null,
-    };
-    handleChange = selectedConditions => {
-      this.setState(
-        { selectedConditions },
-        () => console.log(`Option selected:`, this.state.selectedConditions)
-      );
-    };
-
-  render() {
-
-    const { selectedOption } = this.state;
+  const conditions = [
+    { value: '1', label: 'Very Bad' },
+    { value: '2', label: 'Poor' },
+    { value: '3', label: 'Ok' },
+    { value: '4', label: 'Good' },
+    { value: '5', label: 'Excellent' }
+  ];
 
     return (
       <>
       {/* Modals */}
 
-      <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-        <MDBModalHeader toggle={this.toggle}>Edit Info</MDBModalHeader>
+      <MDBModal isOpen={showModal} toggle={handleShow}>
+        <MDBModalHeader toggle={handleClose}>Edit Info</MDBModalHeader>
         <MDBModalBody className="px-4">
           <form>
           <ImageUploader
             className="item-imgs"
             withIcon={false}
             buttonText='Choose images (Max. 4)'
-            onChange={this.onDrop}
             imgExtension={['.jpg', '.gif', '.png', '.gif', 'webp', 'jpeg']}
             maxFileSize={5242880}
             withPreview={true}
             />
-            <input type="text" id="" className="form-control mt-3" placeholder="Sample Name" />
-            <textarea type="text" id="" className="form-control mt-3" placeholder="Description" />
+            <input type="text" name="itemname" value={itemname} className="form-control mt-3" placeholder="itemname" />
+            <textarea type="text" name="description" value={description} className="form-control mt-3" placeholder="Description" />
             <Select
               className="mt-3"
               defaultValue={[categories[0], categories[1]]}
-              value={selectedOption}
-              onChange={this.handleChange}
               options={categories}
               isMulti  
             />
             <Select
               className="mt-3"
               defaultValue={[conditions[0]]}
-              value={selectedOption}
-              onChange={this.handleChange}
               options={conditions}
             />
             </form>
@@ -167,12 +153,11 @@ class ItemDetails extends React.Component {
             </MDBCol>
             <MDBCol lg="6" className="mt-3">
               <div className="d-flex bd-highlight example-parent">
-                <div className="w-100 bd-highlight col-example item-name">Sample Name</div>
-                <a className="bd-highlight col-example ml-auto mt-1 font-weight-bold" style={{color: "#167D7F"}} onClick={this.toggle}>Edit</a>
+                <div className="w-100 bd-highlight col-example item-name">{itemname}</div>
+                <a className="bd-highlight col-example ml-auto mt-1 font-weight-bold" style={{color: "#167D7F"}} onClick={handleShow}>Edit</a>
               </div>
-              <div className="item-distance">8km<span> • Delivery</span></div>
-              <div className="item-description mt-2">Sample Description Sample Description Sample Description</div>
-              <div className="item-category mt-3">Category1 • Category2 • Category3</div>
+              <div className="item-description mt-2">{description}</div>
+              <div className="item-category mt-3">{category}</div>
                 <div className="d-flex bd-highlight example-parent py-3">
                     <div className="flex-fill bd-highlight col-example">
                       <div className=""><ItemCondition /></div>
@@ -187,7 +172,13 @@ class ItemDetails extends React.Component {
         </div>
       </> 
     );
-  }
 }
 
-export default ItemDetails;
+ItemDetails.propTypes = {
+  getItemById: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  item: state.item
+})
+export default connect( mapStateToProps, { getItemById })(ItemDetails);

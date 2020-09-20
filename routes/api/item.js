@@ -26,6 +26,24 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
+// @route   GET api/item/:id
+// @des     Get item by id
+// @access  Private
+router.get('/:id', auth, async (req, res) => {
+    try {
+        const item = await Item.findById(req.params.id)
+        
+        if(!item){
+            return res.status(400).json({ msg: 'There is no item' })
+        }
+
+        res.json(item)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
+
 // @route   POST item
 // @des     Add Item
 // @access  Private

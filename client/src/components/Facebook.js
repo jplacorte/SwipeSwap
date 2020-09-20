@@ -18,7 +18,7 @@ const Facebook = ({ login, isAuthenticated }) => {
     let fbContent;
 
     fbContent= (<FacebookLogin
-        appId="1015477185542718"
+        appId="3246631198738334"
         fields="name,email,picture"
         callback={responseFacebook}
         textButton="Login with facebook"
