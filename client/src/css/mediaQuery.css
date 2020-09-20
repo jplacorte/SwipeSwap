@@ -230,7 +230,7 @@
   }
 
   .marketplace-item-details{
-    font-size: 14px;
+    font-size: 14px ;
   }
 
   /* .chat-screen-input{
@@ -258,13 +258,9 @@
 
   @media only screen and (max-width: 992px) {
     .chat-screen-input{
-      display: flex;
-      padding: 5px;
-      bottom: 0;
+      bottom: 1;
       width: 100%;
-      bottom: 0px;
-      position: fixed;
-      border-top: 1px solid lightgray;
+      position: relative;
     }
 
     .marketplace-swapcoins{
@@ -288,13 +284,9 @@
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (max-width: 992px) {
   .chat-screen-input{
-    display: flex;
-    padding: 5px;
-    bottom: 0;
     width: 100%;
-    bottom: 0px;
-    position: fixed;
-    border-top: 1px solid lightgray;
+    bottom: 1;
+    position: relative;
   }
 }
 
