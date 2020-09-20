@@ -1,4 +1,4 @@
-import { GET_ITEMS, ITEMS_ERROR } from '../actions/types';
+import { ADD_ITEMS, UPDATE_ITEMS, GET_ITEMS, ITEMS_ERROR } from '../actions/types';
 
 const initialState = {
     item: null,
@@ -12,6 +12,8 @@ export default function (state = initialState, action) {
 
     switch(type){
         case GET_ITEMS:
+        case ADD_ITEMS:
+        case UPDATE_ITEMS:
             return {
                 ...state,
                 item: payload,

@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import { Link }  from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { MDBCol, MDBRow, MDBModalFooter, MDBBtn, MDBModal, MDBRating } from 'mdbreact';
 import Avatar from '../../assets/images/avatar.png';
 import ImgSlider from '../imgSlider';
 import ItemCondition from '../itemCondition';
+import PropTypes from 'prop-types'; 
+import { getAllItemsByUser, rateItem } from '../../actions/item'
 
-function Swaps() {
+const Swaps = ({ getAllItemsByUser, item: { items, loading }, rateItem }) => {
+  useEffect(() => {
+    getAllItemsByUser()
+  }, [getAllItemsByUser])
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -30,16 +36,6 @@ function Swaps() {
       }
     ]);
 
-  const [Swap] = [
-    {
-      profilePic:"https://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20%283%29.jpg",
-      name: "Sample Name",
-      details: "Deal is completed",
-      itemImg: "https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg"
-    },
-    
-  ];
-
   return (
         <div>
           {/* Modals */}
@@ -54,7 +50,7 @@ function Swaps() {
           <MDBRow className="p-3">
             <MDBCol md="12">
               <div className="d-flex bd-highlight example-parent">
-                <div className="w-100 bd-highlight col-example item-name">Sample Name</div>
+                <div className="w-100 bd-highlight col-example item-name">Item name</div>
                 <div className="bd-highlight col-example ml-auto">
                   <ItemCondition />
                 </div>
@@ -110,46 +106,38 @@ function Swaps() {
          {/*//Modals  */}
         
         <MDBRow className="swaps-container mx-auto px-2 py-3">
+          
+          {items.length > 0 ? (
+          items.map(item => (
             <MDBCol md="12">
-                <a onClick={handleShow}>
-                <div className="chat">
-                    <img src={Swap.profilePic} className="rounded-circle chat-image mr-3" alt="KB" />
-                    <div className="chat-details pt-3">
-                      <div>{Swap.name}</div>
-                      <p style={{color: "#00AF80"}}>{Swap.details}</p>
-                    </div>
-                    <img src={Swap.itemImg} className="swap-item-img mr-3" alt="SS" />
+            <a onClick={handleShow}>
+            <div className="chat">
+                <img src="https://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20%283%29.jpg" className="rounded-circle chat-image mr-3" alt="KB" />
+                <div className="chat-details pt-3">
+                <div>{item.itemname}</div>
+                  <p style={{color: "#00AF80"}}>Deal is completed</p>
                 </div>
-                </a>
-            </MDBCol>
-            <MDBCol md="12">
-              <a onClick={handleShow}>
-                <div className="chat">
-                    <img src={Swap.profilePic} className="rounded-circle chat-image mr-3" alt="KB" />
-                    <div className="chat-details pt-3">
-                      <div>{Swap.name}</div>
-                      <p style={{color: "#00AF80"}}>{Swap.details}</p>
-                    </div>
-                    <img src={Swap.itemImg} className="swap-item-img mr-3" alt="SS" />
-                </div>
-                </a>
-            </MDBCol>
-            <MDBCol md="12">
-              <a onClick={handleShow}>
-                <div className="chat">
-                    <img src={Swap.profilePic} className="rounded-circle chat-image mr-3" alt="KB" />
-                    <div className="chat-details pt-3">
-                      <div>{Swap.name}</div>
-                      <p style={{color: "#00AF80"}}>{Swap.details}</p>
-                    </div>
-                    <img src={Swap.itemImg} className="swap-item-img mr-3" alt="SS" />
-                </div>
-                </a>
-            </MDBCol>
+                <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" className="swap-item-img mr-3" alt="SS" />
+            </div>
+            </a>
+        </MDBCol>
+
+          ))) : (<h4>No items found...</h4>)}
+
         </MDBRow>
         </div>
 
   );
 }
 
-export default Swaps;
+Swaps.propTypes = {
+  rateItem: PropTypes.func.isRequired,
+  getAllItemsByUser: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+  item: state.item
+});
+
+export default connect(mapStateToProps, {getAllItemsByUser, rateItem})(Swaps);

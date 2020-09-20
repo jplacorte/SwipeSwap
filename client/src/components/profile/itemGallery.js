@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -12,7 +12,13 @@ import "../../css/mediaQuery.css";
 import { getAllItemsByUser } from '../../actions/item';
 
 
-const ItemGallery = ({ getAllItemsByUser }) => {
+const ItemGallery = ({ getAllItemsByUser, item: { items, loading } }) => {
+
+  useEffect(() => {
+
+    getAllItemsByUser()
+
+  }, [getAllItemsByUser])
 
   const categories = [
     { value: 'Vehicles', label: 'Vehicles' },
@@ -36,15 +42,6 @@ const ItemGallery = ({ getAllItemsByUser }) => {
     { value: '5', label: 'Excellent' }
   ];
   
-  const [Item] = [
-      {
-        img:
-          "https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg",
-        title: 'image',
-      },
-      
-    ];
-
     const [showModal, setShowModal] = useState(false);  
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
@@ -79,7 +76,7 @@ const ItemGallery = ({ getAllItemsByUser }) => {
     }
 
     return (
-      <>
+      <Fragment>
       {/* Modals */}
 
       <MDBModal isOpen={showModal} toggle={handleShow}>
@@ -125,12 +122,17 @@ const ItemGallery = ({ getAllItemsByUser }) => {
       {/* //Modals */}
 
       <MDBRow className="mx-auto item-gallery-container" style={{ height: '650px' }}>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-            <Link to="/itemDetails">
-              <img src={Item.img} alt={Item.title}/>
-            </Link>
-          </MDBCol>
-
+        {
+          items.length > 0 ? (
+            items.map(item => (
+            <MDBCol size="4" className="p-0 item-gallery-image item-grid">
+              <Link to="/itemDetails">
+              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.png"/>
+              </Link>
+            </MDBCol>
+            ))
+          ) : (<h4>No items found...</h4>)
+        }
           <MDBCol size="12" className="my-3 text-center">
               <div>Swapped Items</div>
           </MDBCol>
@@ -138,14 +140,14 @@ const ItemGallery = ({ getAllItemsByUser }) => {
 
           {/* Swapped Items */}
           <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src={Item.img} alt={Item.title}/>
+              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.png"/>
           </MDBCol>
 
           <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src={Item.img} alt={Item.title}/>
+              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.png"/>
           </MDBCol>
           <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src={Item.img} alt={Item.title}/>
+              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.png"/>
           </MDBCol>
 
           
@@ -165,15 +167,16 @@ const ItemGallery = ({ getAllItemsByUser }) => {
           
 
         </MDBRow>
-      </> 
+      </Fragment> 
     );
 }
 
 ItemGallery.propTypes = {
-  getAllItemsByUser: PropTypes.func.isRequired
+  getAllItemsByUser: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired
 }
   
 const mapStateToProps = state => ({
-  profile: state.profile
+  item: state.item
 });
 export default connect(mapStateToProps, { getAllItemsByUser })(withRouter(ItemGallery));

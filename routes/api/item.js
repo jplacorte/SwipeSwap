@@ -48,7 +48,7 @@ router.post('/', auth, async (req, res) => {
 
         item = new Item(itemFields)
         await item.save()
-        res.json(item)
+        return res.json(item)
 
     } catch (err) {
         console.error(err.message)
@@ -107,7 +107,7 @@ router.put('/photo', auth, async (req, res) => {
         
         await photo.save()
 
-        res.json(photo)
+        return res.json(photo)
 
     } catch (err) {
 
@@ -144,7 +144,7 @@ router.put('/review/:id', auth, async (req, res) => {
             { $set: itemFields },
             { new: true }
         )
-        res.json(item)
+        return res.json(item)
     } catch (err) {
 
         console.error(err.message)
