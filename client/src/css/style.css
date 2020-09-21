@@ -1044,7 +1044,8 @@ a.profile-link{
 }
 
 .item-imgs{
-  height: auto;
+  object-fit: cover;
+  object-position: center;
 }
 
 .fileContainer {
@@ -1560,4 +1561,8 @@ a.profile-link{
 	0% { background-color: #606060; }
 	50% { background-color: #fff; }
 	60% { background-color: #606060; }
+}
+
+.upload-image-wrapper button{
+ 
 }

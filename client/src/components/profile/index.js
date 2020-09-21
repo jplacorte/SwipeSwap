@@ -9,6 +9,7 @@ import Avatar from '../../assets/images/avatar.png';
 import Navbar from '../navbar';
 import ProfileTabs from './tabs';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
+import ImageUploading from "react-images-uploading";
 
 const Profile = ({ profile:{ profile, loading }, createProfile,  getCurrentProfile, history }) => {
 
@@ -27,6 +28,7 @@ const [formData, setFormData] = useState({
     avatar:''
 })
 
+
 useEffect(() =>{
   getCurrentProfile()
 
@@ -38,53 +40,61 @@ useEffect(() =>{
     facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
     instagram: loading || !profile.social.instagram ? '' : profile.social.instagram,
     google: loading || !profile.social.google ? '' : profile.social.google,
-    avatar: loading || !profile.avatar ? Avatar : profile.avatar
+    avatar: loading || !profile.avatar ? Avatar : profile.avatar,
     
   })
 }, [loading]);
 
-const {
-    name,
-    location,
-    email,
-    dateofbirth,
-    facebook,
-    instagram,
-    google,
-    avatar
-} = formData;
+    const [uploadPhoto, setPhoto] = useState({
+      file: '',
+      imagePreviewUrl: ''
+    })
 
-const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChangePicture = e => {
+        setPicture(URL.createObjectURL(e.target.files[0]) );
+    };
 
-const onSubmit = e => {
-  e.preventDefault();
-  createProfile(formData, history);
-  handleClose()
-};
+    const [picture, setPicture] = useState(null);
 
 
-const ImgUpload =({
-  onChange,
-})=>{
-  return(
-    <label for="photo-upload" className="avatar-upload flex-center">
-      <div className="avatar-img-wrap avatar-img-upload" >
-        <img for="photo-upload" src={avatar} alt="avatar" className="rounded-circle" />
-      </div>
-      <input id="photo-upload" type="file" onChange={onChange}/> 
-    </label>
-  );
-}
+    const {
+        name,
+        location,
+        email,
+        dateofbirth,
+        facebook,
+        instagram,
+        google,
+        avatar
+    } = formData;
+
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const onSubmit = e => {
+      e.preventDefault();
+      createProfile(formData, history);
+      handleClose()
+    };
+
+    const ImgUpload = () =>{
+      return(
+        <label htmlFor="photo-upload" className="avatar-upload flex-center">
+          <div className="avatar-img-wrap avatar-img-upload" >
+            <img htmlFor="photo-upload" src={picture && picture}  className="rounded-circle" />
+          </div>
+          <input id="photo-upload" type="file" onChange={onChangePicture}/> 
+        </label>
+      );
+    }
 
     return (
       <>
       {/* Modals */}
-
       <MDBModal isOpen={showModal} toggle={handleClose}>
         <MDBModalHeader >Edit Profile</MDBModalHeader>
         <MDBModalBody className="px-4 text-center">
           <form onSubmit={e => onSubmit(e)}>
-          <ImgUpload />
+          <ImgUpload/>
           <input type="text" id="" name="name" value={name} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Name" />
           <input type="text" id="" name="location" value={location} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Address" />
           <input type="email" id="" name="email" value={email} className="form-control mt-3" placeholder="Email" disabled/>
@@ -92,7 +102,7 @@ const ImgUpload =({
           <input type="text" id="" name="facebook" value={facebook} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Facebook Link" />
           <input type="text" id="" name="instagram" value={instagram} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Instagram Link" />
           <input type="text" id="" name="google" value={google} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Gmail Link" />
-          <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5" type="submit">Confirm</MDBBtn>
+          <MDBBtn className="confirm-btn color1 mx-auto mt-4 mb-2 py-2 px-5" type="submit">Confirm</MDBBtn>
           </form>
         </MDBModalBody>
 
@@ -157,5 +167,8 @@ Profile.propTypes = {
 const mapStateToProps = state => ({
   profile: state.profile
 });
+
+
+
 
 export default connect(mapStateToProps, { createProfile, getCurrentProfile })(withRouter(Profile));

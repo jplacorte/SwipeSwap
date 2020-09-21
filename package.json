@@ -22,6 +22,8 @@
     "mongoose": "^5.10.0",
     "nodemon": "^2.0.4",
     "react-chat-elements": "^10.10.2",
+    "react-images-uploading": "^3.0.1",
+    "react-multiple-select-dropdown-lite": "^1.0.18",
     "request": "^2.88.2"
   }
 }

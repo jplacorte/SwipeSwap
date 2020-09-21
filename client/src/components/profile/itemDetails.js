@@ -1,115 +1,121 @@
-import React from 'react';
-import ImageUploader from 'react-images-upload';
-import Select from 'react-select';
-import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBMask, MDBBtn, MDBCarouselCaption } from 'mdbreact';
+import React, { useState } from 'react';
+import ImageUploading from "react-images-uploading";
+import MultiSelect from  'react-multiple-select-dropdown-lite';
+import  'react-multiple-select-dropdown-lite/dist/index.css';
+import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBMask, MDBBtn, MDBCarouselCaption, MDBModalFooter } from 'mdbreact';
 import { Link }  from 'react-router-dom';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import ItemCondition from '../itemCondition';
 import Navbar from '../navbar';
 
-const categories = [
-  { value: '1', label: 'Category 1' },
-  { value: '2', label: 'Category 2' },
-  { value: '3', label: 'Category 3' },
-  { value: '4', label: 'Category 4' },
-  { value: '5', label: 'Category 5' }
-];
+function ItemDetails() {
+  const [images, setImages] = useState([]);
+  const maxNumber = 4;
+  const onChange = (imageList, addUpdateIndex) => {
+    // data for submit
+    console.log(imageList, addUpdateIndex);
+    setImages(imageList);
+  };
 
-const conditions = [
-  { value: '1', label: 'Very Bad' },
-  { value: '2', label: 'Poor' },
-  { value: '3', label: 'Ok' },
-  { value: '4', label: 'Good' },
-  { value: '5', label: 'Excellent' }
-];
+  const [showModal, setShowModal] = useState(false);  
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
 
-class ItemDetails extends React.Component {
-  scrollToTop = () => window.scrollTo(0, 0);
-  state = {
-    modal: false
-  }
-  
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
+  const [value, setvalue] = useState('')
+
+  const  handleOnchange  =  val  => {
+      setvalue(val)
   }
 
-  constructor(props) {
-    super(props);
-     this.state = { pictures: [] };
-     this.onDrop = this.onDrop.bind(this);
-  }
+  const  categories  = [
+      { value: '1', label: 'Category 1' },
+      { value: '2', label: 'Category 2' },
+      { value: '3', label: 'Category 3' },
+      { value: '4', label: 'Category 4' },
+      { value: '5', label: 'Category 5' }
+    ];
 
-  onDrop(picture) {
-      this.setState({
-          pictures: this.state.pictures.concat(picture),
-      });
-  }
+    const condition = [
+      { value: '1', label: 'Very Bad' },
+      { value: '2', label: 'Poor' },
+      { value: '3', label: 'Ok' },
+      { value: '4', label: 'Good' },
+      { value: '5', label: 'Excellent' }
+    ];
 
-    state = {
-      selectedCategories: null,
-    };
-    handleChange = selectedCategories => {
-      this.setState(
-        { selectedCategories },
-        () => console.log(`Option selected:`, this.state.selectedCategories)
-      );
-    };
-  
-    state = {
-      selectedConditions: null,
-    };
-    handleChange = selectedConditions => {
-      this.setState(
-        { selectedConditions },
-        () => console.log(`Option selected:`, this.state.selectedConditions)
-      );
-    };
-
-  render() {
-
-    const { selectedOption } = this.state;
-
-    return (
-      <>
+  return (
+    <>
       {/* Modals */}
 
-      <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-        <MDBModalHeader toggle={this.toggle}>Edit Info</MDBModalHeader>
-        <MDBModalBody className="px-4">
+      <MDBModal isOpen={showModal} toggle={handleClose}>
+        <MDBModalHeader >Edit Profile</MDBModalHeader>
+        <MDBModalBody className="px-4 text-center">
+        <ImageUploading
+            multiple
+            value={images}
+            onChange={onChange}
+            maxNumber={maxNumber}
+            dataURLKey="data_url"
+          >
+          {({
+            imageList,
+            onImageUpload,
+            onImageRemoveAll,
+            onImageUpdate,
+            onImageRemove,
+            isDragging,
+            dragProps
+          }) => (
+          // write your building UI
+          <MDBRow className="upload-image-wrapper flex-center">
+            <button
+              style={isDragging ? { color: "red" } : null}
+              onClick={onImageUpload}
+              {...dragProps}
+            >
+              Click or Drop here
+            </button>
+            &nbsp;
+            <button onClick={onImageRemoveAll}>Remove all images</button>
+            {imageList.map((image, index) => (
+             
+              <MDBCol size="6" key={index} className="image-item my-3">
+                <img className="item-imgs" src={image.data_url} alt="" width="130" height="130" />
+                <div className="image-item-btn-wrapper mt-2">
+                  <button onClick={() => onImageUpdate(index)} className="mx-1">Update</button>
+                  <button onClick={() => onImageRemove(index)}>Remove</button>
+                </div>
+              </MDBCol>
+          
+            ))}
+            </MDBRow>
+            )}
+          </ImageUploading>
           <form>
-          <ImageUploader
-            className="item-imgs"
-            withIcon={false}
-            buttonText='Choose images (Max. 4)'
-            onChange={this.onDrop}
-            imgExtension={['.jpg', '.gif', '.png', '.gif', 'webp', 'jpeg']}
-            maxFileSize={5242880}
-            withPreview={true}
-            />
             <input type="text" id="" className="form-control mt-3" placeholder="Sample Name" />
             <textarea type="text" id="" className="form-control mt-3" placeholder="Description" />
-            <Select
-              className="mt-3"
-              defaultValue={[categories[0], categories[1]]}
-              value={selectedOption}
-              onChange={this.handleChange}
+            <MultiSelect
+              className="w-100 mt-3"
+              onChange={handleOnchange}
               options={categories}
-              isMulti  
+              placeholder="Categories"
             />
-            <Select
-              className="mt-3"
-              defaultValue={[conditions[0]]}
-              value={selectedOption}
-              onChange={this.handleChange}
-              options={conditions}
+            <MultiSelect
+              className="w-100 mt-3"
+              onChange={handleOnchange}
+              options={condition}
+              placeholder="Condition"
+              singleSelect={true}
             />
             </form>
         </MDBModalBody>
-        <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5" >Confirm</MDBBtn>
-        
+              
+        <div className="mx-auto mt-2 mb-3">
+        <MDBBtn className="want-ignore-btn px-5 py-2" color="white" onClick={handleClose}>Ignore</MDBBtn>
+        <MDBBtn className="confirm-btn m-auto color1 mb-4 py-2 px-5" >Confirm</MDBBtn>
+        </div>
+
       </MDBModal>
 
       {/* //Modals */}
@@ -168,7 +174,7 @@ class ItemDetails extends React.Component {
             <MDBCol lg="6" className="mt-3">
               <div className="d-flex bd-highlight example-parent">
                 <div className="w-100 bd-highlight col-example item-name">Sample Name</div>
-                <a className="bd-highlight col-example ml-auto mt-1 font-weight-bold" style={{color: "#167D7F"}} onClick={this.toggle}>Edit</a>
+                <a className="bd-highlight col-example ml-auto mt-1 font-weight-bold" style={{color: "#167D7F"}} onClick={handleShow}>Edit</a>
               </div>
               <div className="item-distance">8km<span> • Delivery</span></div>
               <div className="item-description mt-2">Sample Description Sample Description Sample Description</div>
@@ -186,8 +192,9 @@ class ItemDetails extends React.Component {
            </MDBCard>
         </div>
       </> 
-    );
-  }
+  );
 }
+
+
 
 export default ItemDetails;
