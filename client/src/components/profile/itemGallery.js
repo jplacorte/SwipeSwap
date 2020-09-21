@@ -69,9 +69,9 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
 
     const onSubmit = async e => {
       e.preventDefault();
-         handleClose();
-         addItem(formData);
-         getAllItemsByUser();
+        addItem(formData)
+        handleClose()
+        window.location.reload()
     }
 
     const catChange = category => {
