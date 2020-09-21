@@ -11,7 +11,7 @@ import ProfileTabs from './tabs';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
 import ImageUploading from "react-images-uploading";
 
-const Profile = ({ profile:{ profile, loading }, createProfile,  getCurrentProfile, history }) => {
+const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurrentProfile, history }) => {
 
 const [showModal, setShowModal] = useState(false);  
 const handleClose = () => setShowModal(false);
@@ -162,10 +162,12 @@ Profile.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  profile: state.profile
+  profile: state.profile,
+  auth: state.auth
 });
 
 

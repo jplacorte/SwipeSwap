@@ -29,7 +29,7 @@ class Routes extends React.Component {
         <PrivateRoute exact path="/chatScreen" component={ChatScreen} />
         <PrivateRoute exact path="/notifications" component={Notifications} />
         <PrivateRoute exact path="/profile" component={Profile} />
-        <PrivateRoute exact path="/itemDetails" component={ItemDetails} />
+        <PrivateRoute exact path="/itemDetails/:id" component={ItemDetails} />
         <PrivateRoute exact path="/settings" component={Settings} />
         <PrivateRoute exact path="/editCategories" component={EditCategories} />
         <PrivateRoute exact path="/swapCoins" component={SwapCoins} />

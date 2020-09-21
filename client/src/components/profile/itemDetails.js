@@ -2,14 +2,47 @@ import React, { useState } from 'react';
 import ImageUploading from "react-images-uploading";
 import MultiSelect from  'react-multiple-select-dropdown-lite';
 import  'react-multiple-select-dropdown-lite/dist/index.css';
-import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBMask, MDBBtn, MDBCarouselCaption, MDBModalFooter } from 'mdbreact';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBMask, MDBBtn, MDBCarouselCaption } from 'mdbreact';
 import { Link }  from 'react-router-dom';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import ItemCondition from '../itemCondition';
 import Navbar from '../navbar';
+import { getItemById } from '../../actions/item';
 
-function ItemDetails() {
+const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
+
+  const [formData, setFormData] = useState({
+        itemname:'',
+        description:'',
+        status:'',
+        category:'',
+        photo:'',
+  })
+
+  useEffect(() => {
+    getItemById(match.params.id)
+
+    setFormData({
+      itemname: loading || !item.itemname ? '' : item.itemname,
+      description: loading || !item.description ? '' : item.description,
+      status: loading || !item.status ? '' : item.status,
+      category: loading || !item.category ? '' : item.category,
+      photo: loading || !item.photo ? '' : item.photo,
+    })
+  }, [getItemById, match.params.id, loading])
+
+  const {
+        itemname,
+        description,
+        status,
+        category,
+        photo
+  } = formData
+
   const [images, setImages] = useState([]);
   const maxNumber = 4;
   const onChange = (imageList, addUpdateIndex) => {
@@ -17,6 +50,8 @@ function ItemDetails() {
     console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
+
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const [showModal, setShowModal] = useState(false);  
   const handleClose = () => setShowModal(false);
@@ -27,25 +62,25 @@ function ItemDetails() {
   const  handleOnchange  =  val  => {
       setvalue(val)
   }
+  
+  const categories = [
+    { value: '1', label: 'Category 1' },
+    { value: '2', label: 'Category 2' },
+    { value: '3', label: 'Category 3' },
+    { value: '4', label: 'Category 4' },
+    { value: '5', label: 'Category 5' }
+  ];
+  
+  const conditions = [
+    { value: '1', label: 'Very Bad' },
+    { value: '2', label: 'Poor' },
+    { value: '3', label: 'Ok' },
+    { value: '4', label: 'Good' },
+    { value: '5', label: 'Excellent' }
+  ];
 
-  const  categories  = [
-      { value: '1', label: 'Category 1' },
-      { value: '2', label: 'Category 2' },
-      { value: '3', label: 'Category 3' },
-      { value: '4', label: 'Category 4' },
-      { value: '5', label: 'Category 5' }
-    ];
-
-    const condition = [
-      { value: '1', label: 'Very Bad' },
-      { value: '2', label: 'Poor' },
-      { value: '3', label: 'Ok' },
-      { value: '4', label: 'Good' },
-      { value: '5', label: 'Excellent' }
-    ];
-
-  return (
-    <>
+    return (
+      <>
       {/* Modals */}
 
       <MDBModal isOpen={showModal} toggle={handleClose}>
@@ -93,8 +128,8 @@ function ItemDetails() {
             )}
           </ImageUploading>
           <form>
-            <input type="text" id="" className="form-control mt-3" placeholder="Sample Name" />
-            <textarea type="text" id="" className="form-control mt-3" placeholder="Description" />
+            <input type="text" name="itemname" value={itemname} className="form-control mt-3" placeholder="itemname" />
+            <textarea type="text" name="description" value={description} className="form-control mt-3" placeholder="Description" />
             <MultiSelect
               className="w-100 mt-3"
               onChange={handleOnchange}
@@ -173,12 +208,11 @@ function ItemDetails() {
             </MDBCol>
             <MDBCol lg="6" className="mt-3">
               <div className="d-flex bd-highlight example-parent">
-                <div className="w-100 bd-highlight col-example item-name">Sample Name</div>
+                <div className="w-100 bd-highlight col-example item-name">{itemname}</div>
                 <a className="bd-highlight col-example ml-auto mt-1 font-weight-bold" style={{color: "#167D7F"}} onClick={handleShow}>Edit</a>
               </div>
-              <div className="item-distance">8km<span> • Delivery</span></div>
-              <div className="item-description mt-2">Sample Description Sample Description Sample Description</div>
-              <div className="item-category mt-3">Category1 • Category2 • Category3</div>
+              <div className="item-description mt-2">{description}</div>
+              <div className="item-category mt-3">{category}</div>
                 <div className="d-flex bd-highlight example-parent py-3">
                     <div className="flex-fill bd-highlight col-example">
                       <div className=""><ItemCondition /></div>
@@ -192,9 +226,14 @@ function ItemDetails() {
            </MDBCard>
         </div>
       </> 
-  );
+    );
 }
 
+ItemDetails.propTypes = {
+  getItemById: PropTypes.func.isRequired
+}
 
-
-export default ItemDetails;
+const mapStateToProps = state => ({
+  item: state.item
+})
+export default connect( mapStateToProps, { getItemById })(ItemDetails);

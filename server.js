@@ -1,6 +1,7 @@
 const express = require('express')
 const connectDB = require('./config/db')
 const path = require('path')
+const fileupload = require('express-fileupload')
 
 const users = require('./routes/api/users')
 const auth = require('./routes/api/auth')
@@ -10,6 +11,10 @@ const item = require('./routes/api/item')
 
 const app = express()
 
+app.use(fileupload({
+    useTempFiles: true
+}))
+
 // Connect Database
 connectDB()
 
@@ -17,11 +22,11 @@ connectDB()
 app.use(express.json({ extended: false }))
 
 // Define Routes
-app.use('/api/users', users)
-app.use('/api/auth', auth)
-app.use('/api/profile', profile)
-app.use('/api/item', item)
-app.use('/api/transaction', transaction)
+app.use('/users', users)
+app.use('/auth', auth)
+app.use('/profile', profile)
+app.use('/item', item)
+app.use('/transaction', transaction)
 
 // Set static folder
 // app.use(express.static('client/build'))

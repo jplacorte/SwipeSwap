@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,10 +9,18 @@ import { Link }  from 'react-router-dom';
 import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-import { getAllItemsByUser } from '../../actions/item';
+import { getAllItemsByUser, getSwappedItems, addItem } from '../../actions/item';
+import Items from './ItemGalleryItems';
 
 
-const ItemGallery = ({ getAllItemsByUser }) => {
+const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swappedItems }, addItem }) => {
+
+  useEffect(() => {
+
+    getAllItemsByUser()
+    getSwappedItems()
+
+  }, [getAllItemsByUser, getSwappedItems])
 
   const categories = [
     { value: 'Vehicles', label: 'Vehicles' },
@@ -36,15 +44,6 @@ const ItemGallery = ({ getAllItemsByUser }) => {
     { value: '5', label: 'Excellent' }
   ];
   
-  const [Item] = [
-      {
-        img:
-          "https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg",
-        title: 'image',
-      },
-      
-    ];
-
     const [showModal, setShowModal] = useState(false);  
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
@@ -68,6 +67,13 @@ const ItemGallery = ({ getAllItemsByUser }) => {
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+    const onSubmit = async e => {
+      e.preventDefault();
+        addItem(formData)
+        handleClose()
+        window.location.reload()
+    }
+
     const catChange = category => {
       setFormData({ category })
       console.log(`Value:${category}`)
@@ -79,7 +85,7 @@ const ItemGallery = ({ getAllItemsByUser }) => {
     }
 
     return (
-      <>
+      <Fragment>
       {/* Modals */}
 
       <MDBModal isOpen={showModal} toggle={handleShow}>
@@ -104,7 +110,7 @@ const ItemGallery = ({ getAllItemsByUser }) => {
               className="mt-3"
               placeholder="Select Category"
               value={category}
-              onChange={catChange}
+              onChange={e => onChange(e)}
               options={categories}
               isMulti  
             />
@@ -118,35 +124,35 @@ const ItemGallery = ({ getAllItemsByUser }) => {
             />
             </form>
         </MDBModalBody>
-        <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5">Confirm</MDBBtn>
+        <MDBBtn onClick={onSubmit} className="confirm-btn color1 mx-auto my-4 py-2 px-5">Confirm</MDBBtn>
         
       </MDBModal>
 
       {/* //Modals */}
 
       <MDBRow className="mx-auto item-gallery-container" style={{ height: '650px' }}>
-          <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-            <Link to="/itemDetails">
-              <img src={Item.img} alt={Item.title}/>
-            </Link>
-          </MDBCol>
-
+        {
+          items.length > 0 ? (
+            items.map((item) => (
+              <Items key={item._id} item={item}/>
+            ))
+          ) : (<h4>No items found...</h4>)
+        }
           <MDBCol size="12" className="my-3 text-center">
               <div>Swapped Items</div>
           </MDBCol>
           
 
           {/* Swapped Items */}
-          <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src={Item.img} alt={Item.title}/>
-          </MDBCol>
-
-          <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src={Item.img} alt={Item.title}/>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src={Item.img} alt={Item.title}/>
-          </MDBCol>
+          
+          {
+            swappedItems.length > 0 ? (
+              swappedItems.map((item) => (
+              <MDBCol size="4" className="p-0 swapped-item item-grid">
+              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.jpg"/>
+              </MDBCol>
+            ))): (<h4>No items found...</h4>)
+          }
 
           
           
@@ -165,15 +171,18 @@ const ItemGallery = ({ getAllItemsByUser }) => {
           
 
         </MDBRow>
-      </> 
+      </Fragment> 
     );
 }
 
 ItemGallery.propTypes = {
-  getAllItemsByUser: PropTypes.func.isRequired
+  getAllItemsByUser: PropTypes.func.isRequired,
+  getSwappedItems: PropTypes.func.isRequired,
+  addItem: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired
 }
   
 const mapStateToProps = state => ({
-  profile: state.profile
+  item: state.item
 });
-export default connect(mapStateToProps, { getAllItemsByUser })(withRouter(ItemGallery));
+export default connect(mapStateToProps, { getAllItemsByUser, getSwappedItems, addItem })(withRouter(ItemGallery));

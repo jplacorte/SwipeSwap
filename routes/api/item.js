@@ -13,7 +13,25 @@ const User = require('../../models/User')
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {
-        const item = await Item.find({ user: req.user.id })
+        const item = await Item.find({ user: req.user.id, swapped: false })
+        
+        if(!item){
+            return res.status(400).json({ msg: 'There is no item' })
+        }
+
+        res.json(item)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
+
+// @route   GET api/item/:id
+// @des     Get item by id
+// @access  Private
+router.get('/:id', auth, async (req, res) => {
+    try {
+        const item = await Item.findById(req.params.id)
         
         if(!item){
             return res.status(400).json({ msg: 'There is no item' })
@@ -40,6 +58,7 @@ router.post('/', auth, async (req, res) => {
     const itemFields = {}
     itemFields.user = req.user.id
     itemFields.rating = "0"
+    itemFields.swapped = false
     if(itemname) itemFields.itemname = itemname
     if(description) itemFields.description = description
     if(status) itemFields.status = status
@@ -48,7 +67,7 @@ router.post('/', auth, async (req, res) => {
 
         item = new Item(itemFields)
         await item.save()
-        res.json(item)
+        return res.json(item)
 
     } catch (err) {
         console.error(err.message)
@@ -88,6 +107,44 @@ router.put('/:item_id', auth, async (req, res) => {
     return res.json(item)
 })
 
+// @route   PUT item/swapped/id
+// @desc    Set swapped to true
+// @access  Private
+router.put('/swapped/:id', auth, async (req, res) => {
+
+    const itemFields = {}
+    itemFields.swapped = true
+
+    let item = await Item.findOne({ _id: req.params.id })
+
+    item = await Item.findByIdAndUpdate(
+        { _id: req.params.id },
+        { $set: itemFields },
+        { new: true }
+    )
+
+    return res.json(item)
+})
+
+// @route   GET item/swapped
+// @desc    Get swapped items
+// @access  Private
+router.get('/swapped/items', async (req, res) => {
+    try {
+        let swappedItem = await Item.find({ swapped: true })
+        
+        if(!swappedItem){
+            return res.status(400).json({ msg: 'There is no item' })
+        }
+
+        res.json(swappedItem)
+        
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
+
 // @route   PUT item/photo
 // @des     Add photo
 // @access  Private
@@ -107,7 +164,7 @@ router.put('/photo', auth, async (req, res) => {
         
         await photo.save()
 
-        res.json(photo)
+        return res.json(photo)
 
     } catch (err) {
 
@@ -144,7 +201,7 @@ router.put('/review/:id', auth, async (req, res) => {
             { $set: itemFields },
             { new: true }
         )
-        res.json(item)
+        return res.json(item)
     } catch (err) {
 
         console.error(err.message)

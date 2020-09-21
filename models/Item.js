@@ -58,8 +58,8 @@ const ItemSchema = new mongoose.Schema({
             }
         }
     ],
-    match:{
-        type: Boolean
+    swapped: {
+        type: Boolean, default: false
     }
 })
 
