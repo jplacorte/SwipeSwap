@@ -7,7 +7,8 @@ import {
     ADD_ITEMS,
     UPDATE_ITEMS,
     RATE_ITEMS,
-    ITEMS_ERROR
+    ITEMS_ERROR,
+    GET_SWAPPED_ITEMS
 } from './types';
 
 // @route   GET item/
@@ -20,6 +21,29 @@ export const getAllItemsByUser = () => async dispatch => {
 
         dispatch({
             type: GET_ITEMS,
+            payload: res.data
+        });
+        
+    } catch (err) {
+
+        dispatch({
+            type: ITEMS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    
+    }
+}
+
+// @route   GET item/swapped/items
+// @des     Get swapped items
+// @access  Private
+export const getSwappedItems = () => async dispatch => {
+    try {
+
+        const res = await axios.get('/item/swapped/items');
+
+        dispatch({
+            type: GET_SWAPPED_ITEMS,
             payload: res.data
         });
         

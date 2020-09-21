@@ -9,17 +9,18 @@ import { Link }  from 'react-router-dom';
 import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-import { getAllItemsByUser, addItem } from '../../actions/item';
+import { getAllItemsByUser, getSwappedItems, addItem } from '../../actions/item';
 import Items from './ItemGalleryItems';
 
 
-const ItemGallery = ({ getAllItemsByUser, item:{ items }, addItem }) => {
+const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swappedItems }, addItem }) => {
 
   useEffect(() => {
 
     getAllItemsByUser()
+    getSwappedItems()
 
-  }, [getAllItemsByUser])
+  }, [getAllItemsByUser, getSwappedItems])
 
   const categories = [
     { value: 'Vehicles', label: 'Vehicles' },
@@ -143,16 +144,15 @@ const ItemGallery = ({ getAllItemsByUser, item:{ items }, addItem }) => {
           
 
           {/* Swapped Items */}
-          <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.png"/>
-          </MDBCol>
-
-          <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.png"/>
-          </MDBCol>
-          <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.png"/>
-          </MDBCol>
+          
+          {
+            swappedItems.length > 0 ? (
+              swappedItems.map((item) => (
+              <MDBCol size="4" className="p-0 swapped-item item-grid">
+              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.jpg"/>
+              </MDBCol>
+            ))): (<h4>No items found...</h4>)
+          }
 
           
           
@@ -177,6 +177,7 @@ const ItemGallery = ({ getAllItemsByUser, item:{ items }, addItem }) => {
 
 ItemGallery.propTypes = {
   getAllItemsByUser: PropTypes.func.isRequired,
+  getSwappedItems: PropTypes.func.isRequired,
   addItem: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired
 }
@@ -184,4 +185,4 @@ ItemGallery.propTypes = {
 const mapStateToProps = state => ({
   item: state.item
 });
-export default connect(mapStateToProps, { getAllItemsByUser, addItem })(withRouter(ItemGallery));
+export default connect(mapStateToProps, { getAllItemsByUser, getSwappedItems, addItem })(withRouter(ItemGallery));

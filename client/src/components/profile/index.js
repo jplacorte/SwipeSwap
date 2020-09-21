@@ -71,7 +71,7 @@ const ImgUpload =({
       <div className="avatar-img-wrap avatar-img-upload" >
         <img for="photo-upload" src={avatar} alt="avatar" className="rounded-circle" />
       </div>
-      <input id="photo-upload" type="file" onChange={onChange}/> 
+      <input id="photo-upload" name="photo" type="file" onChange={onChange}/> 
     </label>
   );
 }

@@ -4,10 +4,16 @@ const config = require('config')
 const router = express.Router()
 const auth = require('../../middleware/auth')
 const { check, validationResult } = require('express-validator')
+const cloudinary = require('cloudinary').v2
 
 const Profile = require('../../models/Profile')
 const User = require('../../models/User')
 
+cloudinary.config({
+    cloud_name: 'dibx7ua1g',
+    api_key: '622971834249575',
+    api_secret: '1UI_jshZXsKRmgGZ9pG62Wwn-1Q'
+})
 
 // @route   GET api/profile/me
 // @des     Get current users profile
@@ -180,5 +186,28 @@ router.put('/badge', async (req, res) => {
     }
 })
 
+// @route   PUT api/profile/upload/photo
+// @des     Update profile photo
+// @access  Private
+router.put('/upload/photo', auth, async (req, res) => {
+
+    const file = req.files.photo
+
+    await cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
+
+        let profile = await Profile.findOne({ user: req.user.id })
+        const profileField = {}
+
+        profileField.user = req.user.id
+        profileField.avatar = result.url
+
+        profile = await Profile.findOneAndUpdate(
+            {user: req.user.id},
+            {$set: profileField},
+            {new: true}
+        )
+        return res.json(profile)
+    })
+})
 
 module.exports = router

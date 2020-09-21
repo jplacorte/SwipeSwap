@@ -12,6 +12,7 @@ export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const GET_ITEM = 'GET_ITEM';
 export const GET_ITEMS = 'GET_ITEMS';
+export const GET_SWAPPED_ITEMS = 'GET_SWAPPED_ITEMS';
 export const ADD_ITEMS = 'ADD_ITEMS';
 export const UPDATE_ITEMS = 'UPDATE_ITEMS';
 export const ITEMS_ERROR = 'ITEMS_ERROR';

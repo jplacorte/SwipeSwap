@@ -8,9 +8,9 @@ import "../../css/mediaQuery.css";
 
 const ItemGalleryItems = ({ item: {_id, itemname, auth, description, photo, category, status} }) => (
     <MDBCol size="4" className="p-0 item-gallery-image item-grid">
-        <Link to={`/itemDetails/${_id}`}>
+        <a href={`/itemDetails/${_id}`}>
             <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.png"/>
-        </Link>
+        </a>
     </MDBCol>
 )
 
