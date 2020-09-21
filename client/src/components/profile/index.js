@@ -80,7 +80,7 @@ useEffect(() =>{
       return(
         <label htmlFor="photo-upload" className="avatar-upload flex-center">
           <div className="avatar-img-wrap avatar-img-upload" >
-            <img htmlFor="photo-upload" src={picture && picture}  className="rounded-circle" />
+            <img htmlFor="photo-upload" src={picture ? picture : avatar}  className="rounded-circle" />
           </div>
           <input id="photo-upload" type="file" onChange={onChangePicture}/> 
         </label>

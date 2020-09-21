@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ImageUploading from "react-images-uploading";
 import MultiSelect from  'react-multiple-select-dropdown-lite';
-import  'react-multiple-select-dropdown-lite/dist/index.css';
-import React, { useEffect, useState } from 'react';
+import 'react-multiple-select-dropdown-lite/dist/index.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBMask, MDBBtn, MDBCarouselCaption } from 'mdbreact';
@@ -45,7 +44,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
 
   const [images, setImages] = useState([]);
   const maxNumber = 4;
-  const onChange = (imageList, addUpdateIndex) => {
+  const uploadImage = (imageList, addUpdateIndex) => {
     // data for submit
     console.log(imageList, addUpdateIndex);
     setImages(imageList);
@@ -59,7 +58,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
 
   const [value, setvalue] = useState('')
 
-  const  handleOnchange  =  val  => {
+  const  handleOnchange = val => {
       setvalue(val)
   }
   
@@ -89,7 +88,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
         <ImageUploading
             multiple
             value={images}
-            onChange={onChange}
+            onChange={uploadImage}
             maxNumber={maxNumber}
             dataURLKey="data_url"
           >
@@ -139,7 +138,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
             <MultiSelect
               className="w-100 mt-3"
               onChange={handleOnchange}
-              options={condition}
+              options={conditions}
               placeholder="Condition"
               singleSelect={true}
             />
