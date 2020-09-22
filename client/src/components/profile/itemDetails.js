@@ -214,7 +214,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
               <div className="item-category mt-3">{category}</div>
                 <div className="d-flex bd-highlight example-parent py-3">
                     <div className="flex-fill bd-highlight col-example">
-                      <div className=""><ItemCondition /></div>
+                      <div className=""></div>
                     </div>
                     <div className="bd-highlight col-example ml-auto" style={{color: "#167D7F"}} >
                         <MDBIcon icon="eye" /><span className="font-weight-bold"> 10</span>

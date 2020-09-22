@@ -6,7 +6,7 @@ import { Link }  from 'react-router-dom';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 
-const ItemGalleryItems = ({ item: {_id, itemname, auth, description, photo, category, status} }) => (
+const ItemGalleryItems = ({ item: {_id, photo} }) => (
     <MDBCol size="4" className="p-0 item-gallery-image item-grid">
         <a href={`/itemDetails/${_id}`}>
             <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.png"/>
@@ -15,11 +15,7 @@ const ItemGalleryItems = ({ item: {_id, itemname, auth, description, photo, cate
 )
 
 ItemGalleryItems.propTypes = {
-    itemname: PropTypes.object.isRequired,
-    description: PropTypes.object.isRequired,
     photo: PropTypes.object.isRequired,
-    category: PropTypes.object.isRequired,
-    status: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

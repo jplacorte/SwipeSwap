@@ -8,10 +8,10 @@ import "../../css/mediaQuery.css";
 import Avatar from '../../assets/images/avatar.png';
 import Navbar from '../navbar';
 import ProfileTabs from './tabs';
-import { createProfile, getCurrentProfile } from '../../actions/profile';
+import { createProfile, getCurrentProfile, updateAvatar } from '../../actions/profile';
 import ImageUploading from "react-images-uploading";
 
-const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurrentProfile, history }) => {
+const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurrentProfile, updateAvatar, history }) => {
 
 const [showModal, setShowModal] = useState(false);  
 const handleClose = () => setShowModal(false);
@@ -45,11 +45,14 @@ useEffect(() =>{
   })
 }, [loading]);
 
-    const onChangePicture = e => {
-        setPicture(URL.createObjectURL(e.target.files[0]) );
-    };
-
     const [picture, setPicture] = useState(null);
+    const [file, setfile] = useState('')
+
+    const onChangePicture = e => {
+        setPicture(URL.createObjectURL(e.target.files[0]));
+        setfile(e.target.files[0])
+        console.log(e.target.files[0])
+    };
 
 
     const {
@@ -67,8 +70,13 @@ useEffect(() =>{
 
     const onSubmit = e => {
       e.preventDefault();
+      if(file){
+        updateAvatar(file);
+      }
       createProfile(formData, history);
-      handleClose()
+
+      handleClose();
+      window.location.reload()
     };
 
     const ImgUpload = () =>{
@@ -112,7 +120,7 @@ useEffect(() =>{
               <MDBCol lg="6">
               <div className="d-flex bd-highlight example-parent flex-center">
                 <div className="bd-highlight col-example mx-2">
-                  <img src={avatar} alt="avatar" className="rounded-circle profile-avatar" />
+                  <img src={loading ? Avatar : avatar} alt="avatar" className="rounded-circle profile-avatar" />
                 </div>
                 <div className="flex-grow-1 bd-highlight col-example">
                   <div className="">
@@ -156,6 +164,7 @@ useEffect(() =>{
 Profile.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
+  updateAvatar: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }
@@ -168,4 +177,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, { createProfile, getCurrentProfile })(withRouter(Profile));
+export default connect(mapStateToProps, { createProfile, getCurrentProfile, updateAvatar })(withRouter(Profile));

@@ -58,3 +58,34 @@ export const createProfile = (formData, history, edit = false) => async dispatch
         });
     }
 }
+
+//Update avatar
+export const updateAvatar = (file) => async dispatch => {
+
+    const photoData = new FormData();
+    photoData.append('file', file);
+
+    try {
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const res = await axios.put('/profile/upload/photo', photoData, config)
+
+        dispatch({
+            type: GET_PROFILE,
+            payload: res.data
+        });
+
+    } catch (err) {
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+        
+    }
+}

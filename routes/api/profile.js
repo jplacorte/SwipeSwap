@@ -191,23 +191,23 @@ router.put('/badge', async (req, res) => {
 // @access  Private
 router.put('/upload/photo', auth, async (req, res) => {
 
-    const file = req.files.photo
-
-    await cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
-
-        let profile = await Profile.findOne({ user: req.user.id })
-        const profileField = {}
-
-        profileField.user = req.user.id
-        profileField.avatar = result.url
-
-        profile = await Profile.findOneAndUpdate(
-            {user: req.user.id},
-            {$set: profileField},
-            {new: true}
-        )
-        return res.json(profile)
-    })
+    const file = req.files.file
+    
+    try {
+        await cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
+    
+            profile = await Profile.findOneAndUpdate(
+                { user: req.user.id },
+                { $set: {avatar: result.secure_url} },
+                { new: true }
+            )
+            return res.json(profile)
+        })
+        
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
 })
 
 module.exports = router
