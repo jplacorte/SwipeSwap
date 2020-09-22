@@ -17,7 +17,7 @@ import {
 export const getAllItemsByUser = () => async dispatch => {
     try {
 
-        const res = await axios.get('/item');
+        const res = await axios.get('/api/item');
 
         dispatch({
             type: GET_ITEMS,
@@ -40,7 +40,7 @@ export const getAllItemsByUser = () => async dispatch => {
 export const getSwappedItems = () => async dispatch => {
     try {
 
-        const res = await axios.get('/item/swapped/items');
+        const res = await axios.get('/api/item/swapped/items');
 
         dispatch({
             type: GET_SWAPPED_ITEMS,
@@ -63,7 +63,7 @@ export const getSwappedItems = () => async dispatch => {
 export const getItemById = itemID => async dispatch => {
     try {
 
-        const res = await axios.get(`/item/${itemID}`);
+        const res = await axios.get(`/api/item/${itemID}`);
 
         dispatch({
             type: GET_ITEM,
@@ -92,7 +92,7 @@ export const addItem = (formData, edit = false) => async dispatch => {
             }
         }
 
-        const res = await axios.post('/item', formData, config);
+        const res = await axios.post('/api/item', formData, config);
 
         dispatch({
             type: ADD_ITEMS,
@@ -123,7 +123,7 @@ export const addItem = (formData, edit = false) => async dispatch => {
 export const updateItem = itemID => async dispatch => {
     try {
 
-        const res = await axios.put(`/item/${itemID}`);
+        const res = await axios.put(`/api/item/${itemID}`);
 
         dispatch({
             type: UPDATE_ITEMS,
@@ -151,7 +151,7 @@ export const updateItem = itemID => async dispatch => {
 export const rateItem = itemID => async dispatch => {
     try {
 
-        const res = await axios.put(`/item/review/${itemID}`);
+        const res = await axios.put(`/api/item/review/${itemID}`);
 
         dispatch({
             type: RATE_ITEMS,
