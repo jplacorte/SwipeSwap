@@ -16,11 +16,7 @@ const ItemGalleryItems = ({ item: {_id, itemname, auth, description, photo, cate
 )
 
 ItemGalleryItems.propTypes = {
-    itemname: PropTypes.object.isRequired,
-    description: PropTypes.object.isRequired,
     photo: PropTypes.object.isRequired,
-    category: PropTypes.object.isRequired,
-    status: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

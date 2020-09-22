@@ -20,6 +20,7 @@ const Facebook = ({ login, isAuthenticated }) => {
     fbContent= (<FacebookLogin
         appId="3246631198738334"
         fields="name,email,picture"
+        disableMobileRedirect={true}
         callback={responseFacebook}
         textButton="Login with facebook"
         icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
