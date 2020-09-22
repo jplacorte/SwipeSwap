@@ -3,6 +3,7 @@ import ImageUploading from "react-images-uploading";
 import MultiSelect from  'react-multiple-select-dropdown-lite';
 import 'react-multiple-select-dropdown-lite/dist/index.css';
 import { connect } from 'react-redux';
+import Add from '../../assets/images/additem.png';
 import PropTypes from 'prop-types';
 import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBMask, MDBBtn, MDBCarouselCaption } from 'mdbreact';
 import { Link }  from 'react-router-dom';
@@ -11,6 +12,7 @@ import "../../css/mediaQuery.css";
 import ItemCondition from '../itemCondition';
 import Navbar from '../navbar';
 import { getItemById } from '../../actions/item';
+import ItemImg from '../../assets/images/swipeswap_item.jpg';
 
 const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
 
@@ -61,6 +63,23 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
   const  handleOnchange = val => {
       setvalue(val)
   }
+
+  const ImgUpload = () =>{
+    return(
+      <label htmlFor="photo-upload" className="item-prev-upload flex-center">
+        <div className="item-prev-upload-wrap item-prev-upload-img" >
+          <img htmlFor="photo-upload" src={picture ? picture : Add} />
+        </div>
+        <input id="photo-upload" type="file" onChange={onChangePicture}/> 
+      </label>
+    );
+  }
+
+  const onChangePicture = e => {
+    setPicture(URL.createObjectURL(e.target.files[0]) );
+  };
+
+  const [picture, setPicture] = useState(null);
   
   const categories = [
     { value: '1', label: 'Category 1' },
@@ -85,48 +104,21 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
       <MDBModal isOpen={showModal} toggle={handleClose}>
         <MDBModalHeader >Edit Profile</MDBModalHeader>
         <MDBModalBody className="px-4 text-center">
-        <ImageUploading
-            multiple
-            value={images}
-            onChange={uploadImage}
-            maxNumber={maxNumber}
-            dataURLKey="data_url"
-          >
-          {({
-            imageList,
-            onImageUpload,
-            onImageRemoveAll,
-            onImageUpdate,
-            onImageRemove,
-            isDragging,
-            dragProps
-          }) => (
-          // write your building UI
-          <MDBRow className="upload-image-wrapper flex-center">
-            <button
-              style={isDragging ? { color: "red" } : null}
-              onClick={onImageUpload}
-              {...dragProps}
-            >
-              Click or Drop here
-            </button>
-            &nbsp;
-            <button onClick={onImageRemoveAll}>Remove all images</button>
-            {imageList.map((image, index) => (
-             
-              <MDBCol size="6" key={index} className="image-item my-3">
-                <img className="item-imgs" src={image.data_url} alt="" width="130" height="130" />
-                <div className="image-item-btn-wrapper mt-2">
-                  <button onClick={() => onImageUpdate(index)} className="mx-1">Update</button>
-                  <button onClick={() => onImageRemove(index)}>Remove</button>
-                </div>
-              </MDBCol>
-          
-            ))}
-            </MDBRow>
-            )}
-          </ImageUploading>
           <form>
+          <MDBRow className="mx-auto">
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload/>
+            </MDBCol>
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload/>
+            </MDBCol>
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload/>
+            </MDBCol>
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload/>
+            </MDBCol>
+            </MDBRow>
             <input type="text" name="itemname" value={itemname} className="form-control mt-3" placeholder="itemname" />
             <textarea type="text" name="description" value={description} className="form-control mt-3" placeholder="Description" />
             <MultiSelect
@@ -179,7 +171,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
                 <MDBView>
                   <img
                     className="d-block w-100"
-                    src="https://mdbootstrap.com/img/Photos/Slides/img%20(45).jpg"
+                    src={ItemImg}
                     alt="First slide"
                   />
                 </MDBView>
@@ -188,7 +180,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
                 <MDBView>
                   <img
                     className="d-block w-100"
-                    src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg"
+                    src={ItemImg}
                     alt="Second slide"
                   />
                 </MDBView>
@@ -197,7 +189,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
                   <MDBView>
                     <img
                       className="d-block w-100"
-                      src="https://mdbootstrap.com/img/Photos/Slides/img%20(47).jpg"
+                      src={ItemImg}
                       alt="Third slide"
                     />
                   </MDBView>

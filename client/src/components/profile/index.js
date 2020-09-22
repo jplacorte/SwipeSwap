@@ -9,7 +9,6 @@ import Avatar from '../../assets/images/avatar.png';
 import Navbar from '../navbar';
 import ProfileTabs from './tabs';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
-import ImageUploading from "react-images-uploading";
 
 const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurrentProfile, history }) => {
 

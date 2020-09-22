@@ -2,7 +2,8 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ImageUploader from 'react-images-upload';
+import Add from '../../assets/images/additem.png';
+import ItemImg from '../../assets/images/swipeswap_item.jpg';
 import Select from 'react-select';
 import { MDBIcon, MDBRow, MDBCol, MDBModal, MDBModalHeader, MDBModalBody, MDBBtn, MDBAnimation } from 'mdbreact';
 import { Link }  from 'react-router-dom';
@@ -11,6 +12,7 @@ import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import { getAllItemsByUser, getSwappedItems, addItem } from '../../actions/item';
 import Items from './ItemGalleryItems';
+import MultiSelect from  'react-multiple-select-dropdown-lite';
 
 
 const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swappedItems }, addItem }) => {
@@ -22,32 +24,11 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
 
   }, [getAllItemsByUser, getSwappedItems])
 
-  const categories = [
-    { value: 'Vehicles', label: 'Vehicles' },
-    { value: 'Apparel', label: 'Apparel ' },
-    { value: 'Electronics', label: 'Electronics' },
-    { value: 'Entertainment', label: 'Entertainment' },
-    { value: 'Pet Supplies', label: 'Pet Supplies' },
-    { value: 'Sporting Goods', label: 'Sporting Goods' },
-    { value: 'Toys & Games', label: 'Toys & Games' },
-    { value: 'Office Supplies', label: 'Office Supplies' },
-    { value: 'Musical Instruments', label: 'Musical Instruments' },
-    { value: 'Home Goods', label: 'Home Goods' },
-    { value: 'Garden & Outdoor', label: 'Garden & Outdoor' } 
-  ];
   
-  const conditions = [
-    { value: '1', label: 'Very Bad' },
-    { value: '2', label: 'Poor' },
-    { value: '3', label: 'Ok' },
-    { value: '4', label: 'Good' },
-    { value: '5', label: 'Excellent' }
-  ];
   
     const [showModal, setShowModal] = useState(false);  
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
-
 
     const [formData, setFormData] = useState({
       photo: '',
@@ -70,8 +51,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     const onSubmit = async e => {
       e.preventDefault();
         addItem(formData)
-        handleClose()
-        window.location.reload()
+ 
     }
 
     const catChange = category => {
@@ -84,6 +64,51 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
       console.log(`Value:${status}`)
     }
 
+    const ImgUpload = () =>{
+      return(
+        <label htmlFor="photo-upload" className="item-prev-upload flex-center">
+          <div className="item-prev-upload-wrap item-prev-upload-img" >
+            <img htmlFor="photo-upload" src={picture ? picture : Add} />
+          </div>
+          <input id="photo-upload" type="file" onChange={onChangePicture}/> 
+        </label>
+      );
+    }
+
+    const [uploadPhoto, setPhoto] = useState({
+      file: '',
+      imagePreviewUrl: ''
+    })
+
+    const onChangePicture = e => {
+        setPicture(URL.createObjectURL(e.target.files[0]) );
+    };
+
+    const [picture, setPicture] = useState(null);
+    
+    
+    const  handleOnchange = val => {
+      setvalue(val)
+  }
+
+    const [value, setvalue] = useState('')
+
+    const categories = [
+      { value: '1', label: 'Category 1' },
+      { value: '2', label: 'Category 2' },
+      { value: '3', label: 'Category 3' },
+      { value: '4', label: 'Category 4' },
+      { value: '5', label: 'Category 5' }
+  ];
+
+    const conditions = [
+      { value: '1', label: 'Very Bad' },
+      { value: '2', label: 'Poor' },
+      { value: '3', label: 'Ok' },
+      { value: '4', label: 'Good' },
+      { value: '5', label: 'Excellent' }
+    ];
+
     return (
       <Fragment>
       {/* Modals */}
@@ -92,35 +117,34 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
         <MDBModalHeader toggle={handleClose}>Add Item</MDBModalHeader>
         <MDBModalBody className="px-4">
           <form>
-          <ImageUploader
-            className="item-imgs"
-            withIcon={false}
-            name="photo"
-            value={photo}
-            buttonText='Choose images (Max. 4)'
-            onChange={ e => onChange(e) }
-            imgExtension={['.jpg', '.gif', '.png', '.gif', 'webp', 'jpeg']}
-            maxFileSize={5242880}
-            withPreview={true}
-            />
-            <input type="text" name="itemname" value={itemname} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Item Name" />
+            <MDBRow className="mx-auto">
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload/>
+            </MDBCol>
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload/>
+            </MDBCol>
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload/>
+            </MDBCol>
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload/>
+            </MDBCol>
+            </MDBRow>
+            <input type="text" name="itemname" value={itemname} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Item Name" required />
             <textarea type="text" name="description" value={description} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Description" />
-            <Select
-              name="category"
-              className="mt-3"
-              placeholder="Select Category"
-              value={category}
-              onChange={e => onChange(e)}
+            <MultiSelect
+              className="w-100 mt-3"
+              onChange={handleOnchange}
               options={categories}
-              isMulti  
+              placeholder="Categories"
             />
-            <Select
-              name="status"
-              className="mt-3"
-              value={status}
-              placeholder="Select Condition"
-              onChange={statChange}
+            <MultiSelect
+              className="w-100 mt-3"
+              onChange={handleOnchange}
               options={conditions}
+              placeholder="Condition"
+              singleSelect={true}
             />
             </form>
         </MDBModalBody>
@@ -149,7 +173,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
             swappedItems.length > 0 ? (
               swappedItems.map((item) => (
               <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src="https://mdbootstrap.com/img/Others/documentation/img%20(151)-mini.jpg" alt="img.jpg"/>
+              <img src={ItemImg} alt="img.jpg"/>
               </MDBCol>
             ))): (<h4>No items found...</h4>)
           }

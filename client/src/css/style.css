@@ -1563,6 +1563,56 @@ a.profile-link{
 	60% { background-color: #606060; }
 }
 
-.upload-image-wrapper button{
- 
+.item-prev-col{
+  height: 100%;
+  width: 100%;
+  padding: 0%;
+}
+
+.item-prev-upload {
+  position: relative;
+  cursor: pointer;
+  border: 1px solid #167D7F;
+  height: 200px!important;
+  width: 200px!important;
+}
+
+.item-prev-upload-wrap{
+  position: relative;
+  overflow: hidden;
+  object-fit: cover;
+  object-position: center;
+  height: 100%;
+  width: 100%;
+}
+
+.item-prev-upload-wrap img{
+  background-image: url(../assets/images/additem.png);
+  background-size: cover!important;
+  background-position: center!important;
+  height: 100%;
+  width: 100%;
+}
+
+.item-prev-upload-img:before{
+  content: url('../assets/icons/upload.png');
+  font-size: 175px;
+  top: 45%;
+  left: 50%;
+  position: absolute;
+  width: 125%;
+  height: 125%;
+  transform: translate(-50%, -45%);
+  text-align: center;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: white;
+}
+
+.item-prev-upload-img:hover:before{
+ opacity: 1;
+}
+
+.item-prev-upload input[type="file"] {
+  display: none;
 }

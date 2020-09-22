@@ -233,6 +233,13 @@
     font-size: 14px ;
   }
 
+  .item-prev-upload {
+    position: relative;
+    cursor: pointer;
+    border: 1px solid #167D7F;
+    height: 125px!important;
+    width: 125px!important;
+  }
   /* .chat-screen-input{
     display: flex;
     padding: 5px;

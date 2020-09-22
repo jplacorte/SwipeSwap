@@ -27,5 +27,6 @@
     "react-images-uploading": "^3.0.1",
     "react-multiple-select-dropdown-lite": "^1.0.18",
     "request": "^2.88.2"
-  }
+  },
+  "devDependencies": {}
 }
