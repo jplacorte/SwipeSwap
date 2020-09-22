@@ -127,8 +127,8 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
             )}
           </ImageUploading>
           <form>
-            <input type="text" name="itemname" value={itemname} className="form-control mt-3" placeholder="itemname" />
-            <textarea type="text" name="description" value={description} className="form-control mt-3" placeholder="Description" />
+            <input type="text" name="itemname" value={itemname} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="itemname" />
+            <textarea type="text" name="description" value={description} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Description" />
             <MultiSelect
               className="w-100 mt-3"
               onChange={handleOnchange}

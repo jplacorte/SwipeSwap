@@ -45,11 +45,6 @@ useEffect(() =>{
   })
 }, [loading]);
 
-    const [uploadPhoto, setPhoto] = useState({
-      file: '',
-      imagePreviewUrl: ''
-    })
-
     const onChangePicture = e => {
         setPicture(URL.createObjectURL(e.target.files[0]) );
     };
