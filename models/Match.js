@@ -3,23 +3,25 @@ const Schema = mongoose.Schema
 
 const MatchSchema = new mongoose.Schema({
     isMatch:{
-        type: Boolean
+        type: Boolean, default: false
     },
-    match: [
-    {
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: 'user'
-        },
-        name: {
-            type: String
-        },
-        item: {
-            type: Schema.Types.ObjectId,
-            ref: 'item'
-        },
-    }
-]
+    users:
+    [
+        {
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+                name: {
+                type: String
+            },
+            item: {
+                type: Schema.Types.ObjectId,
+                ref: 'item'
+            },
+        }
+    ]
+
 })
 
 module.exports = Match = mongoose.model('match', MatchSchema)

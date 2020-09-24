@@ -6,8 +6,23 @@ const auth = require('../../middleware/auth')
 const { check, validationResult } = require('express-validator')
 
 const Transaction = require('../../models/Transaction')
+const UserTransaction = require('../../models/UserTransaction')
 const Match = require('../../models/Match')
 const User = require('../../models/User')
+
+// @route   GET api/transaction/
+// @des     Get all transaction of user
+// @access  Private
+router.get('/', auth, async (req, res) => {
+    try {
+        const user = await UserTransaction.find({user: req.user.id})
+
+        res.json(user)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
 
 // @route   POST api/transaction/:item_id
 // @des     Create a transaction
@@ -16,12 +31,11 @@ router.post('/:item_id', auth, async (req, res) => {
     
     const userName = await User.findById(req.user.id)
     const matchField = {}
-    matchField.isMatch = true
 
-    matchField.match = {}
-    matchField.match.user = req.user.id
-    matchField.match.name = userName.name
-    matchField.match.item = req.params.item_id
+    matchField.users = {}
+    matchField.users.user = req.user.id
+    matchField.users.name = userName.name
+    matchField.users.item = req.params.item_id
 
     try {
         match = new Match(matchField)
@@ -30,9 +44,19 @@ router.post('/:item_id', auth, async (req, res) => {
             transactionField.match = docs._id
 
             transaction = new Transaction(transactionField)
-            await transaction.save()
+            await transaction.save( async (error, result) => {
+
+                const userTransactionField = {}
+                userTransactionField.user = req.user.id
+                userTransactionField.transaction = result._id
+                userTransactionField.name = userName.name
+
+                userTransactions = new UserTransaction(userTransactionField)
+                await userTransactions.save()
+            })
         })
-    res.json(match)
+
+        return res.json(match)
 
     } catch (err) {
         console.error(err.message)
@@ -56,7 +80,7 @@ router.put('/:item_id/:match_id', auth, async (req, res) => {
     try {
         const matches = await Match.findOne({ _id: req.params.match_id })
 
-        matches.match.unshift(newUser)
+        matches.users.unshift(newUser)
 
         await matches.save()
         res.json(matches)
@@ -96,7 +120,7 @@ router.put('/user/chat/:id', auth, async (req, res) => {
         
     } catch (err) {
         console.error(err.message)
-        res.status(500).send("dsfsfd")
+        res.status(500).send("Server Error")
     }
 })
 
