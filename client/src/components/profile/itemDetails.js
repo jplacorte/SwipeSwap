@@ -102,7 +102,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
       {/* Modals */}
 
       <MDBModal isOpen={showModal} toggle={handleClose}>
-        <MDBModalHeader >Edit Profile</MDBModalHeader>
+      <MDBModalHeader toggle={handleClose}>Edit Item</MDBModalHeader>
         <MDBModalBody className="px-4 text-center">
           <form>
           <MDBRow className="mx-auto">
@@ -138,8 +138,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
         </MDBModalBody>
               
         <div className="mx-auto mt-2 mb-3">
-        <MDBBtn className="want-ignore-btn px-5 py-2" color="white" onClick={handleClose}>Ignore</MDBBtn>
-        <MDBBtn className="confirm-btn m-auto color1 mb-4 py-2 px-5" >Confirm</MDBBtn>
+        <MDBBtn className="confirm-btn m-auto color1 mb-4 mt-3 py-2 px-5" >Confirm</MDBBtn>
         </div>
 
       </MDBModal>

@@ -23,8 +23,6 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     getSwappedItems()
 
   }, [getAllItemsByUser, getSwappedItems])
-
-  
   
     const [showModal, setShowModal] = useState(false);  
     const handleClose = () => setShowModal(false);
@@ -113,7 +111,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
       <Fragment>
       {/* Modals */}
 
-      <MDBModal isOpen={showModal} toggle={handleShow}>
+      <MDBModal isOpen={showModal} toggle={handleClose}>
         <MDBModalHeader toggle={handleClose}>Add Item</MDBModalHeader>
         <MDBModalBody className="px-4">
           <form>
@@ -148,7 +146,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
             />
             </form>
         </MDBModalBody>
-        <MDBBtn onClick={onSubmit} className="confirm-btn color1 mx-auto my-4 py-2 px-5">Confirm</MDBBtn>
+        <MDBBtn onClick={onSubmit} className="confirm-btn color1 mx-auto mb-4 mt-3 py-2 px-5">Confirm</MDBBtn>
         
       </MDBModal>
 

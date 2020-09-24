@@ -89,15 +89,15 @@ class HomePage extends React.Component {
               />
             </MDBModalBody>
 
-              <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5" >Confirm</MDBBtn>
+            <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5" >Confirm</MDBBtn>
 
           </MDBModal>
 
-        {/* //Modals */}
+          {/* //Modals */}
         
           <MDBContainer className="homepage-container">
             <MDBRow>
-            <MDBCol lg="6" className="px-4">
+            <MDBCol lg="7" className="px-4">
               <div className="d-flex bd-highlight example-parent">
                 <div className="p-1 flex-fill bd-highlight col-example mb-5">
                   <img src={SwipeImage} className="item-img" />
@@ -113,17 +113,25 @@ class HomePage extends React.Component {
                 </div>
               </div>
               <div className="ss-btns-dsk mt-4">
-                <MDBBtn className="ss-btn-want p-2" color="success"><MDBIcon icon="heart" /> Want</MDBBtn><br/>
-                <MDBBtn className="ss-btn-boring p-2" color="danger"><MDBIcon icon="times" /> Boring</MDBBtn><br/>
-                <MDBBtn className="ss-btn-swant p-2" color="primary"><MDBIcon icon="star" /> Super Want</MDBBtn><br/>
-                <MDBBtn className="ss-btn-rewind p-2" color="warning"><MDBIcon icon="backward" /> Rewind</MDBBtn><br/>
-                <MDBBtn className="ss-btn-boost p-2" color="secondary" ><MDBIcon icon="rocket" /> Boost</MDBBtn><br/>
+                <div className="flex-center">
+                    <MDBBtn className="ss-btn-want p-2 mr-4" color="success"><MDBIcon icon="heart" style={{fontSize: '45px'}} /><br/> Want</MDBBtn>
+        
+                    <MDBBtn className="ss-btn-swant mx-4 p-2" color="primary"><MDBIcon icon="star" style={{fontSize: '45px'}} /><br/> Super Want</MDBBtn>
+
+                    <MDBBtn className="ss-btn-boring p-2 ml-4" color="danger"><MDBIcon icon="times" style={{fontSize: '50px'}} /><br/> Boring</MDBBtn>
+                </div>
+                <div className="flex-center mt-3">
+                    <MDBBtn className="ss-btn-rewind p-2 mr-4" color="warning"><MDBIcon icon="backward" style={{fontSize: '45px'}} /><br/> Rewind</MDBBtn>
+         
+                    <MDBBtn className="ss-btn-boost p-2 ml-4" color="secondary" ><MDBIcon icon="rocket" style={{fontSize: '45px'}} /><br/> Boost</MDBBtn>
+                </div>
+               
               </div>
 
               {/* <Select options={this.options} setValue={this.setValue}/> <br />
               You select "{this.state.value}" */}
             </MDBCol>
-              <MDBCol lg="6">
+              <MDBCol lg="5">
                 <div className="swiper mx-auto flex-center">
                   <Swiper />
                 </div>
