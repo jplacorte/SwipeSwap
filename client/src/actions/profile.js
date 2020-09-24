@@ -9,7 +9,7 @@ import {
 // Get current users profile
 export const getCurrentProfile = () => async dispatch => {
     try {
-        const res = await axios.get('/profile/me');
+        const res = await axios.get('/api/profile/me');
 
         dispatch({
             type: GET_PROFILE,
@@ -38,7 +38,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
             }
         }
 
-        const res = await axios.post('/profile/', formData, config)
+        const res = await axios.post('/api/profile/', formData, config)
 
         dispatch({
             type: GET_PROFILE,
@@ -69,11 +69,11 @@ export const updateAvatar = (file) => async dispatch => {
 
         const config = {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'form-data'
             }
         }
 
-        const res = await axios.put('/profile/upload/photo', photoData, config)
+        const res = await axios.put('/api/profile/upload/photo', photoData, config)
 
         dispatch({
             type: GET_PROFILE,

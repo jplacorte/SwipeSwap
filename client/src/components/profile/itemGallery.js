@@ -49,7 +49,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     const onSubmit = async e => {
       e.preventDefault();
         addItem(formData)
- 
+        window.location.reload()
     }
 
     const catChange = category => {
@@ -114,7 +114,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
       <MDBModal isOpen={showModal} toggle={handleClose}>
         <MDBModalHeader toggle={handleClose}>Add Item</MDBModalHeader>
         <MDBModalBody className="px-4">
-          <form>
+          <form onSubmit={e => onSubmit(e)}>
             <MDBRow className="mx-auto">
             <MDBCol className="item-prev-col flex-center" size="6">
               <ImgUpload/>
@@ -144,9 +144,11 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
               placeholder="Condition"
               singleSelect={true}
             />
+            <div className="flex-center">
+              <MDBBtn type="submit" className="confirm-btn color1 my-4 py-2 px-5">Confirm</MDBBtn>
+            </div>
             </form>
         </MDBModalBody>
-        <MDBBtn onClick={onSubmit} className="confirm-btn color1 mx-auto mb-4 mt-3 py-2 px-5">Confirm</MDBBtn>
         
       </MDBModal>
 
