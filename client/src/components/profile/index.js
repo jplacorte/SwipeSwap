@@ -93,8 +93,10 @@ useEffect(() =>{
     return (
       <>
       {/* Modals */}
+
+      {/* Edit Profile Modal */}
       <MDBModal isOpen={showModal} toggle={handleClose}>
-        <MDBModalHeader >Edit Profile</MDBModalHeader>
+        <MDBModalHeader toggle={handleClose}>Edit Profile</MDBModalHeader>
         <MDBModalBody className="px-4 text-center">
           <form onSubmit={e => onSubmit(e)}>
           <ImgUpload/>
@@ -108,8 +110,8 @@ useEffect(() =>{
           <MDBBtn className="confirm-btn color1 mx-auto mt-4 mb-2 py-2 px-5" type="submit">Confirm</MDBBtn>
           </form>
         </MDBModalBody>
-
       </MDBModal>
+      {/* Edit Profile Modal */}
       
       {/* //Modals */}
 

@@ -1,35 +1,27 @@
-import React from 'react';
+import React, {  useState } from 'react';
 import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBBtn } from 'mdbreact';
+import MultiSelect from  'react-multiple-select-dropdown-lite';
 import { Link }  from 'react-router-dom';
 import Select from 'react-select';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
 
-const categories = [
-  { value: '1', label: 'Category 1' },
-  { value: '2', label: 'Category 2' },
-  { value: '3', label: 'Category 3' },
-  { value: '4', label: 'Category 4' },
-  { value: '5', label: 'Category 5' }
-];
+function EditCategories() {
+  
+  const [value, setvalue] = useState('')
 
-class EditCategories extends React.Component {
-  scrollToTop = () => window.scrollTo(0, 0);
+  const  handleOnchange = val => {
+  setvalue(val)
+  }
 
-  state = {
-    selectedCategories: null,
-  };
-  handleChange = selectedCategories => {
-    this.setState(
-      { selectedCategories },
-      () => console.log(`Option selected:`, this.state.selectedCategories)
-    );
-  };
-
-  render() {
-
-    const { selectedOption } = this.state;
+  const categories = [
+      { value: '1', label: 'Category 1' },
+      { value: '2', label: 'Category 2' },
+      { value: '3', label: 'Category 3' },
+      { value: '4', label: 'Category 4' },
+      { value: '5', label: 'Category 5' }
+  ];
 
     return (
       <>
@@ -45,14 +37,12 @@ class EditCategories extends React.Component {
                 </MDBCol>
                 <MDBCol md="12" className="my-3">
                   <label>Select preferred categories</label>
-                <Select
-                  className="mt-3"
-                  defaultValue={[categories[0], categories[1]]}
-                  value={selectedOption}
-                  onChange={this.handleChange}
-                  options={categories}
-                  isMulti  
-                />
+                  <MultiSelect
+                    className="w-100 mt-3"
+                    onChange={handleOnchange}
+                    options={categories}
+                    placeholder="Categories"
+                  />
                 </MDBCol>
 
                 <MDBCol size="12" className="text-center">
@@ -65,6 +55,6 @@ class EditCategories extends React.Component {
       </> 
     );
   }
-}
+
 
 export default EditCategories;

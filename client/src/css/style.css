@@ -358,58 +358,101 @@ img.image-preview{
 }
 
 .ss-btn-want{
-  text-transform: capitalize;
-  width: 100%!important;
-  border-radius: 10px;
-  border: solid 2px #00c851!important;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 025);
   background-color: white!important;
   color: #00c851!important;
-  font-weight: bold;
+  border-radius: 50%;
+  padding: 13px 10px;
   font-size: 16px;
+  text-align: center;
+  width: 130px;
+  height: 130px;
+  border: 2px solid #00c851!important;
+  text-transform: capitalize;
+}
+
+.ss-btn-want:hover{
+  background-color: #00c851!important;
+  color: white!important;
 }
 
 .ss-btn-boring{
-  text-transform: capitalize;
-  width: 100%!important;
-  border-radius: 10px;
-  border: solid 2px red!important;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 025);
   background-color: white!important;
   color: red!important;
-  font-weight: bold;
+  border-radius: 50%;
+  padding: 13px 10px;
   font-size: 16px;
+  text-align: center;
+  width: 130px;
+  height: 130px;
+  border: 2px solid red!important;
+  text-transform: capitalize;
+}
+
+.ss-btn-boring:hover{
+  background-color: red!important;
+  color: white!important;
 }
 
 .ss-btn-swant{
-  text-transform: capitalize;
-  width: 100%!important;
-  border-radius: 10px;
-  border: solid 2px #4285f4 !important;
-  background-color: white!important;
   color: #4285f4 !important;
-  font-weight: bold;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 025);
+  background-color: white!important;
+  border-radius: 50%;
+  padding: 13px 10px;
   font-size: 16px;
+  text-align: center;
+  width: 130px;
+  height: 130px;
+  border: 2px solid #4285f4!important;
+  text-transform: capitalize;
+  border: 2px solid #4285f4;
+}
+
+.ss-btn-swant:hover{
+  background-color: #4285f4!important;
+  color: white!important;
 }
 
 .ss-btn-rewind{
-  text-transform: capitalize;
-  width: 100%!important;
-  border-radius: 10px;
-  border: solid 2px #ffbb33 !important;
-  background-color: white!important;
   color: #ffbb33 !important;
-  font-weight: bold;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 025);
+  background-color: white!important;
+  border-radius: 50%;
+  padding: 13px 10px;
   font-size: 16px;
+  text-align: center;
+  width: 130px;
+  height: 130px;
+  border: 2px solid #ffbb33!important;
+  text-transform: capitalize;
+  border: 2px solid #ffbb33;
+}
+
+.ss-btn-rewind:hover{
+  background-color: #ffbb33!important;
+  color: white!important;
 }
 
 .ss-btn-boost{
-  text-transform: capitalize;
-  width: 100%!important;
-  border-radius: 10px;
-  border: solid 2px #a6c !important;
-  background-color: white!important;
   color: #a6c !important;
-  font-weight: bold;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 025);
+  background-color: white!important;
+  border-radius: 50%;
+  padding: 13px 10px;
   font-size: 16px;
+  text-align: center;
+  width: 130px;
+  height: 130px;
+  border: 2px solid #a6c!important;
+  text-transform: capitalize;
+  border: 2px solid #a6c;
+}
+
+.ss-btn-boost:hover{
+  background-color: #a6c!important;
+  color: white!important;
 }
 
 .ss-btns-m{
@@ -1007,7 +1050,7 @@ a.profile-link{
   border-radius: 50%;
   display: inline-block;
   position: relative;
-  padding: 6px;
+  padding: 3px;
   cursor: pointer;
   border: 4px solid #167D7F;
   margin-bottom: 25px;
