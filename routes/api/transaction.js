@@ -17,8 +17,25 @@ router.get('/', auth, async (req, res) => {
     try {
         const user = await UserTransaction.find({user: req.user.id})
 
-        res.json(user)
+        return res.json(user)
     } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+// @route   GET api/transaction/:id
+// @des     Get all chat by transaction
+// @access  Private
+router.get('/:id', auth, async (req, res) => {
+    try {
+
+        const chat = await Transaction.find({_id: req.params._id})
+
+        return res.json(chat)
+
+    } catch (err) {
+        
         console.error(err.message)
         res.status(500).send('Server Error')
     }

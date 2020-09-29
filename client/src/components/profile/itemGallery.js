@@ -30,18 +30,18 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
 
     const [formData, setFormData] = useState({
       photo: '',
-      category:'',
-      status:'',
       description:'',
-      itemname:''
+      itemname:'',
+      status:'',
+      categories: ''
     })
 
     const {
       photo,
-      category,
-      status,
       description,
-      itemname
+      itemname,
+      status,
+      categories
     } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,16 +50,6 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
       e.preventDefault();
         addItem(formData)
         window.location.reload()
-    }
-
-    const catChange = category => {
-      setFormData({ category })
-      console.log(`Value:${category}`)
-    }
-
-    const statChange = status => {
-      setFormData({ status })
-      console.log(`Value:${status}`)
     }
 
     const ImgUpload = () =>{
@@ -73,38 +63,40 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
       );
     }
 
-    const [uploadPhoto, setPhoto] = useState({
-      file: '',
-      imagePreviewUrl: ''
-    })
-
     const onChangePicture = e => {
         setPicture(URL.createObjectURL(e.target.files[0]) );
     };
 
     const [picture, setPicture] = useState(null);
     
-    
-    const  handleOnchange = val => {
-      setvalue(val)
-  }
+    const onChangeStatus = val => {
+      setFormData({ ...formData, status: val })
+    }
 
-    const [value, setvalue] = useState('')
+    const onChangeCategory = val => {
+      setFormData({ ...formData, categories: val })
+    }
 
-    const categories = [
-      { value: '1', label: 'Category 1' },
-      { value: '2', label: 'Category 2' },
-      { value: '3', label: 'Category 3' },
-      { value: '4', label: 'Category 4' },
-      { value: '5', label: 'Category 5' }
+    const cat = [
+      { value: 'Vehicles', label: 'Vehicles' },
+      { value: 'Apparel', label: 'Apparel' },
+      { value: 'Electronics', label: 'Electronics' },
+      { value: 'Entertainment', label: 'Entertainment' },
+      { value: 'Baby & Kids Items', label: 'Baby & Kids Items' },
+      { value: 'Health & Beauty', label: 'Health & Beauty' },
+      { value: 'Pet Supplies', label: 'Pet Supplies' },
+      { value: 'Musical Instruments', label: 'Musical Instruments' },
+      { value: 'Office Supplies', label: 'Office Supplies' },
+      { value: 'Sporting Goods', label: 'Sporting Goods' },
+      { value: 'Toys & Games', label: 'Toys & Games' }      
   ];
 
     const conditions = [
-      { value: '1', label: 'Very Bad' },
-      { value: '2', label: 'Poor' },
-      { value: '3', label: 'Ok' },
-      { value: '4', label: 'Good' },
-      { value: '5', label: 'Excellent' }
+      { value: 'Very Bad', label: 'Very Bad' },
+      { value: 'Poor', label: 'Poor' },
+      { value: 'Ok', label: 'Ok' },
+      { value: 'Good', label: 'Good' },
+      { value: 'Excellent', label: 'Excellent' }
     ];
 
     return (
@@ -133,13 +125,13 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
             <textarea type="text" name="description" value={description} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Description" />
             <MultiSelect
               className="w-100 mt-3"
-              onChange={handleOnchange}
-              options={categories}
+              onChange={onChangeCategory}
+              options={cat}
               placeholder="Categories"
             />
             <MultiSelect
               className="w-100 mt-3"
-              onChange={handleOnchange}
+              onChange={onChangeStatus}
               options={conditions}
               placeholder="Condition"
               singleSelect={true}

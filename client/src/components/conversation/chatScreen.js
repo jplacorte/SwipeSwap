@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Link }  from 'react-router-dom';
+import { getAllChat } from '../../actions/transaction';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
@@ -8,7 +10,11 @@ import ChatSwap from './chatSwap';
 import 'react-chat-elements/dist/main.css';
 
 // CHATSCREEN 
-function ChatScreen() {
+const ChatScreen = ({ getAllChat, transaction: { chat, loading }, match }) => {
+
+  useEffect(() => {
+    getAllChat(match.params.id)
+  }, [getAllChat, match.params.id])
 
     const [show, setShow] = useState(false);
 
@@ -165,4 +171,7 @@ function ChatScreen() {
     );
 }
 
-export default ChatScreen;
+const mapStateToProps = state => ({
+    transaction: state.transaction
+})
+export default connect(mapStateToProps, {getAllChat})(ChatScreen);

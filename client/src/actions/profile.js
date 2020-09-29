@@ -69,7 +69,7 @@ export const updateAvatar = (file) => async dispatch => {
 
         const config = {
             headers: {
-                'Content-Type': 'form-data'
+                'Content-Type': 'multipart/form-data'
             }
         }
 

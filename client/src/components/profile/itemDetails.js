@@ -20,7 +20,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
         itemname:'',
         description:'',
         status:'',
-        category:'',
+        categories:'',
         photo:'',
   })
 
@@ -31,7 +31,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
       itemname: loading || !item.itemname ? '' : item.itemname,
       description: loading || !item.description ? '' : item.description,
       status: loading || !item.status ? '' : item.status,
-      category: loading || !item.category ? '' : item.category,
+      categories: loading || !item.categories ? '' : item.categories,
       photo: loading || !item.photo ? '' : item.photo,
     })
   }, [getItemById, match.params.id, loading])
@@ -40,7 +40,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
         itemname,
         description,
         status,
-        category,
+        categories,
         photo
   } = formData
 
@@ -81,20 +81,26 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
 
   const [picture, setPicture] = useState(null);
   
-  const categories = [
-    { value: '1', label: 'Category 1' },
-    { value: '2', label: 'Category 2' },
-    { value: '3', label: 'Category 3' },
-    { value: '4', label: 'Category 4' },
-    { value: '5', label: 'Category 5' }
-  ];
+  const cat = [
+    { value: 'Vehicles', label: 'Vehicles' },
+    { value: 'Apparel', label: 'Apparel' },
+    { value: 'Electronics', label: 'Electronics' },
+    { value: 'Entertainment', label: 'Entertainment' },
+    { value: 'Baby & Kids Items', label: 'Baby & Kids Items' },
+    { value: 'Health & Beauty', label: 'Health & Beauty' },
+    { value: 'Pet Supplies', label: 'Pet Supplies' },
+    { value: 'Musical Instruments', label: 'Musical Instruments' },
+    { value: 'Office Supplies', label: 'Office Supplies' },
+    { value: 'Sporting Goods', label: 'Sporting Goods' },
+    { value: 'Toys & Games', label: 'Toys & Games' }      
+];
   
   const conditions = [
-    { value: '1', label: 'Very Bad' },
-    { value: '2', label: 'Poor' },
-    { value: '3', label: 'Ok' },
-    { value: '4', label: 'Good' },
-    { value: '5', label: 'Excellent' }
+    { value: 'Very Bad', label: 'Very Bad' },
+    { value: 'Poor', label: 'Poor' },
+    { value: 'Ok', label: 'Ok' },
+    { value: 'Good', label: 'Good' },
+    { value: 'Excellent', label: 'Excellent' }
   ];
 
     return (
@@ -124,7 +130,8 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
             <MultiSelect
               className="w-100 mt-3"
               onChange={handleOnchange}
-              options={categories}
+              options={cat}
+              defaultValue={categories}
               placeholder="Categories"
             />
             <MultiSelect
@@ -132,6 +139,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
               onChange={handleOnchange}
               options={conditions}
               placeholder="Condition"
+              defaultValue={status}
               singleSelect={true}
             />
             </form>
@@ -202,7 +210,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
                 <a className="bd-highlight col-example ml-auto mt-1 font-weight-bold" style={{color: "#167D7F"}} onClick={handleShow}>Edit</a>
               </div>
               <div className="item-description mt-2">{description}</div>
-              <div className="item-category mt-3">{category}</div>
+              <div className="item-category mt-3">{categories}</div>
                 <div className="d-flex bd-highlight example-parent py-3">
                     <div className="flex-fill bd-highlight col-example">
                       <div className=""></div>

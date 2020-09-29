@@ -51,7 +51,8 @@ router.post('/', auth, async (req, res) => {
     const {
         itemname,
         description,
-        status
+        status,
+        categories
     } = req.body
 
     //Build Item Objects
@@ -62,6 +63,9 @@ router.post('/', auth, async (req, res) => {
     if(itemname) itemFields.itemname = itemname
     if(description) itemFields.description = description
     if(status) itemFields.status = status
+    if(categories){
+        itemFields.categories = categories.split(',').map(category => category.trim())
+    }
 
     try {
 
