@@ -11,10 +11,10 @@ import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import ItemCondition from '../itemCondition';
 import Navbar from '../navbar';
-import { getItemById } from '../../actions/item';
+import { getItemById, updateItem } from '../../actions/item';
 import ItemImg from '../../assets/images/swipeswap_item.jpg';
 
-const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
+const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match }) => {
 
   const [formData, setFormData] = useState({
         itemname:'',
@@ -58,10 +58,12 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
 
-  const [value, setvalue] = useState('')
+  const onChangeStatus = val => {
+    setFormData({ ...formData, status: val })
+  }
 
-  const  handleOnchange = val => {
-      setvalue(val)
+  const onChangeCategory = val => {
+    setFormData({ ...formData, categories: val })
   }
 
   const ImgUpload = () =>{
@@ -80,6 +82,13 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
   };
 
   const [picture, setPicture] = useState(null);
+
+  const onSubmit = async e => {
+      e.preventDefault();
+      updateItem(formData, match.params.id);
+      getItemById();
+      handleClose();
+  }
   
   const cat = [
     { value: 'Vehicles', label: 'Vehicles' },
@@ -110,7 +119,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
       <MDBModal isOpen={showModal} toggle={handleClose}>
       <MDBModalHeader toggle={handleClose}>Edit Item</MDBModalHeader>
         <MDBModalBody className="px-4 text-center">
-          <form>
+          <form onSubmit={e => onSubmit(e)}>
           <MDBRow className="mx-auto">
             <MDBCol className="item-prev-col flex-center" size="6">
               <ImgUpload/>
@@ -125,30 +134,29 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
               <ImgUpload/>
             </MDBCol>
             </MDBRow>
-            <input type="text" name="itemname" value={itemname} className="form-control mt-3" placeholder="itemname" />
-            <textarea type="text" name="description" value={description} className="form-control mt-3" placeholder="Description" />
+            <input type="text" name="itemname" value={itemname} onChange={e => onChange(e)} className="form-control mt-3" placeholder="itemname" />
+            <textarea type="text" name="description" value={description} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Description" />
             <MultiSelect
               className="w-100 mt-3"
-              onChange={handleOnchange}
+              onChange={onChangeCategory}
               options={cat}
               defaultValue={categories}
               placeholder="Categories"
             />
             <MultiSelect
               className="w-100 mt-3"
-              onChange={handleOnchange}
+              onChange={onChangeStatus}
               options={conditions}
               placeholder="Condition"
               defaultValue={status}
               singleSelect={true}
             />
-            </form>
+   
+            <div className="flex-center">
+              <MDBBtn type="submit" className="confirm-btn color1 my-4 py-2 px-5">Confirm</MDBBtn>
+            </div>
+          </form>
         </MDBModalBody>
-              
-        <div className="mx-auto mt-2 mb-3">
-        <MDBBtn className="confirm-btn m-auto color1 mb-4 mt-3 py-2 px-5" >Confirm</MDBBtn>
-        </div>
-
       </MDBModal>
 
       {/* //Modals */}
@@ -228,10 +236,11 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
 }
 
 ItemDetails.propTypes = {
-  getItemById: PropTypes.func.isRequired
+  getItemById: PropTypes.func.isRequired,
+  updateItem: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   item: state.item
 })
-export default connect( mapStateToProps, { getItemById })(ItemDetails);
+export default connect( mapStateToProps, { getItemById, updateItem })(ItemDetails);

@@ -120,10 +120,16 @@ export const addItem = (formData, edit = false) => async dispatch => {
 // @route   Put item/:itemID
 // @des     Update Item
 // @access  Private
-export const updateItem = itemID => async dispatch => {
+export const updateItem = (formData, itemID) => async dispatch => {
     try {
 
-        const res = await axios.put(`/api/item/${itemID}`);
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const res = await axios.put(`/api/item/${itemID}`, formData, config);
 
         dispatch({
             type: UPDATE_ITEMS,

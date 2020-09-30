@@ -29,7 +29,6 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     const handleShow = () => setShowModal(true);
 
     const [formData, setFormData] = useState({
-      photo: '',
       description:'',
       itemname:'',
       status:'',
@@ -37,7 +36,6 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     })
 
     const {
-      photo,
       description,
       itemname,
       status,

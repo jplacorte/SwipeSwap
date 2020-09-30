@@ -60,7 +60,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
 }
 
 //Update avatar
-export const updateAvatar = (file) => async dispatch => {
+export const updateAvatar = file => async dispatch => {
 
     const photoData = new FormData();
     photoData.append('file', file);

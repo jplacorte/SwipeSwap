@@ -7,7 +7,7 @@ import ItemImg from '../../assets/images/swipeswap_item.jpg';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 
-const ItemGalleryItems = ({ item: {_id, itemname, auth, description, photo, category, status} }) => (
+const ItemGalleryItems = ({ item: {_id, itemname, auth, description, category, status} }) => (
     <MDBCol size="4" className="item-gallery-image item-grid" style={{padding: '2px'}}>
         <a href={`/itemDetails/${_id}`}>
             <img src={ItemImg} alt="img.png"/>
@@ -15,12 +15,10 @@ const ItemGalleryItems = ({ item: {_id, itemname, auth, description, photo, cate
     </MDBCol>
 )
 
-ItemGalleryItems.propTypes = {
-    photo: PropTypes.object.isRequired,
-}
+
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    item: state.item
 })
 
 export default connect(mapStateToProps)(ItemGalleryItems)

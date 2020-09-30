@@ -64,7 +64,7 @@ router.post('/', auth, async (req, res) => {
     if(description) itemFields.description = description
     if(status) itemFields.status = status
     if(categories){
-        itemFields.categories = categories.split(',').map(category => category.trim())
+        itemFields.categories = categories.split(',').map(cat => cat.trim())
     }
 
     try {
@@ -87,7 +87,7 @@ router.put('/:item_id', auth, async (req, res) => {
         itemname,
         description,
         status,
-        category
+        categories
     } = req.body
 
     //Build Item Objects
@@ -96,19 +96,23 @@ router.put('/:item_id', auth, async (req, res) => {
     if(itemname) itemFields.itemname = itemname
     if(description) itemFields.description = description
     if(status) itemFields.status = status
-    if(category){
-        itemFields.category = category.split(', ').map(cat => cat.trim())
+    if(categories){
+        itemFields.categories = categories.split(',').map(cat => cat.trim())
     }
 
-    let item = await Item.findOne({ _id: req.params.item_id })
-    //Update Item
-    item = await Item.findByIdAndUpdate(
-        { _id: req.params.item_id },
-        { $set: itemFields },
-        { new: true }
-    )
-
-    return res.json(item)
+    try {
+        //Update Item
+        item = await Item.findByIdAndUpdate(
+            { _id: req.params.item_id },
+            { $set: itemFields },
+            { new: true }
+        )
+        return res.json(item)  
+        
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
 })
 
 // @route   PUT item/swapped/id
