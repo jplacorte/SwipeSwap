@@ -8,7 +8,8 @@ import {
     UPDATE_ITEMS,
     RATE_ITEMS,
     ITEMS_ERROR,
-    GET_SWAPPED_ITEMS
+    GET_SWAPPED_ITEMS, 
+    OPEN_ITEM_MODAL
 } from './types';
 
 // @route   GET item/
@@ -67,6 +68,48 @@ export const getItemById = itemID => async dispatch => {
 
         dispatch({
             type: GET_ITEM,
+            payload: res.data
+        });
+        
+    } catch (err) {
+
+        dispatch({
+            type: ITEMS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    
+    }
+}
+
+export const openItemModal = id => async dispatch => {
+    try {
+
+        const res = await axios.get(`/api/item/${id}`);
+
+        dispatch({
+            type: OPEN_ITEM_MODAL,
+            payload: res.data
+        });
+        
+    } catch (err) {
+        
+        dispatch({
+            type: ITEMS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        })
+    }
+}
+
+// @route   GET item/swipe/items/all
+// @des     Get all item except from logged in user
+// @access  Private
+export const getAllItem = () => async dispatch => {
+    try {
+
+        const res = await axios.get('/api/item/swipe/items/all');
+
+        dispatch({
+            type: GET_ITEMS,
             payload: res.data
         });
         

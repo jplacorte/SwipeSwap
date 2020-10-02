@@ -15,6 +15,7 @@ export const GET_ITEMS = 'GET_ITEMS';
 export const GET_SWAPPED_ITEMS = 'GET_SWAPPED_ITEMS';
 export const ADD_ITEMS = 'ADD_ITEMS';
 export const UPDATE_ITEMS = 'UPDATE_ITEMS';
+export const OPEN_ITEM_MODAL = 'OPEN_ITEM_MODAL';
 export const ITEMS_ERROR = 'ITEMS_ERROR';
 export const RATE_ITEMS = 'RATE_ITEMS';
 export const REVIEW_ITEMS = 'REVIEW_ITEMS';

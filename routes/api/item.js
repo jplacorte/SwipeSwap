@@ -26,6 +26,25 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
+// @route   GET api/item/
+// @des     Get all items except from logged in user
+// @access  Private
+router.get('/swipe/items/all', auth, async (req, res) => {
+    try {
+        const item = await Item.find({ user: { $nin: [req.user.id] }, swapped: false }).populate('user', ['name'])
+
+        if(!item){
+            return res.status(400).json({ msg: 'There is no item' })
+        }
+
+        res.json(item)
+
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
+
 // @route   GET api/item/:id
 // @des     Get item by id
 // @access  Private

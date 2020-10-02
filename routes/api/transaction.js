@@ -7,7 +7,7 @@ const { check, validationResult } = require('express-validator')
 
 const Transaction = require('../../models/Transaction')
 const UserTransaction = require('../../models/UserTransaction')
-const Match = require('../../models/Match')
+const Notif = require('../../models/Notification')
 const User = require('../../models/User')
 
 // @route   GET api/transaction/
@@ -55,7 +55,7 @@ router.post('/:item_id', auth, async (req, res) => {
     matchField.users.item = req.params.item_id
 
     try {
-        match = new Match(matchField)
+        match = new Notif(matchField)
         await match.save( async (err, docs) => {
             const transactionField = {}
             transactionField.match = docs._id
@@ -95,7 +95,7 @@ router.put('/:item_id/:match_id', auth, async (req, res) => {
     }
 
     try {
-        const matches = await Match.findOne({ _id: req.params.match_id })
+        const matches = await Notif.findOne({ _id: req.params.match_id })
 
         matches.users.unshift(newUser)
 

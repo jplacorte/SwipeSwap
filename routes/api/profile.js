@@ -33,6 +33,24 @@ router.get('/me', auth, async (req, res) => {
     }
 })
 
+// @route   GET api/profile/me
+// @des     Get users profile by id
+// @access  Private
+router.get('/user/:id', auth, async (req, res) => {
+    try{
+        const profile = await Profile.findById(req.params.id).populate('user', ['name', 'email'])
+
+        if(!profile){
+            return res.status(400).json({ msg: 'There is no profile for this user' })
+        }
+
+        res.json(profile)
+    }catch(err){
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
 // @route   POST api/profile
 // @des     Create/Update a user profile
 // @access  Private

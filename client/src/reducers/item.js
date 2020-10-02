@@ -1,8 +1,9 @@
-import { ADD_ITEMS, UPDATE_ITEMS, GET_ITEMS, ITEMS_ERROR, GET_ITEM, GET_SWAPPED_ITEMS } from '../actions/types';
+import { ADD_ITEMS, UPDATE_ITEMS, GET_ITEMS, ITEMS_ERROR, GET_ITEM, GET_SWAPPED_ITEMS, OPEN_ITEM_MODAL } from '../actions/types';
 
 const initialState = {
     item: null,
     items: [],
+    itemModal: null,
     swappedItems: [],
     loading: true,
     error: {}
@@ -22,6 +23,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 item: payload,
+                loading: false
+            }
+        case OPEN_ITEM_MODAL:
+            return {
+                ...state,
+                itemModal: payload,
                 loading: false
             }
         case GET_SWAPPED_ITEMS:

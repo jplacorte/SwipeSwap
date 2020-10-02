@@ -223,9 +223,6 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
                     <div className="flex-fill bd-highlight col-example">
                       <div className=""></div>
                     </div>
-                    <div className="bd-highlight col-example ml-auto" style={{color: "#167D7F"}} >
-                        <MDBIcon icon="eye" /><span className="font-weight-bold"> 10</span>
-                    </div>
                 </div>
             </MDBCol>
            </MDBRow>

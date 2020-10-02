@@ -147,7 +147,7 @@ useEffect(() =>{
                   <div>Badges</div>
                 </div>
                 <div className="p-2 flex-fill bd-highlight col-example px-3">
-                  <div className="font-weight-bold">00.00 <MDBIcon icon="coins" style={{color: 'gold'}} /></div>
+                  <div className="font-weight-bold">10.00 <MDBIcon icon="coins" style={{color: 'gold'}} /></div>
                   <div>SwapCoins</div>
                 </div>
               </div>

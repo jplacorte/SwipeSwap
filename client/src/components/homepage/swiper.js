@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Item, AppContainer, ExtraInfo, Code } from "./swipestyle";
+import { connect } from 'react-redux';
+import { getAllItem, getItemById, openItemModal } from '../../actions/item';
 import Carousel from "./carousel";
 import { MDBRow, MDBCol, MDBBtn, MDBModal,  MDBModalFooter, MDBView, MDBMask, MDBListGroupItem } from 'mdbreact';
 import "../../css/style.css";
@@ -10,26 +12,48 @@ import Avatar from '../../assets/images/avatar.png';
 import ImgSlider from '../imgSlider';
 import ItemCondition from '../itemCondition';
 
-class Swiper extends React.Component {
-  scrollToTop = () => window.scrollTo(0, 0);
+const Swiper = ({ getAllItem, openItemModal, item:{ itemModal, items, loading } }) => {
 
-  state = {
-    modal: false
-  }
-  
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
-  
-  // toggle={this.toggle}
+    useEffect(() => {
+      getAllItem() 
+    }, [getAllItem])
+    
+    const [itemsData, setItemsData] = useState({
+      itemname:'',
+      description:'',
+      status:'',
+      categories:'',
+      user_id:'',
+      username:''
+    })
 
-  render() {
+    const {
+      itemname,
+      description,
+      categories,
+      user_id,
+      username
+    } = itemsData
+
+    const [showModal, setShowModal] = useState(false);  
+    const handleClose = () => setShowModal(false);
+    
+    const handleShow = (id, name, desc, cat, userId, user) => {
+      console.log(userId)
+      setItemsData({
+        itemname: name,
+        description: desc,
+        categories: cat,
+        user_id: userId,
+        username: user
+      })
+      setShowModal(true)
+    }
+
     return (
       <>
       {/* Modals */}
-      <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+      <MDBModal isOpen={showModal} toggle={handleClose}>
         <div className="item-details-modal">
           <MDBRow>
             <MDBCol md="12">
@@ -39,12 +63,11 @@ class Swiper extends React.Component {
           <MDBRow className="p-3">
             <MDBCol md="12">
               <div className="d-flex bd-highlight example-parent">
-                <div className="w-100 bd-highlight col-example item-name">Sample Name</div>
+                <div className="w-100 bd-highlight col-example item-name">{itemname}</div>
                 <div className="bd-highlight col-example ml-auto"><ItemCondition /></ div>
               </div>
-              <div className="item-distance">8km<span> • Delivery</span></div>
-              <div className="item-description mt-2">Sample Description Sample Description Sample Description</div>
-              <div className="item-category mt-3">Category1 • Category2 • Category3</div>
+             <div className="item-description mt-2">{description}</div>
+          <div className="item-category mt-3">{categories}•</div>
             </MDBCol>
           </MDBRow>
           <MDBRow>
@@ -52,10 +75,10 @@ class Swiper extends React.Component {
               <div className="item-user-profile p-3">
               <div className="d-flex bd-highlight example-parent">
                  <div className="flex-fill bd-highlight col-example">
-                   <img src={Avatar} /><span className="ml-2 item-user-profile-name">Sample Username</span>
+                  <img src={Avatar} /><span className="ml-2 item-user-profile-name">{username}</span>
                  </div>
                  <div className="bd-highlight col-example ml-auto">
-                   <MDBBtn className="view-profile-btn">View Profile</MDBBtn>
+                   <MDBBtn className="view-profile-btn" href={`/profile/${user_id}`}>View Profile</MDBBtn>
                  </div>
                 </div>
                 <div className="d-flex bd-highlight example-parent text-center mt-3">
@@ -77,50 +100,41 @@ class Swiper extends React.Component {
           </MDBRow>
         </div>
         <MDBModalFooter className="mx-auto">
-          <MDBBtn className="want-ignore-btn px-5 py-2" color="white" onClick={this.toggle}>Ignore</MDBBtn>
+          <MDBBtn className="want-ignore-btn px-5 py-2" color="white" onClick={handleClose}>Ignore</MDBBtn>
           <MDBBtn className="want-ignore-btn color1 px-5 py-2">Want</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
       {/* //Modals */}
 
         <Carousel title="Carousel">
-          <MDBView>
-            <a className="swipe-item" onClick={this.toggle} ><Item img={SwipeImage2}/>
+        {
+          items.length > 0 ? (items.map(item => (
+            <MDBView>
+            <a className="swipe-item" onClick={val => handleShow(
+              item._id, 
+              item.itemname,
+              item.description,
+              item.categories,
+              item.user._id,
+              item.user.name
+              )}><Item img={SwipeImage2}/>
             <MDBMask>
               <div className="swipe-item-details p-3">
-                <div className="font-weight-bold item-name">Sample Name</div>
-                <div className="item-distance">8km<span> • Delivery</span></div>
+               <div className="font-weight-bold item-name">{ item.itemname }</div>
               </div>
             </MDBMask>
             </a>
           </MDBView>
-
-          <MDBView>
-            <a className="swipe-item" onClick={this.toggle} ><Item img={SwipeImage}/>
-            <MDBMask>
-              <div className="swipe-item-details p-3">
-                <div className="font-weight-bold item-name">Sample Name</div>
-                <div className="item-distance">8km<span> • Delivery</span></div>
-              </div>
-            </MDBMask>
-            </a>
-          </MDBView>
-
-          <MDBView>
-            <a className="swipe-item" onClick={this.toggle} ><Item img={SwipeImage2}/>
-            <MDBMask>
-              <div className="swipe-item-details p-3">
-              <div className="font-weight-bold item-name">Sample Name</div>
-                <div className="item-distance">8km<span> • Delivery</span></div>
-              </div>
-            </MDBMask>
-            </a>
-          </MDBView>
+          ))):(<h4>No Items</h4>)
+        }
         
       </Carousel>
       </>
     );
   }
-}
 
-export default Swiper;
+const mapStateToProps = state => ({
+  item: state.item
+})
+
+export default connect(mapStateToProps, { getAllItem, openItemModal })(Swiper);

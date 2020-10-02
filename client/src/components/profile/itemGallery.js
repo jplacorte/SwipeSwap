@@ -11,7 +11,6 @@ import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import { getAllItemsByUser, getSwappedItems, addItem } from '../../actions/item';
-import Items from './ItemGalleryItems';
 import MultiSelect from  'react-multiple-select-dropdown-lite';
 
 
@@ -147,8 +146,12 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
       <MDBRow className="mx-auto item-gallery-container" style={{ height: '650px' }}>
         {
           items.length > 0 ? (
-            items.map((item) => (
-              <Items key={item._id} item={item}/>
+            items.map(item => (
+              <MDBCol size="4" className="item-gallery-image item-grid" style={{padding: '2px'}}>
+                <a href={`/itemDetails/${item._id}`}>
+                  <img src={ItemImg} alt="img.png"/>
+                </a>
+             </MDBCol>
             ))
           ) : (<h4>No items found...</h4>)
         }
