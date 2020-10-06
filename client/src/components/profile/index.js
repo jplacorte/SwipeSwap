@@ -46,7 +46,7 @@ useEffect(() =>{
 }, [loading]);
 
     const [picture, setPicture] = useState(null);
-    const [file, setfile] = useState('')
+    const [file, setfile] = useState(undefined)
 
     const onChangePicture = e => {
         setPicture(URL.createObjectURL(e.target.files[0]));
@@ -83,7 +83,7 @@ useEffect(() =>{
       return(
         <label htmlFor="photo-upload" className="avatar-upload flex-center">
           <div className="avatar-img-wrap avatar-img-upload" >
-            <img htmlFor="photo-upload" src={picture ? picture : avatar}  className="rounded-circle" />
+            <img htmlFor="photo-upload" src={picture ? picture : `${avatar}`}  className="rounded-circle" />
           </div>
           <input id="photo-upload" type="file" onChange={onChangePicture}/> 
         </label>
@@ -122,7 +122,7 @@ useEffect(() =>{
               <MDBCol lg="6">
               <div className="d-flex bd-highlight example-parent flex-center">
                 <div className="bd-highlight col-example mx-2">
-                  <img src={loading ? Avatar : avatar} alt="avatar" className="rounded-circle profile-avatar" />
+                  <img src={loading ? Avatar : `${avatar}`} alt="avatar" className="rounded-circle profile-avatar" />
                 </div>
                 <div className="flex-grow-1 bd-highlight col-example">
                   <div className="">

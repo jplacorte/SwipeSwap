@@ -4,9 +4,30 @@ const config = require('config')
 const router = express.Router()
 const auth = require('../../middleware/auth')
 const { check, validationResult } = require('express-validator')
+const multer = require('multer')
+const cloudinary = require('cloudinary').v2
+const { CloudinaryStorage } = require('multer-storage-cloudinary')
 
 const Item = require('../../models/Item')
 const User = require('../../models/User')
+
+
+cloudinary.config({
+    cloud_name: 'dibx7ua1g',
+    api_key: '622971834249575',
+    api_secret: '1UI_jshZXsKRmgGZ9pG62Wwn-1Q'
+})
+
+const storage = new CloudinaryStorage({
+    cloudinary : cloudinary,
+    params:{
+        folder: "swipeSwap",
+        allowed_formats: ["jpg", "png", "jpeg"],
+        transformation: [{quality: 'auto' }]  
+    }
+})
+
+const parser = multer({ storage: storage })
 
 // @route   GET api/item/
 // @des     Get all items from user
@@ -106,7 +127,7 @@ router.put('/:item_id', auth, async (req, res) => {
         itemname,
         description,
         status,
-        categories
+        catvalue
     } = req.body
 
     //Build Item Objects
@@ -115,12 +136,13 @@ router.put('/:item_id', auth, async (req, res) => {
     if(itemname) itemFields.itemname = itemname
     if(description) itemFields.description = description
     if(status) itemFields.status = status
-    if(categories){
-        itemFields.categories = categories.split(',').map(cat => cat.trim())
+    if(catvalue){
+        itemFields.categories = catvalue.split(',').map(cat => cat.trim())
     }
 
     try {
         //Update Item
+        let item = await Item.findById(req.params.item_id)
         item = await Item.findByIdAndUpdate(
             { _id: req.params.item_id },
             { $set: itemFields },
@@ -172,32 +194,21 @@ router.get('/swapped/items', async (req, res) => {
     }
 })
 
-// @route   PUT item/photo
+// @route   PUT item/upload/photo/:id
 // @des     Add photo
 // @access  Private
-router.put('/photo', auth, async (req, res) => {
-    const {
-        url
-    } = req.body
+router.put('/upload/photo/:id', auth, parser.single('file'), async (req, res) => {
 
-    const newPhoto = {
-        url
-    }
     try {
-
-        const photo = await Item.findOne({ user: req.user.id })
-
-        photo.category.unshift(newPhoto)
+        const item = await Item.findById(req.params.id)
         
-        await photo.save()
-
-        return res.json(photo)
-
+        item.photo.push({ url: req.file.path })
+        await item.save()
+        return res.json(item.photo)
+        
     } catch (err) {
-
         console.error(err.message)
-        res.status(500).send('Server Error')
-
+        res.status(500).send("Server Error")
     }
 
 })

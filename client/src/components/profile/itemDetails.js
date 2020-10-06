@@ -21,6 +21,7 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
         description:'',
         status:'',
         categories:'',
+        catvalue: '',
         photo:'',
   })
 
@@ -31,8 +32,12 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
       itemname: loading || !item.itemname ? '' : item.itemname,
       description: loading || !item.description ? '' : item.description,
       status: loading || !item.status ? '' : item.status,
-      categories: loading || !item.categories ? '' : item.categories,
-      photo: loading || !item.photo ? '' : item.photo,
+      categories: loading || !item.categories ? '' : Array.isArray(item.categories) ? item.categories.join(', ') : item.categories,
+      catvalue: loading || !item.categories ? '' : item.categories,
+      photo1: loading || !item.photo[0] ? ItemImg : item.photo[0].url,
+      photo2: loading || !item.photo[1] ? ItemImg : item.photo[1].url,
+      photo3: loading || !item.photo[2] ? ItemImg : item.photo[2].url,
+      photo4: loading || !item.photo[3] ? ItemImg : item.photo[3].url,
     })
   }, [getItemById, match.params.id, loading])
 
@@ -41,7 +46,11 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
         description,
         status,
         categories,
-        photo
+        catvalue,
+        photo1,
+        photo2,
+        photo3,
+        photo4
   } = formData
 
   const [images, setImages] = useState([]);
@@ -63,7 +72,7 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
   }
 
   const onChangeCategory = val => {
-    setFormData({ ...formData, categories: val })
+    setFormData({ ...formData, catvalue: val })
   }
 
   const ImgUpload = () =>{
@@ -86,8 +95,7 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
   const onSubmit = async e => {
       e.preventDefault();
       updateItem(formData, match.params.id);
-      getItemById();
-      handleClose();
+      window.location.reload()
   }
   
   const cat = [
@@ -140,7 +148,7 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
               className="w-100 mt-3"
               onChange={onChangeCategory}
               options={cat}
-              defaultValue={categories}
+              defaultValue={catvalue}
               placeholder="Categories"
             />
             <MultiSelect
@@ -186,7 +194,7 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
                 <MDBView>
                   <img
                     className="d-block w-100"
-                    src={ItemImg}
+                    src={photo1}
                     alt="First slide"
                   />
                 </MDBView>
@@ -195,7 +203,7 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
                 <MDBView>
                   <img
                     className="d-block w-100"
-                    src={ItemImg}
+                    src={photo2}
                     alt="Second slide"
                   />
                 </MDBView>
@@ -204,7 +212,7 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
                   <MDBView>
                     <img
                       className="d-block w-100"
-                      src={ItemImg}
+                      src={photo3}
                       alt="Third slide"
                     />
                   </MDBView>

@@ -6,30 +6,60 @@ import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Swiper from './swiper';
 import Navbar from '../navbar';
-import SwipeImage from '../../assets/images/item1.jpg';
-import SwipeImage2 from '../../assets/images/item7.jpg';
+import SwipeImage from '../../assets/images/swipeswap_item.jpg';
+import { getAllItem } from '../../actions/item';
 
-const HomePage = ({ item: {items, loading} }) => {
+const HomePage = ({ getAllItem, item: {items, loading} }) => {
 
+  useEffect(() => {
+    getAllItem() 
+
+    setItemsData({
+      item_id : items.id,
+      itemname: items.name,
+      description: items.desc,
+      categories: items.cat,
+      user_id: items.userId,
+      username: items.user
+    })
+
+  }, [getAllItem])
+
+  const [itemsData, setItemsData] = useState({
+    item_id: '',
+    itemname:'',
+    description:'',
+    status:'',
+    categories:'',
+    user_id:'',
+    username:''
+  })
+
+  const {
+    item_id,
+    itemname,
+    description,
+    categories,
+    user_id,
+    username
+  } = itemsData
 
     const [showModal, setShowModal] = useState(false);  
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
-
-    const itemoptions = [
-      { value: '1', label: 'Item 1' },
-      { value: '2', label: 'Item 2' },
-      { value: '3', label: 'Item 3' },
-      { value: '4', label: 'Item 4' },
-      { value: '5', label: 'Item 5' }
-    ];
   
     const categoriesoptions = [
-      { value: '1', label: 'Category 1' },
-      { value: '2', label: 'Category 2' },
-      { value: '3', label: 'Category 3' },
-      { value: '4', label: 'Category 4' },
-      { value: '5', label: 'Category 5' }
+      { value: 'Vehicles', label: 'Vehicles' },
+      { value: 'Apparel', label: 'Apparel' },
+      { value: 'Electronics', label: 'Electronics' },
+      { value: 'Entertainment', label: 'Entertainment' },
+      { value: 'Baby & Kids Items', label: 'Baby & Kids Items' },
+      { value: 'Health & Beauty', label: 'Health & Beauty' },
+      { value: 'Pet Supplies', label: 'Pet Supplies' },
+      { value: 'Musical Instruments', label: 'Musical Instruments' },
+      { value: 'Office Supplies', label: 'Office Supplies' },
+      { value: 'Sporting Goods', label: 'Sporting Goods' },
+      { value: 'Toys & Games', label: 'Toys & Games' }
     ];
 
     const want = (val) => {
@@ -47,12 +77,6 @@ const HomePage = ({ item: {items, loading} }) => {
             <MDBModalHeader toggle={handleClose}>Select Item</MDBModalHeader>
             <MDBModalBody className="px-4 text-center">
               <img src={SwipeImage} className="item-img-modal mx-auto mb-3" />
-              <label className="">Item Name</label>
-                <Select
-                options={itemoptions}
-              />
-              <label className="mt-3">Description</label>
-              <textarea type="text" id="" className="form-control" placeholder="Description" />
               <label className="mt-3">Item Categories to Swap</label>
                 <Select
                 options={categoriesoptions}
@@ -74,7 +98,7 @@ const HomePage = ({ item: {items, loading} }) => {
                   <img src={SwipeImage} className="item-img" />
                 </div>
                 <div className="px-1 flex-fill bd-highlight col-example my-2 select-item-name">
-                  Sample Item Sample Item Sample Item
+                  Search by categories
                 </div>
                 <div className="flex-fill bd-highlight col-example text-center my-3 select-item">
                   <a className="text-center" onClick={handleShow} style={{color: "#167D7F", fontSize: '12px'}}>
@@ -85,7 +109,7 @@ const HomePage = ({ item: {items, loading} }) => {
               </div>
               <div className="ss-btns-dsk mt-4">
                 <div className="flex-center">
-                    <MDBBtn className="ss-btn-want p-2 mr-4" onClick={val => want(items._id)} color="success"><MDBIcon icon="heart" style={{fontSize: '45px'}} /><br/> Want</MDBBtn>
+                    <MDBBtn className="ss-btn-want p-2 mr-4" onClick={val => want(items[0]._id)} color="success"><MDBIcon icon="heart" style={{fontSize: '45px'}} /><br/> Want</MDBBtn>
         
                     <MDBBtn className="ss-btn-swant mx-4 p-2" color="primary"><MDBIcon icon="star" style={{fontSize: '45px'}} /><br/> Super Want</MDBBtn>
 
@@ -110,7 +134,7 @@ const HomePage = ({ item: {items, loading} }) => {
                 <MDBBtn className="ss-btn-rewind-m mx-2" color="warning"><MDBIcon icon="backward" size="lg" /></MDBBtn>
                 <MDBBtn className="ss-btn-boring-m mx-2" color="danger"><MDBIcon icon="times" size="lg" /></MDBBtn>
                 <MDBBtn className="ss-btn-swant-m mx-2" color="primary"><MDBIcon icon="star" size="lg" /></MDBBtn>
-                <MDBBtn onClick={val => want(items._id)} className="ss-btn-want-m mx-2" color="success"><MDBIcon icon="heart" size="lg" /></MDBBtn>
+                <MDBBtn onClick={val => want(items[0]._id)} className="ss-btn-want-m mx-2" color="success"><MDBIcon icon="heart" size="lg" /></MDBBtn>
                   <MDBBtn className="ss-btn-boost-m mx-2" color="secondary"><MDBIcon icon="rocket" size="lg" /></MDBBtn>
                 </div>
             </MDBCol>
@@ -125,4 +149,4 @@ const mapStateToProps = state => ({
   item: state.item
 })
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps, { getAllItem })(HomePage);

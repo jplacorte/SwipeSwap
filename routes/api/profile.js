@@ -4,7 +4,9 @@ const config = require('config')
 const router = express.Router()
 const auth = require('../../middleware/auth')
 const { check, validationResult } = require('express-validator')
+const multer = require('multer')
 const cloudinary = require('cloudinary').v2
+const { CloudinaryStorage } = require('multer-storage-cloudinary')
 
 const Profile = require('../../models/Profile')
 const User = require('../../models/User')
@@ -14,6 +16,17 @@ cloudinary.config({
     api_key: '622971834249575',
     api_secret: '1UI_jshZXsKRmgGZ9pG62Wwn-1Q'
 })
+
+const storage = new CloudinaryStorage({
+    cloudinary : cloudinary,
+    params:{
+        folder: "swipeSwap",
+        allowed_formats: ["jpg", "png", "jpeg"],
+        transformation: [{quality: 'auto' }]  
+    }
+})
+
+const parser = multer({ storage: storage })
 
 // @route   GET api/profile/me
 // @des     Get current users profile
@@ -207,21 +220,18 @@ router.put('/badge', async (req, res) => {
 // @route   PUT api/profile/upload/photo
 // @des     Update profile photo
 // @access  Private
-router.put('/upload/photo', auth, async (req, res) => {
+router.put('/upload/photo', auth, parser.single('file'), async (req, res) => {
 
-    const file = req.files.file
-    
     try {
-        await cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
-    
-            profile = await Profile.findOneAndUpdate(
-                { user: req.user.id },
-                { $set: {avatar: result.secure_url} },
-                { new: true }
-            )
-            return res.json(profile)
-        })
+        let profile = await Profile.findOne({ user: req.user.id })
         
+        profile = await Profile.findOneAndUpdate(
+            { user: req.user.id },
+            { $set: {avatar: req.file.path} },
+            { new: true }
+        )
+        return res.json(profile)
+    
     } catch (err) {
         console.error(err.message)
         res.status(500).send("Server Error")

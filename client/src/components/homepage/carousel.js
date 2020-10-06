@@ -22,6 +22,7 @@ const Carousel = props => {
     setTimeout(() => {
       dispatch({ type: "stopSliding" });
     }, 50);
+    console.log("Swipe Function")
   };
   const handlers = useSwipeable({
     onSwipedLeft: () => slide(NEXT),

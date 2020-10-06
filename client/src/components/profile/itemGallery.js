@@ -149,7 +149,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
             items.map(item => (
               <MDBCol size="4" className="item-gallery-image item-grid" style={{padding: '2px'}}>
                 <a href={`/itemDetails/${item._id}`}>
-                  <img src={ItemImg} alt="img.png"/>
+                  <img src={item.photo[0] ? `${item.photo[0].url}` : ItemImg} alt="img.png"/>
                 </a>
              </MDBCol>
             ))
