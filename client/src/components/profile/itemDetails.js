@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ImageUploading from "react-images-uploading";
+// import ImageUploading from "react-images-uploading";
 import MultiSelect from  'react-multiple-select-dropdown-lite';
 import 'react-multiple-select-dropdown-lite/dist/index.css';
 import { connect } from 'react-redux';
@@ -9,12 +9,12 @@ import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem
 import { Link }  from 'react-router-dom';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-import ItemCondition from '../itemCondition';
+// import ItemCondition from '../itemCondition';
 import Navbar from '../navbar';
-import { getItemById, updateItem } from '../../actions/item';
+import { getItemById, updateItem, uploadImage } from '../../actions/item';
 import ItemImg from '../../assets/images/swipeswap_item.jpg';
 
-const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match }) => {
+const ItemDetails = ({ getItemById, updateItem, uploadImage, item:{ item, loading }, match }) => {
 
   const [formData, setFormData] = useState({
         itemname:'',
@@ -53,19 +53,24 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
         photo4
   } = formData
 
-  const [images, setImages] = useState([]);
-  const maxNumber = 4;
-  const uploadImage = (imageList, addUpdateIndex) => {
-    // data for submit
-    console.log(imageList, addUpdateIndex);
-    setImages(imageList);
-  };
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const [showModal, setShowModal] = useState(false);  
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+
+  const [picture, setPicture] = useState(null);
+  const [file, setfile] = useState(undefined);
+
+  const [picture2, setPicture2] = useState(null);
+  const [file2, setfile2] = useState(undefined);
+
+  const [picture3, setPicture3] = useState(null);
+  const [file3, setfile3] = useState(undefined);
+
+  const [picture4, setPicture4] = useState(null);
+  const [file4, setfile4] = useState(undefined);
 
   const onChangeStatus = val => {
     setFormData({ ...formData, status: val })
@@ -79,22 +84,68 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
     return(
       <label htmlFor="photo-upload" className="item-prev-upload flex-center">
         <div className="item-prev-upload-wrap item-prev-upload-img" >
-          <img htmlFor="photo-upload" src={picture ? picture : Add} />
+          <img htmlFor="photo-upload" src={picture ? picture : photo1} />
         </div>
         <input id="photo-upload" type="file" onChange={onChangePicture}/> 
       </label>
     );
   }
+  const ImgUpload2 = () =>{
+    return(
+      <label htmlFor="photo-upload" className="item-prev-upload flex-center">
+        <div className="item-prev-upload-wrap item-prev-upload-img" >
+          <img htmlFor="photo-upload" src={picture2 ? picture2 : photo2} />
+        </div>
+        <input id="photo-upload" type="file" onChange={onChangePicture2}/> 
+      </label>
+    );
+  }
+  const ImgUpload3 = () =>{
+    return(
+      <label htmlFor="photo-upload" className="item-prev-upload flex-center">
+        <div className="item-prev-upload-wrap item-prev-upload-img" >
+          <img htmlFor="photo-upload" src={picture3 ? picture3 : photo3} />
+        </div>
+        <input id="photo-upload" type="file" onChange={onChangePicture3}/> 
+      </label>
+    );
+  }
+  const ImgUpload4 = () =>{
+    return(
+      <label htmlFor="photo-upload" className="item-prev-upload flex-center">
+        <div className="item-prev-upload-wrap item-prev-upload-img" >
+          <img htmlFor="photo-upload" src={picture4 ? picture4 : photo4} />
+        </div>
+        <input id="photo-upload" type="file" onChange={onChangePicture4}/> 
+      </label>
+    );
+  }
 
   const onChangePicture = e => {
-    setPicture(URL.createObjectURL(e.target.files[0]) );
+    setPicture(URL.createObjectURL(e.target.files[0]));
+    setfile(e.target.files[0])
+    uploadImage(e.target.files[0], match.params.id)
   };
-
-  const [picture, setPicture] = useState(null);
+  const onChangePicture2 = e => {
+    setPicture2(URL.createObjectURL(e.target.files[0]));
+    setfile2(e.target.files[0])
+    uploadImage(e.target.files[0], match.params.id)
+  };
+  const onChangePicture3 = e => {
+    setPicture3(URL.createObjectURL(e.target.files[0]));
+    setfile3(e.target.files[0])
+    uploadImage(e.target.files[0], match.params.id)
+  };
+  const onChangePicture4 = e => {
+    setPicture4(URL.createObjectURL(e.target.files[0]));
+    setfile4(e.target.files[0])
+    uploadImage(e.target.files[0], match.params.id)
+  };
 
   const onSubmit = async e => {
       e.preventDefault();
       updateItem(formData, match.params.id);
+      getItemById(match.params.id)
       window.location.reload()
   }
   
@@ -133,13 +184,13 @@ const ItemDetails = ({ getItemById, updateItem, item:{ item, loading }, match })
               <ImgUpload/>
             </MDBCol>
             <MDBCol className="item-prev-col flex-center" size="6">
-              <ImgUpload/>
+              <ImgUpload2/>
             </MDBCol>
             <MDBCol className="item-prev-col flex-center" size="6">
-              <ImgUpload/>
+              <ImgUpload3/>
             </MDBCol>
             <MDBCol className="item-prev-col flex-center" size="6">
-              <ImgUpload/>
+              <ImgUpload4/>
             </MDBCol>
             </MDBRow>
             <input type="text" name="itemname" value={itemname} onChange={e => onChange(e)} className="form-control mt-3" placeholder="itemname" />
@@ -248,4 +299,4 @@ ItemDetails.propTypes = {
 const mapStateToProps = state => ({
   item: state.item
 })
-export default connect( mapStateToProps, { getItemById, updateItem })(ItemDetails);
+export default connect( mapStateToProps, { getItemById, updateItem, uploadImage })(ItemDetails);

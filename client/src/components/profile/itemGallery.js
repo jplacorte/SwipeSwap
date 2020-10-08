@@ -59,12 +59,65 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
         </label>
       );
     }
+    const ImgUpload2 = () =>{
+      return(
+        <label htmlFor="photo-upload2" className="item-prev-upload flex-center">
+          <div className="item-prev-upload-wrap item-prev-upload-img" >
+            <img htmlFor="photo-upload2" src={picture2 ? picture2 : Add} />
+          </div>
+          <input id="photo-upload2" type="file" onChange={onChangePicture2}/> 
+        </label>
+      );
+    }
+    const ImgUpload3 = () =>{
+      return(
+        <label htmlFor="photo-upload3" className="item-prev-upload flex-center">
+          <div className="item-prev-upload-wrap item-prev-upload-img" >
+            <img htmlFor="photo-upload3" src={picture3 ? picture3 : Add} />
+          </div>
+          <input id="photo-upload3" type="file" onChange={onChangePicture3}/> 
+        </label>
+      );
+    }
+    const ImgUpload4 = () =>{
+      return(
+        <label htmlFor="photo-upload4" className="item-prev-upload flex-center">
+          <div className="item-prev-upload-wrap item-prev-upload-img" >
+            <img htmlFor="photo-upload4" src={picture4 ? picture4 : Add} />
+          </div>
+          <input id="photo-upload4" type="file" onChange={onChangePicture4}/> 
+        </label>
+      );
+    }
 
     const onChangePicture = e => {
-        setPicture(URL.createObjectURL(e.target.files[0]) );
+      setPicture(URL.createObjectURL(e.target.files[0]));
+      setfile(e.target.files[0])
+    };
+    const onChangePicture2 = e => {
+      setPicture2(URL.createObjectURL(e.target.files[0]));
+      setfile2(e.target.files[0])
+    };
+    const onChangePicture3 = e => {
+      setPicture3(URL.createObjectURL(e.target.files[0]));
+      setfile3(e.target.files[0])
+    };
+    const onChangePicture4 = e => {
+      setPicture4(URL.createObjectURL(e.target.files[0]));
+      setfile4(e.target.files[0])
     };
 
     const [picture, setPicture] = useState(null);
+    const [file, setfile] = useState(undefined);
+
+    const [picture2, setPicture2] = useState(null);
+    const [file2, setfile2] = useState(undefined);
+  
+    const [picture3, setPicture3] = useState(null);
+    const [file3, setfile3] = useState(undefined);
+  
+    const [picture4, setPicture4] = useState(null);
+    const [file4, setfile4] = useState(undefined);
     
     const onChangeStatus = val => {
       setFormData({ ...formData, status: val })
@@ -109,13 +162,13 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
               <ImgUpload/>
             </MDBCol>
             <MDBCol className="item-prev-col flex-center" size="6">
-              <ImgUpload/>
+              <ImgUpload2/>
             </MDBCol>
             <MDBCol className="item-prev-col flex-center" size="6">
-              <ImgUpload/>
+              <ImgUpload3/>
             </MDBCol>
             <MDBCol className="item-prev-col flex-center" size="6">
-              <ImgUpload/>
+              <ImgUpload4/>
             </MDBCol>
             </MDBRow>
             <input type="text" name="itemname" value={itemname} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Item Name" required />

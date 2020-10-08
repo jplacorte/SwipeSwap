@@ -3,6 +3,7 @@ import { setAlert } from './alert';
 
 import {
     GET_PROFILE,
+    UPDATE_AVATAR,
     PROFILE_ERROR
 } from './types';
 
@@ -76,7 +77,7 @@ export const updateAvatar = file => async dispatch => {
         const res = await axios.put('/api/profile/upload/photo', photoData, config)
 
         dispatch({
-            type: GET_PROFILE,
+            type: UPDATE_AVATAR,
             payload: res.data
         });
 

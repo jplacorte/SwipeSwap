@@ -220,7 +220,7 @@ router.put('/badge', async (req, res) => {
 // @route   PUT api/profile/upload/photo
 // @des     Update profile photo
 // @access  Private
-router.put('/upload/photo', auth, parser.single('file'), async (req, res) => {
+router.put('/upload/photo', parser.single('file'), auth, async (req, res) => {
 
     try {
         let profile = await Profile.findOne({ user: req.user.id })
@@ -230,7 +230,7 @@ router.put('/upload/photo', auth, parser.single('file'), async (req, res) => {
             { $set: {avatar: req.file.path} },
             { new: true }
         )
-        return res.json(profile)
+        return res.json(req.file.path)
     
     } catch (err) {
         console.error(err.message)

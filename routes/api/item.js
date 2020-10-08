@@ -10,6 +10,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary')
 
 const Item = require('../../models/Item')
 const User = require('../../models/User')
+const Match = require('../../models/Match')
 
 
 cloudinary.config({
@@ -22,7 +23,7 @@ const storage = new CloudinaryStorage({
     cloudinary : cloudinary,
     params:{
         folder: "swipeSwap",
-        allowed_formats: ["jpg", "png", "jpeg"],
+        allowed_formats: ["jpg", "png", "jpeg", "webp"],
         transformation: [{quality: 'auto' }]  
     }
 })
@@ -87,7 +88,7 @@ router.get('/:id', auth, async (req, res) => {
 // @route   POST item
 // @des     Add Item
 // @access  Private
-router.post('/', auth, async (req, res) => {
+router.post('/', parser.single('file'), auth, async (req, res) => {
     const {
         itemname,
         description,
@@ -110,6 +111,12 @@ router.post('/', auth, async (req, res) => {
     try {
 
         item = new Item(itemFields)
+        await item.save(async (err, docs) => {
+            const insertedID = await Item.findById(docs._id)
+        
+            insertedID.photo.push({ url: req.file.path })
+            await insertedID.save()
+        })
         await item.save()
         return res.json(item)
 
@@ -131,22 +138,22 @@ router.put('/:item_id', auth, async (req, res) => {
     } = req.body
 
     //Build Item Objects
-    const itemFields = {}
-    itemFields.user = req.user.id
-    if(itemname) itemFields.itemname = itemname
-    if(description) itemFields.description = description
-    if(status) itemFields.status = status
-    if(catvalue){
-        itemFields.categories = catvalue.split(',').map(cat => cat.trim())
+    const itemFields = {
+        user: req.user.id,
+        itemname,
+        description,
+        status,
+        categories: Array.isArray(catvalue)
+        ? catvalue
+        : catvalue.split(',').map((cat) => cat.trim())
     }
 
     try {
         //Update Item
-        let item = await Item.findById(req.params.item_id)
-        item = await Item.findByIdAndUpdate(
+        let item = await Item.findByIdAndUpdate(
             { _id: req.params.item_id },
             { $set: itemFields },
-            { new: true }
+            { new: true, upsert: true, setDefaultsOnInsert: true }
         )
         return res.json(item)  
         
@@ -213,6 +220,7 @@ router.put('/upload/photo/:id', auth, parser.single('file'), async (req, res) =>
 
 })
 
+
 // @route   PUT api/item/review/:item_id
 // @des     Review an item
 // @access  Private
@@ -245,6 +253,33 @@ router.put('/review/:id', auth, async (req, res) => {
         console.error(err.message)
         res.status(500).send('Server Error')
 
+    }
+})
+
+// @route   PUT api/item/review/:item_id
+// @des     Review an item
+// @access  Private
+router.post('/want/:item_id', auth, async (req, res) => {
+
+    const item = Item.findById(req.params.item_id)
+    const user = User.findById(req.user.id)
+
+    try {
+
+        match = new Match({
+            user: req.user.id,
+            name: user.name,
+            item: req.params.item_id,
+            itemname: item.itemname
+        })
+        
+        await match.save()
+        return res.json(match)
+
+    } catch (err) {
+
+        console.error(err.message)
+        res.status(500).send('Server Error')
     }
 })
 

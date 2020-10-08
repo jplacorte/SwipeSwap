@@ -6,10 +6,12 @@ import {
     GET_ITEM,
     ADD_ITEMS,
     UPDATE_ITEMS,
+    WANT_ITEM,
     RATE_ITEMS,
     ITEMS_ERROR,
     GET_SWAPPED_ITEMS, 
-    OPEN_ITEM_MODAL
+    OPEN_ITEM_MODAL,
+    UPLOAD_ITEM_IMAGE
 } from './types';
 
 // @route   GET item/
@@ -219,5 +221,36 @@ export const rateItem = itemID => async dispatch => {
             payload: { msg: err.response.statusText, status: err.response.status }
         });
 
+    }
+}
+
+//Upload Item Image
+export const uploadImage = (file, item_id) => async dispatch => {
+
+    const photoData = new FormData();
+    photoData.append('file', file);
+
+    try {
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const res = await axios.put(`/api/item/upload/photo/${item_id}`, photoData, config)
+
+        dispatch({
+            type: UPLOAD_ITEM_IMAGE,
+            payload: res.data
+        });
+
+    } catch (err) {
+
+        dispatch({
+            type: ITEMS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+        
     }
 }

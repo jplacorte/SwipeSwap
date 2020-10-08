@@ -43,7 +43,7 @@ useEffect(() =>{
     avatar: loading || !profile.avatar ? Avatar : profile.avatar,
     
   })
-}, [loading]);
+}, [getCurrentProfile, loading]);
 
     const [picture, setPicture] = useState(null);
     const [file, setfile] = useState(undefined)
@@ -51,7 +51,7 @@ useEffect(() =>{
     const onChangePicture = e => {
         setPicture(URL.createObjectURL(e.target.files[0]));
         setfile(e.target.files[0])
-        console.log(e.target.files[0])
+        updateAvatar(e.target.files[0])
     };
 
 
@@ -70,13 +70,10 @@ useEffect(() =>{
 
     const onSubmit = e => {
       e.preventDefault();
-      if(file){
-        updateAvatar(file);
-      }
       createProfile(formData, history);
-
+      getCurrentProfile()
       handleClose();
-      window.location.reload()
+      // window.location.reload()
     };
 
     const ImgUpload = () =>{
