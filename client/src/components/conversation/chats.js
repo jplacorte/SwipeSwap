@@ -12,19 +12,19 @@ const Chats = ({ getAllTransaction, transaction: { transactions, loading } }) =>
     }, [getAllTransaction])
     return (
      <div className="chats">
-         {
-             transactions.length > 0 ? (
-                 transactions.map( transaction => (
+         
+             {/* transactions.length > 0 ? ( */}
+                 {/* transactions.map( transaction => ( */}
                     <Chat
-                        id={transaction._id}
+                        // id={transaction._id}
                         name="Mac"
                         message="Hello!"
                         timestamp="40 seconds ago"
                         profilePic="https://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20%283%29.jpg"
                     />
-                ))
-             ):(<h4>Chat is empty....</h4>)
-         }
+                {/* )) */}
+             {/* ):(<h4>Chat is empty....</h4>) */}
+         
     </div>
     );
 }
