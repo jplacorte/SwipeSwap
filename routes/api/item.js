@@ -257,7 +257,7 @@ router.put('/review/:id', auth, async (req, res) => {
 })
 
 // @route   PUT api/item/review/:item_id
-// @des     Review an item
+// @des     Want an item
 // @access  Private
 router.post('/want/:item_id', auth, async (req, res) => {
 

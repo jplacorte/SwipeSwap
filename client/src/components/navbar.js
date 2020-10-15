@@ -89,7 +89,8 @@ class Navbar extends React.Component {
                     </NavLink>
                   </MDBNavItem>
                   <MDBNavItem>
-                    <NavLink className="waves-effect waves-light" to="/notifications" activeStyle={{ fontWeight: "bold",color: "#98D7C2" }} style={{color: 'white'}}><MDBIcon className="mx-2" icon="bell" size="lg" />
+                    <NavLink className="waves-effect waves-light" to="/notifications" activeStyle={{ fontWeight: "bold",color: "#98D7C2" }} style={{color: 'white'}}><MDBIcon className="mx-0" icon="bell" size="lg" />
+                      <MDBBadge color="danger" className="rounded-circle mb-2 ml-0"> </MDBBadge>
                     </NavLink>
                   </MDBNavItem>
                 </MDBNavbarNav>

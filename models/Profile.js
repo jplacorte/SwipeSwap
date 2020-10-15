@@ -50,7 +50,19 @@ const ProfileSchema = new mongoose.Schema({
         instagram: {
             type: String
         }
-    }
+    },
+    boring: [
+        {
+            item: {
+                type: Schema.Types.ObjectId,
+                ref: 'item'
+            },
+            itemname: {
+                type: String
+            },
+            categories: [String]
+        }
+    ]
 })
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema)
