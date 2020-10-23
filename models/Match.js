@@ -19,7 +19,10 @@ const MatchSchema = new mongoose.Schema({
                 type: String
             }          
         }
-    ]
+    ],
+    status: {
+        type: String
+    }
 
 })
 

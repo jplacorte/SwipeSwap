@@ -4,7 +4,7 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 
 function Notification({ name, message, profilePic, timestamp }) {
     return (
-    <Link to="#">
+    <Link to="/chatScreen/id">
           <MDBRow>
             <MDBCol md="12">
            {/* read-notification if read */}

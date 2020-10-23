@@ -3,6 +3,7 @@ import { setAlert } from './alert';
 
 import {
     GET_PROFILE,
+    GET_RECEIVED_ITEM,
     UPDATE_AVATAR,
     PROFILE_ERROR
 } from './types';
@@ -88,5 +89,28 @@ export const updateAvatar = file => async dispatch => {
             payload: { msg: err.response.statusText, status: err.response.status }
         });
         
+    }
+}
+
+//Get received item
+export const getReceivedItem = () => async dispatch => {
+    try {
+        const res = await axios.get('/api/transaction/swap/received');
+
+        dispatch({
+            type: GET_RECEIVED_ITEM,
+            payload: res.data
+        });
+    } catch (err) {
+
+        const errors = err.response.data.errors;
+        if(errors){
+            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+        }
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
     }
 }

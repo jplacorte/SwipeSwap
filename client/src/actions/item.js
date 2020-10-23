@@ -254,3 +254,29 @@ export const uploadImage = (file, item_id) => async dispatch => {
         
     }
 }
+
+//Want an item
+export const wantItem = itemID => async dispatch => {
+    try {
+
+        const res = await axios.post(`/api/item/want/${itemID}`);
+
+        dispatch({
+            type: WANT_ITEM,
+            payload: res.data
+        });
+
+    } catch (err) {
+
+        const errors = err.response.data.errors;
+        if(errors){
+            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+        }
+
+        dispatch({
+            type: ITEMS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+
+    }
+}

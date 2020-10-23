@@ -25,23 +25,10 @@ const ChatScreen = ({ getAllChat, transaction: { chat, loading }, match }) => {
     const [ input, setInput ] = useState ('');
     const [ messages, setMessages ] = useState ([
         {
-            name: 'Mac',
-            image: 'https://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20%283%29.jpg',
+            name: 'John Phillip Lacorte',
+            image: 'https://res.cloudinary.com/dibx7ua1g/image/upload/v1602141359/swipeSwap/jrpcj5s7vpijiqxau5x0.jpg',
             message: 'Hi!'
-        },
-        {
-            name: 'Mac',
-            image: 'https://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20%283%29.jpg',
-            message: 'How old is this item?'
-        },
-        {
-            message: 'Good as new',
-        },
-        {
-          name: 'Mac',
-          image: 'https://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20%283%29.jpg',
-          message: 'How old is this item?'
-      },
+        }
     ]);
 
     const handleSend = e => {
@@ -90,11 +77,11 @@ const ChatScreen = ({ getAllChat, transaction: { chat, loading }, match }) => {
                    <div className="flex-fill bd-highlight col-example text-right">
                    <div className="d-flex bd-highlight example-parent">
                       <div className="w-100 bd-highlight col-example">
-                          <div>Sample Name</div>
+                          <div>John Phillip Lacorte</div>
                           <div style={{fontSize: '12px', color: 'grey'}}>Active 40 seconds ago</div>
                       </div>
                       <div className="bd-highlight col-example">
-                      <img src={"https://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20%283%29.jpg"} className="rounded-circle chat-screen-image ml-2 mt-1" alt="KB" />
+                      <img src={"https://res.cloudinary.com/dibx7ua1g/image/upload/v1602141359/swipeSwap/jrpcj5s7vpijiqxau5x0.jpg"} className="rounded-circle chat-screen-image ml-2 mt-1" alt="KB" />
                       </div>
                       <div className="text-right">
                       <MDBDropdown className="pt-1" style={{fontSize: '10px!important'}} dropleft>
@@ -116,7 +103,7 @@ const ChatScreen = ({ getAllChat, transaction: { chat, loading }, match }) => {
             <MDBRow className="chat-screen-content">
             <MDBCol xl="12" className="mx-">
             
-            <p className="text-center mt-5">YOU MATCHED WITH MAC ON 08/14/20</p>
+            <p className="text-center mt-5">YOU MATCHED WITH John Phillip Lacorte ON 10/23/20</p>
 
             <div>
                 <ChatSwap />

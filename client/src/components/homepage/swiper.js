@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Item, AppContainer, ExtraInfo, Code } from "./swipestyle";
 import { connect } from 'react-redux';
-import { getAllItem, getItemById, openItemModal } from '../../actions/item';
+import { getAllItem, wantItem } from '../../actions/item';
 import Carousel from "./carousel";
 import { MDBRow, MDBCol, MDBBtn, MDBModal,  MDBModalFooter, MDBView, MDBMask, MDBListGroupItem, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBRating } from 'mdbreact';
 import "../../css/style.css";
@@ -9,7 +9,7 @@ import "../../css/mediaQuery.css";
 import SwipeImage from '../../assets/images/swipeswap_item.jpg';
 import Avatar from '../../assets/images/avatar.png';
 
-const Swiper = ({ getAllItem, openItemModal, item:{ itemModal, items, loading } }) => {
+const Swiper = ({ getAllItem, wantItem, item:{ itemModal, items, loading } }) => {
 
     useEffect(() => {
       getAllItem() 
@@ -73,7 +73,7 @@ const Swiper = ({ getAllItem, openItemModal, item:{ itemModal, items, loading } 
     }
 
     const want = e => {
-      console.log(e)
+      wantItem(e)
     }
 
     return (
@@ -238,4 +238,4 @@ const mapStateToProps = state => ({
   item: state.item
 })
 
-export default connect(mapStateToProps, { getAllItem, openItemModal })(Swiper);
+export default connect(mapStateToProps, { getAllItem, wantItem })(Swiper);

@@ -5,6 +5,7 @@ const router = express.Router()
 const auth = require('../../middleware/auth')
 const { check, validationResult } = require('express-validator')
 
+const Profile = require('../../models/Profile')
 const Transaction = require('../../models/Transaction')
 const UserTransaction = require('../../models/UserTransaction')
 const Notif = require('../../models/Notification')
@@ -141,4 +142,29 @@ router.put('/user/chat/:id', auth, async (req, res) => {
     }
 })
 
+// @route   POST api/transaction/
+// @des     Transaction completed
+// @access  Private
+router.post('/', auth, async (req, res) => {
+    
+})
+
+// @route   GET api/transaction/swap/received/
+// @des     Get received from swap transaction
+// @access  Private
+router.get('/swap/received', auth, async (req, res) => {
+
+    try {
+        const swappedItems = await Profile.findById(req.user.id)
+        
+        if(!swappedItems){
+            return res.status(400).json({ msg: 'Empty...' })
+        }
+
+        res.json(swappedItems)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
 module.exports = router

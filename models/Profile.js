@@ -51,6 +51,20 @@ const ProfileSchema = new mongoose.Schema({
             type: String
         }
     },
+    receivedFromSwapped: [
+        {
+            item: {
+                type: Schema.Types.ObjectId,
+                ref:'item'
+            },
+            itemname: {
+                type: String
+            },
+            itemimage: {
+                type: String
+            }      
+        }
+    ],
     boring: [
         {
             item: {

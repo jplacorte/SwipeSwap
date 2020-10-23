@@ -256,25 +256,33 @@ router.put('/review/:id', auth, async (req, res) => {
     }
 })
 
-// @route   PUT api/item/review/:item_id
+// @route   POST api/item/review/:item_id
 // @des     Want an item
 // @access  Private
 router.post('/want/:item_id', auth, async (req, res) => {
 
-    const item = Item.findById(req.params.item_id)
-    const user = User.findById(req.user.id)
+    const item = await Item.findById(req.params.item_id)
+    const user = await User.findById(req.user.id)
+    const matchItem = await Match.find({users:{$elemMatch:{ item: req.params.item_id }}})
 
     try {
-
-        match = new Match({
-            user: req.user.id,
-            name: user.name,
-            item: req.params.item_id,
-            itemname: item.itemname
-        })
-        
-        await match.save()
-        return res.json(match)
+        if(matchItem.length > 0){
+            console.log("Update Only")
+            console.log(matchItem)
+        }else{
+            match = new Match({
+                users: [
+                    {
+                        user: req.user.id,
+                        name: user.name,
+                        item: req.params.item_id,
+                        itemname: item.itemname
+                    }
+                ]
+            })
+            await match.save()
+            return res.json(match)
+        }   
 
     } catch (err) {
 
