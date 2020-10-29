@@ -11,6 +11,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const Item = require('../../models/Item')
 const User = require('../../models/User')
 const Match = require('../../models/Match')
+const Transaction = require('../../models/Transaction')
 
 
 cloudinary.config({
@@ -182,12 +183,12 @@ router.put('/swapped/:id', auth, async (req, res) => {
     return res.json(item)
 })
 
-// @route   GET item/swapped
+// @route   GET api/item/swapped/items
 // @desc    Get swapped items
 // @access  Private
-router.get('/swapped/items', async (req, res) => {
+router.get('/swapped/items', auth, async (req, res) => {
     try {
-        let swappedItem = await Item.find({ swapped: true })
+        let swappedItem = await Item.find({ swapped: true, user: req.user.id })
         
         if(!swappedItem){
             return res.status(400).json({ msg: 'There is no item' })
@@ -256,31 +257,74 @@ router.put('/review/:id', auth, async (req, res) => {
     }
 })
 
-// @route   POST api/item/review/:item_id
+// @route   POST api/want/:item_id/:owner_id
 // @des     Want an item
 // @access  Private
-router.post('/want/:item_id', auth, async (req, res) => {
+router.post('/want/:item_id/:owner_id', auth, async (req, res) => {
 
     const item = await Item.findById(req.params.item_id)
     const user = await User.findById(req.user.id)
+    const ownername = await User.findById(req.params.owner_id)
+    const owner = await Match.find({users:{$elemMatch:{owner:req.params.owner_id}}})
     const matchItem = await Match.find({users:{$elemMatch:{ item: req.params.item_id }}})
 
     try {
         if(matchItem.length > 0){
+            if( user || owner){
             console.log("Update Only")
             console.log(matchItem)
+            }else{
+                match = new Match({
+                    users: [
+                        {
+                            user: req.user.id,
+                            owner: req.params.owner_id,
+                            ownername: ownername.name,
+                            name: user.name,
+                            item: req.params.item_id,
+                            itemname: item.itemname
+                        }
+                    ]
+                })
+                await match.save(async(err, docs) => {
+                    trans = new Transaction({
+                        match: docs._id,
+                        users:{
+                            user: req.user.id,
+                            name: user.name,
+                            item: req.params.item_id,
+                            itemname: item.itemname
+                        }
+                    })
+                    await trans.save()
+                })
+                return res.json(match)
+            }
         }else{
             match = new Match({
                 users: [
                     {
                         user: req.user.id,
+                        owner: req.params.owner_id,
+                        ownername: ownername.name,
                         name: user.name,
                         item: req.params.item_id,
                         itemname: item.itemname
                     }
                 ]
             })
-            await match.save()
+            await match.save(async(err, docs) => {
+                trans = new Transaction({
+                    match: docs._id,
+                    users:{
+                        user: req.user.id,
+                        name: user.name,
+                        item: req.params.item_id,
+                        itemname: item.itemname
+                    }
+                })
+                await trans.save()
+            })
             return res.json(match)
         }   
 

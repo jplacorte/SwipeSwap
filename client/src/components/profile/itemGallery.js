@@ -219,7 +219,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
             swappedItems.length > 0 ? (
               swappedItems.map((item) => (
               <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src={ItemImg} alt="img.jpg"/>
+              <img src={item.photo[0].url} alt="img.jpg"/>
               </MDBCol>
             ))): (<h4>No items found...</h4>)
           }

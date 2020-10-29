@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link }  from 'react-router-dom';
-import { getAllChat } from '../../actions/transaction';
+import { getAllChat, getTransactionUsers } from '../../actions/transaction';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
@@ -10,11 +10,12 @@ import ChatSwap from './chatSwap';
 import 'react-chat-elements/dist/main.css';
 
 // CHATSCREEN 
-const ChatScreen = ({ getAllChat, transaction: { chat, loading }, match }) => {
+const ChatScreen = ({ getAllChat, getTransactionUsers, transaction: { chat, transaction_users, loading }, match, auth: { isAuthenticated, user } }) => {
 
   useEffect(() => {
     getAllChat(match.params.id)
-  }, [getAllChat, match.params.id])
+    getTransactionUsers(match.params.id)
+  }, [getAllChat, getTransactionUsers, match.params.id])
 
     const [show, setShow] = useState(false);
 
@@ -77,7 +78,7 @@ const ChatScreen = ({ getAllChat, transaction: { chat, loading }, match }) => {
                    <div className="flex-fill bd-highlight col-example text-right">
                    <div className="d-flex bd-highlight example-parent">
                       <div className="w-100 bd-highlight col-example">
-                          <div>John Phillip Lacorte</div>
+                          <div>{transaction_users.length > 0 ? (transaction_users.map(user_trans => (isAuthenticated ? ( user.name === user_trans.users[0].name ? user_trans.users[1].name : user_trans.users[0].name) : ''))) : ""}</div>
                           <div style={{fontSize: '12px', color: 'grey'}}>Active 40 seconds ago</div>
                       </div>
                       <div className="bd-highlight col-example">
@@ -103,7 +104,7 @@ const ChatScreen = ({ getAllChat, transaction: { chat, loading }, match }) => {
             <MDBRow className="chat-screen-content">
             <MDBCol xl="12" className="mx-">
             
-            <p className="text-center mt-5">YOU MATCHED WITH John Phillip Lacorte ON 10/23/20</p>
+            <p className="text-center mt-5">YOU MATCHED WITH {transaction_users.length > 0 ? (transaction_users.map(user_trans => (isAuthenticated ? ( user.name === user_trans.users[0].name ? user_trans.users[1].name : user_trans.users[0].name) : ''))) : ""} ON 10/23/20</p>
 
             <div>
                 <ChatSwap />
@@ -127,7 +128,7 @@ const ChatScreen = ({ getAllChat, transaction: { chat, loading }, match }) => {
                 )
                 )}
                     <form className="chat-screen-input" onSubmit={handleSend}>
-                    <div className="input-group" style={{width: '50px', zIndex: '-1'}}
+                    {/* <div className="input-group" style={{width: '50px', zIndex: '-1'}}
                     >
                       <MDBView className="custom-file mt-1">
                       <MDBIcon icon="paperclip" size="lg" style={{color: '#167D7F'}} />
@@ -141,7 +142,7 @@ const ChatScreen = ({ getAllChat, transaction: { chat, loading }, match }) => {
                         />
                         </MDBMask>
                       </MDBView>
-                    </div>
+                    </div> */}
                         <input 
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
@@ -159,6 +160,7 @@ const ChatScreen = ({ getAllChat, transaction: { chat, loading }, match }) => {
 }
 
 const mapStateToProps = state => ({
-    transaction: state.transaction
+    transaction: state.transaction,
+    auth: state.auth
 })
-export default connect(mapStateToProps, {getAllChat})(ChatScreen);
+export default connect(mapStateToProps, { getAllChat, getTransactionUsers })(ChatScreen);

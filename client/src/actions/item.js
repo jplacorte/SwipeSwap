@@ -11,7 +11,8 @@ import {
     ITEMS_ERROR,
     GET_SWAPPED_ITEMS, 
     OPEN_ITEM_MODAL,
-    UPLOAD_ITEM_IMAGE
+    UPLOAD_ITEM_IMAGE,
+    GET_RECEIVED_ITEM
 } from './types';
 
 // @route   GET item/
@@ -199,10 +200,16 @@ export const updateItem = (formData, itemID) => async dispatch => {
 // @route   PUT api/item/review/:item_id
 // @des     Rate and review an item
 // @access  Private
-export const rateItem = itemID => async dispatch => {
+export const rateItem = (formData, itemID) => async dispatch => {
     try {
 
-        const res = await axios.put(`/api/item/review/${itemID}`);
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const res = await axios.put(`/api/item/review/${itemID}`, formData, config);
 
         dispatch({
             type: RATE_ITEMS,
@@ -256,10 +263,10 @@ export const uploadImage = (file, item_id) => async dispatch => {
 }
 
 //Want an item
-export const wantItem = itemID => async dispatch => {
+export const wantItem = (itemID, userID) => async dispatch => {
     try {
 
-        const res = await axios.post(`/api/item/want/${itemID}`);
+        const res = await axios.post(`/api/item/want/${itemID}/${userID}`);
 
         dispatch({
             type: WANT_ITEM,
@@ -278,5 +285,28 @@ export const wantItem = itemID => async dispatch => {
             payload: { msg: err.response.statusText, status: err.response.status }
         });
 
+    }
+}
+
+// @route   GET api/transaction/swap/received/
+// @des     Get received from swap transaction
+// @access  Private
+export const getReceivedItems = () => async dispatch => {
+    try {
+
+        const res = await axios.get('/api/transaction/swap/received/')
+
+        dispatch({
+            type: GET_RECEIVED_ITEM,
+            payload: res.data
+        });
+        
+    } catch (err) {
+
+        dispatch({
+            type: ITEMS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+        
     }
 }

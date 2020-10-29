@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link }  from 'react-router-dom';
 import { MDBCol, MDBRow, MDBRating  } from 'mdbreact';
+import { connect } from 'react-redux';
 import ItemImg from '../../assets/images/item1.jpg';
+import { getSwappedItems } from '../../actions/item';
 
-function Reviews() {
+const Reviews = ({ getSwappedItems, item: { swappedItems, loading } }) => {
+
+    useEffect(() => {
+      getSwappedItems()
+    }, [getSwappedItems])
     const [basic] = useState([
       {
         tooltip: 'Poor'
@@ -24,11 +30,14 @@ function Reviews() {
     ]);
   return (
         <MDBRow className="reviews-container mx-auto px-2 py-3">
-            <MDBCol md="12">
+
+          {
+            swappedItems.length > 0 ? (swappedItems.map(items => (
+              <MDBCol md="12">
               <div className="reviews">
-                  <img src={ItemImg} className="item-img rounded-circle mr-3" alt="KB" />
+                  <img src={items.photo[0].url ? items.photo[0].url : ItemImg} className="item-img rounded-circle mr-3" alt="KB" />
                   <div className="reviews-details pt-3">
-                    <div className="grey-text">By:<span><a className="profile-link"> SampleName</a></span><span className="float-right">03/08/2020</span></div>
+                    <div className="grey-text">By:<span><a className="profile-link"> {items.review[0].name}</a></span><span className="float-right">03/08/2020</span></div>
                     <MDBRating 
                     data={basic} 
                     iconFaces 
@@ -41,14 +50,22 @@ function Reviews() {
                     ]}  
                     iconRegular 
                     />
-                    <p>Excellent Item, product is as good as new, trader is responsive.</p>
+                    <p>{items.review[0].reviewdetails}</p>
                   </div>    
               </div>
             </MDBCol>
+            )))
+            :(<h1>No items...</h1>)
+          }
+            
         </MDBRow>
         
 
   );
 }
 
-export default Reviews;
+const mapStateToProps = state => ({
+  item: state.item
+});
+
+export default connect(mapStateToProps, { getSwappedItems })(Reviews);

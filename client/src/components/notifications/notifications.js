@@ -4,30 +4,32 @@ import "../../css/mediaQuery.css";
 import Notification from './notification';
 import SwipeSwapLogo from '../../assets/images/ssicon.png';
 import { connect } from 'react-redux';
-import { getAllMatch } from '../../actions/match';
+import { getAllTransaction } from '../../actions/transaction';
 
-const Notifications = ({ getAllMatch, match:{ matches, loading }, auth: { isAuthenticated, user } }) => {
+const Notifications = ({ getAllTransaction, transaction: { transactions, loading }, auth: { isAuthenticated, user } }) => {
     
     useEffect(() => {
-        getAllMatch()
-    }, [getAllMatch])
+        getAllTransaction()
+    }, [getAllTransaction])
 
     return (
      <div className="notifications">
          {
-            matches.length > 0 ? matches.map(match => (
-            <Notification 
-                name="SwipeSwap Team"
-                message={`${isAuthenticated ? (user.name = match.users[0].name ? match.users[1].name : match.users[0].name) : match.users[0].name} matched with you!`}
+            transactions.length > 0 ? transactions.map(match => (
+                match.users.length > 1 ? (
+                <Notification
+                id={match._id} 
+                name="Swipe Swap Team"
+                message={`${isAuthenticated ? ( user.name == match.users[0].name ? match.users[1].name : match.users[0].name) : ''} matched with you!`}
                 profilePic={SwipeSwapLogo}
-            />)):(<h1>No notifs</h1>)
+                />): '')):(<h1>No notifs</h1>)
          }
     </div>
     );
 }
 const mapStateToProps = state => ({
-    match: state.match,
+    transaction: state.transaction,
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { getAllMatch })(Notifications);
+export default connect(mapStateToProps, { getAllTransaction })(Notifications);

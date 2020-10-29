@@ -10,13 +10,15 @@ const Transaction = require('../../models/Transaction')
 const UserTransaction = require('../../models/UserTransaction')
 const Notif = require('../../models/Notification')
 const User = require('../../models/User')
+const Match = require('../../models/Match')
+const Item = require('../../models/Item')
 
 // @route   GET api/transaction/
 // @des     Get all transaction of user
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {
-        const user = await UserTransaction.find({user: req.user.id})
+        const user = await Transaction.find({users:{$elemMatch:{ user: req.user.id }}})
 
         return res.json(user)
     } catch (err) {
@@ -31,12 +33,26 @@ router.get('/', auth, async (req, res) => {
 router.get('/:id', auth, async (req, res) => {
     try {
 
-        const chat = await Transaction.find({_id: req.params._id})
+        const chat = await Transaction.find({_id: req.params.id})
 
         return res.json(chat)
 
     } catch (err) {
         
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+// @route   GET api/transaction/match/chat/users/:id
+// @des     Get all users by transaction
+// @access  Private
+router.get('/match/chat/users/:id', auth, async (req, res) =>{
+    try {
+        const user = await UserTransaction.find({transaction: req.params.id})
+
+        return res.json(user)
+    } catch (err) {
         console.error(err.message)
         res.status(500).send('Server Error')
     }
@@ -79,6 +95,36 @@ router.post('/:item_id', auth, async (req, res) => {
     } catch (err) {
         console.error(err.message)
         res.status(500).send('Server Error')
+    }
+})
+
+// @route   POST api/transaction/swapped/:item_id
+// @des     Approve a transaction
+// @access  Private
+router.post('/swapped/:item_id', auth, async (req, res) => {
+    
+    const user = await User.findById(req.user.id)
+
+    const itemFields = {}
+    itemFields.swapped = true
+    itemFields.review = {}
+    itemFields.review.user = req.user.id,
+    itemFields.review.name = user.name,
+    itemFields.review.reviewdetails = "Pending to review"
+
+    try {
+        
+        item = await Item.findByIdAndUpdate(
+            {_id: req.params.item_id},
+            { $set: itemFields },
+            { new: true }
+        )
+        return res.json(item)
+    } catch (err) {
+
+        console.error(err.message)
+        res.status(500).send('Server Error')
+
     }
 })
 
@@ -142,11 +188,30 @@ router.put('/user/chat/:id', auth, async (req, res) => {
     }
 })
 
-// @route   POST api/transaction/
+// @route   PUT api/transaction/:id
 // @des     Transaction completed
 // @access  Private
-router.post('/', auth, async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
+
+    const {
+        status
+    } = req.body
     
+    try {
+        
+        item = await Transaction.findByIdAndUpdate(
+            { _id: req.params.id },
+            { $set: { status: status } },
+            { new: true }
+        )
+        
+        await Transaction.save()
+    } catch (err) {
+
+        console.error(err.message)
+        res.status(500).send("Server Error")  
+
+    }
 })
 
 // @route   GET api/transaction/swap/received/
@@ -155,7 +220,7 @@ router.post('/', auth, async (req, res) => {
 router.get('/swap/received', auth, async (req, res) => {
 
     try {
-        const swappedItems = await Profile.findById(req.user.id)
+        const swappedItems = await Profile.find({ user:req.user.id })
         
         if(!swappedItems){
             return res.status(400).json({ msg: 'Empty...' })
@@ -167,4 +232,28 @@ router.get('/swap/received', auth, async (req, res) => {
         res.status(500).send("Server Error")
     }
 })
+
+// @route   GET api/transaction/item/match/:match_id
+// desc     GET users match items
+// @access  Private
+router.get('/item/match/:match_id', auth, async (req, res) => {
+
+    try {
+
+        const matchItems = await Match.findById(req.params.match_id)
+        
+        if(!matchItems){
+            return res.status(404).json({ msg: 'Empty...' })
+        }
+
+        res.json(matchItems)
+        
+    } catch (err) {
+
+        console.error(err.message)
+        res.status(500).send("Server Error")
+
+    }
+})
+
 module.exports = router

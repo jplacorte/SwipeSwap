@@ -2,9 +2,9 @@ import React from 'react';
 import { Link }  from 'react-router-dom';
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 
-function Notification({ name, message, profilePic, timestamp }) {
+function Notification({ id, name, message, profilePic, timestamp }) {
     return (
-    <Link to="/chatScreen/id">
+    <Link to={`/chatScreen/${id}`}>
           <MDBRow>
             <MDBCol md="12">
            {/* read-notification if read */}

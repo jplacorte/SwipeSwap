@@ -15,12 +15,33 @@ const TransactionSchema = new mongoose.Schema({
     dateoftransaction: {
         type: Date
     },
-    confirmation: {
+    status: {
         type: Boolean
     },
     reason: {
         type: String
     },
+    users: [
+        {
+            user:{
+                type: Schema.Types.ObjectId,
+                ref:'user'
+            },
+
+            name:{
+                type: String
+            },
+
+            item:{
+                type: Schema.Types.ObjectId,
+                ref:'item'
+            },
+
+            itemname: {
+                type: String
+            }
+        }
+    ],
     chat: [
         {
             user:{

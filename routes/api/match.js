@@ -25,4 +25,23 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
+// @route   GET api/match/trans/item
+// @des     Get items from other user
+// @access  Private
+router.get('/trans/item', auth, async (req, res) => {
+    try {
+        const item = await Match.find({ user: { $nin: [req.user.id] }})
+
+        if(!item){
+            return res.status(400).json({ msg: 'There is no item' })
+        }
+
+        res.json(item)
+
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
+
 module.exports = router

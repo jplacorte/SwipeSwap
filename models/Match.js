@@ -4,6 +4,13 @@ const Schema = mongoose.Schema
 const MatchSchema = new mongoose.Schema({
     users: [
         {
+            owner: {
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+            ownername: {
+                type: String
+            },
             user: { 
                 type: Schema.Types.ObjectId,
                 ref: 'user'

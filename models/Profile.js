@@ -53,6 +53,16 @@ const ProfileSchema = new mongoose.Schema({
     },
     receivedFromSwapped: [
         {
+            owner: {
+                type: Schema.Types.ObjectId,
+                ref:'user'
+            },
+            name: {
+                type: String
+            },
+            avatar: {
+                type: String
+            },
             item: {
                 type: Schema.Types.ObjectId,
                 ref:'item'
@@ -62,7 +72,19 @@ const ProfileSchema = new mongoose.Schema({
             },
             itemimage: {
                 type: String
-            }      
+            },
+            categories: {
+                type: [String]
+            },
+            rating: {
+                type: String
+            },
+            reviewdetails: {
+                type: String
+            },      
+            status: {
+                type: String
+            }
         }
     ],
     boring: [
