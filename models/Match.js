@@ -11,12 +11,18 @@ const MatchSchema = new mongoose.Schema({
             ownername: {
                 type: String
             },
+            ownerAvatar: {
+                type: String
+            },
             user: { 
                 type: Schema.Types.ObjectId,
                 ref: 'user'
             },
             name: {
                 type: String
+            },
+            avatar: {
+                type: String  
             },
             item: {
                 type: Schema.Types.ObjectId,

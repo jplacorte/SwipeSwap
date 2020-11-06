@@ -23,20 +23,30 @@ const TransactionSchema = new mongoose.Schema({
     },
     users: [
         {
-            user:{
+            owner: {
                 type: Schema.Types.ObjectId,
-                ref:'user'
+                ref: 'user'
             },
-
-            name:{
+            ownername: {
                 type: String
             },
-
-            item:{
-                type: Schema.Types.ObjectId,
-                ref:'item'
+            ownerAvatar: {
+                type: String
             },
-
+            user: { 
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+            avatar: {
+                type: String
+            },
+            name: {
+                type: String
+            },
+            item: {
+                type: Schema.Types.ObjectId,
+                ref: 'item'
+            },
             itemname: {
                 type: String
             }

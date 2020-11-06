@@ -33,7 +33,8 @@ const Reviews = ({ getSwappedItems, item: { swappedItems, loading } }) => {
 
           {
             swappedItems.length > 0 ? (swappedItems.map(items => (
-              <MDBCol md="12">
+              items.review > 0 ? (
+                <MDBCol md="12">
               <div className="reviews">
                   <img src={items.photo[0].url ? items.photo[0].url : ItemImg} className="item-img rounded-circle mr-3" alt="KB" />
                   <div className="reviews-details pt-3">
@@ -54,7 +55,7 @@ const Reviews = ({ getSwappedItems, item: { swappedItems, loading } }) => {
                   </div>    
               </div>
             </MDBCol>
-            )))
+            ):(<h1>No items...</h1>))))
             :(<h1>No items...</h1>)
           }
             

@@ -23,9 +23,25 @@ const ChatSwap = ({ getAllChat, approve, transaction: { chats, loading }, auth: 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const approveTrans = (val) => {
-      approve(val)
+    const approveTrans = (userID, userName, itemID) => {
+      approve(itemID, userID, userName)
+      // console.log(userID, userName, itemID)
     }
+
+    let userID = ''
+    let userName = ''
+    let itemID = ''
+    chats.map(result => {
+      if(isAuthenticated && user.name === result.users[0].name){
+        userID = result.users[1].user 
+        userName = result.users[1].name
+        itemID = result.users[1].item
+      }else{
+        userID = result.users[0].user 
+        userName = result.users[0].name
+        itemID = result.users[0].item
+      }
+    })
     return (
       <div className="">
 
@@ -111,7 +127,7 @@ const ChatSwap = ({ getAllChat, approve, transaction: { chats, loading }, auth: 
           <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger">Ignore</MDBBtn>
           {
             chats.length > 0 ? chats.map(users => (
-              <MDBBtn onClick={val => approveTrans(isAuthenticated ? ( user._id === users.users[0].user ? (users.users[0].item, users.users[0].user) : users.users[1].item, users.users[1].user) : '')} className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
+              <MDBBtn onClick={val => approveTrans(userID, userName, itemID)} className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
             )):("Error")
           }
       </div>

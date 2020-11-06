@@ -171,23 +171,23 @@ const HomePage = ({ getAllItem, wantItem, item:{ items, loading } }) => {
                     [
                       {
                         tooltip: 'Very Bad',
-                        choosed: (itemstatus == 'Very Bad') ? true : false
+                        choosed: (itemstatus === 'Very Bad') ? true : false
                       },
                       {
                         tooltip: 'Poor',
-                        choosed: (itemstatus == 'Poor') ? true : false
+                        choosed: (itemstatus === 'Poor') ? true : false
                       },
                       {
                         tooltip: 'Ok',
-                        choosed: (itemstatus == 'Ok') ? true : false
+                        choosed: (itemstatus === 'Ok') ? true : false
                       },
                       {
                         tooltip: 'Good',
-                        choosed: (itemstatus == 'Good') ? true : false
+                        choosed: (itemstatus === 'Good') ? true : false
                       },
                       {
                         tooltip: 'Excellent',
-                        choosed: (itemstatus == 'Excellent') ? true : false
+                        choosed: (itemstatus === 'Excellent') ? true : false
                       }
                     ]
                 }
@@ -270,7 +270,7 @@ const HomePage = ({ getAllItem, wantItem, item:{ items, loading } }) => {
                 <div className="flex-center mt-3">
                     <MDBBtn className="ss-btn-rewind p-2 mr-4" color="warning"><MDBIcon icon="backward" style={{fontSize: '45px'}} /><br/> Rewind</MDBBtn>
          
-                    <MDBBtn className="ss-btn-boost p-2 ml-4" color="secondary" ><MDBIcon icon="rocket" style={{fontSize: '45px'}} /><br/> Boost</MDBBtn>
+                    {/* <MDBBtn className="ss-btn-boost p-2 ml-4" color="secondary" ><MDBIcon icon="rocket" style={{fontSize: '45px'}} /><br/> Boost</MDBBtn> */}
                 </div>
                
               </div>
@@ -312,7 +312,7 @@ const HomePage = ({ getAllItem, wantItem, item:{ items, loading } }) => {
                 <MDBBtn className="ss-btn-boring-m mx-2" color="danger"><MDBIcon icon="times" size="lg" /></MDBBtn>
                 <MDBBtn className="ss-btn-swant-m mx-2" color="primary"><MDBIcon icon="star" size="lg" /></MDBBtn>
                 <MDBBtn onClick={val => want(item_id,user_id)} className="ss-btn-want-m mx-2" color="success"><MDBIcon icon="heart" size="lg" /></MDBBtn>
-                  <MDBBtn className="ss-btn-boost-m mx-2" color="secondary"><MDBIcon icon="rocket" size="lg" /></MDBBtn>
+                  {/* <MDBBtn className="ss-btn-boost-m mx-2" color="secondary"><MDBIcon icon="rocket" size="lg" /></MDBBtn> */}
                 </div>
             </MDBCol>
           </MDBRow>

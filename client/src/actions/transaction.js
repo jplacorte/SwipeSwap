@@ -35,7 +35,7 @@ export const getAllTransaction = () => async dispatch => {
     }
 }
 
-// @route   GET transaction/
+// @route   GET api/transaction/:id
 // @des     Get all transaction from user
 // @access  Private
 export const getAllChat = trans_id => async dispatch => {
