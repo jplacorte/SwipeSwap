@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link, NavLink} from 'react-router-dom';
-import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBNavLink, MDBIcon, MDBListGroup, MDBListGroupItem, MDBBadge } from 'mdbreact';
+import { NavLink} from 'react-router-dom';
+import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBIcon, MDBListGroup, MDBListGroupItem, MDBBadge } from 'mdbreact';
 import 'react-pro-sidebar/dist/css/styles.css';
 import Sidebar from "react-sidebar";
-import { BrowserRouter as Router } from 'react-router-dom';
 import SSLogo from '../assets/icons/sslogo2.png';
 import Logout from './Logout';
 
@@ -89,7 +88,8 @@ class Navbar extends React.Component {
                     </NavLink>
                   </MDBNavItem>
                   <MDBNavItem>
-                    <NavLink className="waves-effect waves-light" to="/notifications" activeStyle={{ fontWeight: "bold",color: "#98D7C2" }} style={{color: 'white'}}><MDBIcon className="mx-2" icon="bell" size="lg" />
+                    <NavLink className="waves-effect waves-light" to="/notifications" activeStyle={{ fontWeight: "bold",color: "#98D7C2" }} style={{color: 'white'}}><MDBIcon className="mx-0" icon="bell" size="lg" />
+                      <MDBBadge color="danger" className="rounded-circle mb-2 ml-0"> </MDBBadge>
                     </NavLink>
                   </MDBNavItem>
                 </MDBNavbarNav>

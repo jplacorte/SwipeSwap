@@ -4,14 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Add from '../../assets/images/additem.png';
 import ItemImg from '../../assets/images/swipeswap_item.jpg';
-import Select from 'react-select';
 import { MDBIcon, MDBRow, MDBCol, MDBModal, MDBModalHeader, MDBModalBody, MDBBtn, MDBAnimation } from 'mdbreact';
-import { Link }  from 'react-router-dom';
 import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import { getAllItemsByUser, getSwappedItems, addItem } from '../../actions/item';
-import Items from './ItemGalleryItems';
 import MultiSelect from  'react-multiple-select-dropdown-lite';
 
 
@@ -29,19 +26,17 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     const handleShow = () => setShowModal(true);
 
     const [formData, setFormData] = useState({
-      photo: '',
-      category:'',
-      status:'',
       description:'',
-      itemname:''
+      itemname:'',
+      status:'',
+      categories: ''
     })
 
     const {
-      photo,
-      category,
-      status,
       description,
-      itemname
+      itemname,
+      status,
+      categories
     } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,16 +45,6 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
       e.preventDefault();
         addItem(formData)
         window.location.reload()
-    }
-
-    const catChange = category => {
-      setFormData({ category })
-      console.log(`Value:${category}`)
-    }
-
-    const statChange = status => {
-      setFormData({ status })
-      console.log(`Value:${status}`)
     }
 
     const ImgUpload = () =>{
@@ -72,39 +57,94 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
         </label>
       );
     }
-
-    const [uploadPhoto, setPhoto] = useState({
-      file: '',
-      imagePreviewUrl: ''
-    })
+    // const ImgUpload2 = () =>{
+    //   return(
+    //     <label htmlFor="photo-upload2" className="item-prev-upload flex-center">
+    //       <div className="item-prev-upload-wrap item-prev-upload-img" >
+    //         <img htmlFor="photo-upload2" src={picture2 ? picture2 : Add} />
+    //       </div>
+    //       <input id="photo-upload2" type="file" onChange={onChangePicture2}/> 
+    //     </label>
+    //   );
+    // }
+    // const ImgUpload3 = () =>{
+    //   return(
+    //     <label htmlFor="photo-upload3" className="item-prev-upload flex-center">
+    //       <div className="item-prev-upload-wrap item-prev-upload-img" >
+    //         <img htmlFor="photo-upload3" src={picture3 ? picture3 : Add} />
+    //       </div>
+    //       <input id="photo-upload3" type="file" onChange={onChangePicture3}/> 
+    //     </label>
+    //   );
+    // }
+    // const ImgUpload4 = () =>{
+    //   return(
+    //     <label htmlFor="photo-upload4" className="item-prev-upload flex-center">
+    //       <div className="item-prev-upload-wrap item-prev-upload-img" >
+    //         <img htmlFor="photo-upload4" src={picture4 ? picture4 : Add} />
+    //       </div>
+    //       <input id="photo-upload4" type="file" onChange={onChangePicture4}/> 
+    //     </label>
+    //   );
+    // }
 
     const onChangePicture = e => {
-        setPicture(URL.createObjectURL(e.target.files[0]) );
+      setPicture(URL.createObjectURL(e.target.files[0]));
+      setfile(e.target.files[0])
     };
+    // const onChangePicture2 = e => {
+    //   setPicture2(URL.createObjectURL(e.target.files[0]));
+    //   setfile2(e.target.files[0])
+    // };
+    // const onChangePicture3 = e => {
+    //   setPicture3(URL.createObjectURL(e.target.files[0]));
+    //   setfile3(e.target.files[0])
+    // };
+    // const onChangePicture4 = e => {
+    //   setPicture4(URL.createObjectURL(e.target.files[0]));
+    //   setfile4(e.target.files[0])
+    // };
 
     const [picture, setPicture] = useState(null);
-    
-    
-    const  handleOnchange = val => {
-      setvalue(val)
-  }
+    const [file, setfile] = useState(undefined);
 
-    const [value, setvalue] = useState('')
+    // const [picture2, setPicture2] = useState(null);
+    // const [file2, setfile2] = useState(undefined);
+  
+    // const [picture3, setPicture3] = useState(null);
+    // const [file3, setfile3] = useState(undefined);
+  
+    // const [picture4, setPicture4] = useState(null);
+    // const [file4, setfile4] = useState(undefined);
+    
+    const onChangeStatus = val => {
+      setFormData({ ...formData, status: val })
+    }
 
-    const categories = [
-      { value: '1', label: 'Category 1' },
-      { value: '2', label: 'Category 2' },
-      { value: '3', label: 'Category 3' },
-      { value: '4', label: 'Category 4' },
-      { value: '5', label: 'Category 5' }
+    const onChangeCategory = val => {
+      setFormData({ ...formData, categories: val })
+    }
+
+    const cat = [
+      { value: 'Vehicles', label: 'Vehicles' },
+      { value: 'Apparel', label: 'Apparel' },
+      { value: 'Electronics', label: 'Electronics' },
+      { value: 'Entertainment', label: 'Entertainment' },
+      { value: 'Baby & Kids Items', label: 'Baby & Kids Items' },
+      { value: 'Health & Beauty', label: 'Health & Beauty' },
+      { value: 'Pet Supplies', label: 'Pet Supplies' },
+      { value: 'Musical Instruments', label: 'Musical Instruments' },
+      { value: 'Office Supplies', label: 'Office Supplies' },
+      { value: 'Sporting Goods', label: 'Sporting Goods' },
+      { value: 'Toys & Games', label: 'Toys & Games' }      
   ];
 
     const conditions = [
-      { value: '1', label: 'Very Bad' },
-      { value: '2', label: 'Poor' },
-      { value: '3', label: 'Ok' },
-      { value: '4', label: 'Good' },
-      { value: '5', label: 'Excellent' }
+      { value: 'Very Bad', label: 'Very Bad' },
+      { value: 'Poor', label: 'Poor' },
+      { value: 'Ok', label: 'Ok' },
+      { value: 'Good', label: 'Good' },
+      { value: 'Excellent', label: 'Excellent' }
     ];
 
     return (
@@ -120,26 +160,26 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
               <ImgUpload/>
             </MDBCol>
             <MDBCol className="item-prev-col flex-center" size="6">
-              <ImgUpload/>
+              {/* <ImgUpload2/> */}
             </MDBCol>
             <MDBCol className="item-prev-col flex-center" size="6">
-              <ImgUpload/>
+              {/* <ImgUpload3/> */}
             </MDBCol>
             <MDBCol className="item-prev-col flex-center" size="6">
-              <ImgUpload/>
+              {/* <ImgUpload4/> */}
             </MDBCol>
             </MDBRow>
             <input type="text" name="itemname" value={itemname} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Item Name" required />
             <textarea type="text" name="description" value={description} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Description" />
             <MultiSelect
               className="w-100 mt-3"
-              onChange={handleOnchange}
-              options={categories}
+              onChange={onChangeCategory}
+              options={cat}
               placeholder="Categories"
             />
             <MultiSelect
               className="w-100 mt-3"
-              onChange={handleOnchange}
+              onChange={onChangeStatus}
               options={conditions}
               placeholder="Condition"
               singleSelect={true}
@@ -157,8 +197,12 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
       <MDBRow className="mx-auto item-gallery-container" style={{ height: '650px' }}>
         {
           items.length > 0 ? (
-            items.map((item) => (
-              <Items key={item._id} item={item}/>
+            items.map(item => (
+              <MDBCol size="4" className="item-gallery-image item-grid" style={{padding: '2px'}}>
+                <a href={`/itemDetails/${item._id}`}>
+                  <img src={item.photo[0] ? `${item.photo[0].url}` : ItemImg} alt="img.png"/>
+                </a>
+             </MDBCol>
             ))
           ) : (<div className="mx-auto grey-text mt-3">No items yet</div>)
         }
@@ -173,7 +217,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
             swappedItems.length > 0 ? (
               swappedItems.map((item) => (
               <MDBCol size="4" className="p-0 swapped-item item-grid">
-              <img src={ItemImg} alt="img.jpg"/>
+              <img src={item.photo[0].url} alt="img.jpg"/>
               </MDBCol>
             ))): (<div className="mx-auto grey-text">No items yet</div>)
           }

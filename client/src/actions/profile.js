@@ -3,6 +3,8 @@ import { setAlert } from './alert';
 
 import {
     GET_PROFILE,
+    GET_RECEIVED_ITEM,
+    UPDATE_AVATAR,
     PROFILE_ERROR
 } from './types';
 
@@ -60,7 +62,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
 }
 
 //Update avatar
-export const updateAvatar = (file) => async dispatch => {
+export const updateAvatar = file => async dispatch => {
 
     const photoData = new FormData();
     photoData.append('file', file);
@@ -69,14 +71,14 @@ export const updateAvatar = (file) => async dispatch => {
 
         const config = {
             headers: {
-                'Content-Type': 'form-data'
+                'Content-Type': 'multipart/form-data'
             }
         }
 
         const res = await axios.put('/api/profile/upload/photo', photoData, config)
 
         dispatch({
-            type: GET_PROFILE,
+            type: UPDATE_AVATAR,
             payload: res.data
         });
 
@@ -87,5 +89,28 @@ export const updateAvatar = (file) => async dispatch => {
             payload: { msg: err.response.statusText, status: err.response.status }
         });
         
+    }
+}
+
+//Get received item
+export const getReceivedItem = () => async dispatch => {
+    try {
+        const res = await axios.get('/api/transaction/swap/received');
+
+        dispatch({
+            type: GET_RECEIVED_ITEM,
+            payload: res.data
+        });
+    } catch (err) {
+
+        const errors = err.response.data.errors;
+        if(errors){
+            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+        }
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
     }
 }

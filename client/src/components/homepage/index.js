@@ -1,66 +1,105 @@
-import React from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon } from 'mdbreact';
+import React, { useState, useEffect } from 'react';
+import { Item, AppContainer, ExtraInfo, Code } from "./swipestyle";
+import { MDBRow, MDBCol, MDBBtn, MDBModal,  MDBModalFooter, MDBView, MDBMask, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBRating, MDBIcon, MDBModalHeader, MDBModalBody, MDBContainer } from 'mdbreact';
 import Select from 'react-select';
+import { connect } from 'react-redux';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-import Swiper from './swiper';
+// import Swiper from './swiper';
 import Navbar from '../navbar';
-import SwipeImage from '../../assets/images/item1.jpg';
-import SwipeImage2 from '../../assets/images/item7.jpg';
+import SwipeImage from '../../assets/images/swipeswap_item.jpg';
+import Avatar from '../../assets/images/avatar.png';
+import Carousel from "./carousel";
+import { getAllItem, wantItem } from '../../actions/item';
 
-const items = [
-  { value: '1', label: 'Item 1' },
-  { value: '2', label: 'Item 2' },
-  { value: '3', label: 'Item 3' },
-  { value: '4', label: 'Item 4' },
-  { value: '5', label: 'Item 5' }
-];
+const HomePage = ({ getAllItem, wantItem, item:{ items, loading } }) => {
 
-const categories = [
-  { value: '1', label: 'Category 1' },
-  { value: '2', label: 'Category 2' },
-  { value: '3', label: 'Category 3' },
-  { value: '4', label: 'Category 4' },
-  { value: '5', label: 'Category 5' }
-];
+    useEffect(() => {
+      getAllItem() 
 
-class HomePage extends React.Component {
-  scrollToTop = () => window.scrollTo(0, 0);
+      setItemsData({
+        item_id : items.id,
+        itemname: items.name,
+        description: items.desc,
+        categories: items.cat,
+        user_id: items.userId,
+        username: items.user
+      })
 
-  state = {
-    selectedCategories: null,
-  };
-  handleChange = selectedCategories => {
-    this.setState(
-      { selectedCategories },
-      () => console.log(`Option selected:`, this.state.selectedCategories)
-    );
-  };
-
-  state = {
-    selectedItem: null,
-  };
-  handleChange = selectedItem => {
-    this.setState(
-      { selectedItem },
-      () => console.log(`Option selected:`, this.state.selectedItem)
-    );
-  };
-
-
-  state = {
-    modal: false
-  }
+    }, [getAllItem])
   
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
-  
-  render() {
+    const [itemsData, setItemsData] = useState({
+      item_id: '',
+      itemname:'',
+      description:'',
+      status:'',
+      categories:'',
+      user_id:'',
+      username:'',
+      itemstatus: '',
+      image1:'',
+      image2:'',
+      image3:'',
+    })
 
-    const { selectedOption } = this.state;
+    const {
+      item_id,
+      itemname,
+      description,
+      categories,
+      user_id,
+      username,
+      itemstatus,
+      image1,
+      image2,
+      image3
+    } = itemsData
+
+    const want = (item_id, user_id) => {
+      // wantItem(item_id, user_id)
+      console.log(item_id, user_id)
+    }
+
+    const boring = () => {
+      window.location.reload()
+    }
+  
+    const handleShow = (id, name, desc, cat, userId, user, status, photo1, photo2, photo3) => {
+
+      setItemsData({
+        item_id : id,
+        itemname: name,
+        description: desc,
+        categories: Array.isArray(cat) ? cat.join('•') : cat,
+        user_id: userId,
+        username: user,
+        itemstatus: status,
+        image1: photo1,
+        image2: photo2,
+        image3: photo3,
+      })
+      setShowModal(true)
+    }
+    const handelShow2 = () => setShowModal2(true);
+
+    const [showModal, setShowModal] = useState(false);
+    const [showModal2, setShowModal2] = useState(false);  
+    const handleClose = () => setShowModal(false);
+    const handleClose2 = () => setShowModal2(false);
+  
+    const categoriesoptions = [
+      { value: 'Vehicles', label: 'Vehicles' },
+      { value: 'Apparel', label: 'Apparel' },
+      { value: 'Electronics', label: 'Electronics' },
+      { value: 'Entertainment', label: 'Entertainment' },
+      { value: 'Baby & Kids Items', label: 'Baby & Kids Items' },
+      { value: 'Health & Beauty', label: 'Health & Beauty' },
+      { value: 'Pet Supplies', label: 'Pet Supplies' },
+      { value: 'Musical Instruments', label: 'Musical Instruments' },
+      { value: 'Office Supplies', label: 'Office Supplies' },
+      { value: 'Sporting Goods', label: 'Sporting Goods' },
+      { value: 'Toys & Games', label: 'Toys & Games' }
+    ];
 
     return (
       <>
@@ -68,23 +107,13 @@ class HomePage extends React.Component {
         <div className="homepage">
 
           {/* Modals */}
-          <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-            <MDBModalHeader toggle={this.toggle}>Select Item</MDBModalHeader>
+          <MDBModal isOpen={showModal2} toggle={handleClose2}>
+            <MDBModalHeader toggle={handleClose2}>Select Item</MDBModalHeader>
             <MDBModalBody className="px-4 text-center">
               <img src={SwipeImage} className="item-img-modal mx-auto mb-3" />
-              <label className="">Item Name</label>
-                <Select
-                value={selectedOption}
-                onChange={this.handleChange}
-                options={items}
-              />
-              <label className="mt-3">Description</label>
-              <textarea type="text" id="" className="form-control" placeholder="Description" />
               <label className="mt-3">Item Categories to Swap</label>
                 <Select
-                value={selectedOption}
-                onChange={this.handleChange}
-                options={categories}
+                options={categoriesoptions}
                 isMulti
               />
             </MDBModalBody>
@@ -92,6 +121,129 @@ class HomePage extends React.Component {
             <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5" >Confirm</MDBBtn>
 
           </MDBModal>
+
+      <MDBModal isOpen={showModal} toggle={handleClose}>
+        <div className="item-details-modal">
+          <MDBRow>
+            <MDBCol md="12">
+            <MDBCarousel
+                activeItem={1}
+                length={3}
+                showControls={false}
+                showIndicators={true}
+                className="z-depth-1 item-img-slider"
+                interval={false}
+            >
+        <MDBCarouselInner>
+          <MDBCarouselItem itemId="1">
+            <MDBView>
+              <img
+                className="d-block w-100"
+                src={`${image1}`}
+                alt="First slide"
+              />
+            </MDBView>
+          </MDBCarouselItem>
+          <MDBCarouselItem itemId="2">
+            <MDBView>
+              <img
+                className="d-block w-100"
+                src={`${image2}`}
+                alt="Second slide"
+              />
+            </MDBView>
+          </MDBCarouselItem>
+          <MDBCarouselItem itemId="3">
+            <MDBView>
+              <img
+                className="d-block w-100"
+                src={`${image3}`}
+                alt="Third slide"
+              />
+            </MDBView>
+          </MDBCarouselItem>
+        </MDBCarouselInner>
+      </MDBCarousel>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow className="p-3">
+            <MDBCol md="12">
+              <div className="d-flex bd-highlight example-parent">
+                <div className="w-100 bd-highlight col-example item-name">{itemname}</div>
+                <div className="bd-highlight col-example ml-auto">
+                <MDBRating 
+                data={
+                    [
+                      {
+                        tooltip: 'Very Bad',
+                        choosed: (itemstatus === 'Very Bad') ? true : false
+                      },
+                      {
+                        tooltip: 'Poor',
+                        choosed: (itemstatus === 'Poor') ? true : false
+                      },
+                      {
+                        tooltip: 'Ok',
+                        choosed: (itemstatus === 'Ok') ? true : false
+                      },
+                      {
+                        tooltip: 'Good',
+                        choosed: (itemstatus === 'Good') ? true : false
+                      },
+                      {
+                        tooltip: 'Excellent',
+                        choosed: (itemstatus === 'Excellent') ? true : false
+                      }
+                    ]
+                }
+                fillColors={[
+                   'red-text',
+                   'orange-text',
+                   'yellow-text',
+                   'lime-text',
+                   'light-green-text'
+                 ]} 
+                />  
+                </ div>
+              </div>
+             <div className="item-description mt-2">{description}</div>
+          <div className="item-category mt-3">{categories}</div>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol md="12" className="">
+              <div className="item-user-profile p-3">
+              <div className="d-flex bd-highlight example-parent">
+                 <div className="flex-fill bd-highlight col-example">
+                  <img src={Avatar} /><span className="ml-2 item-user-profile-name">{username}</span>
+                 </div>
+                 <div className="bd-highlight col-example ml-auto">
+                   <MDBBtn className="view-profile-btn" href={`/profile/${user_id}`}>View Profile</MDBBtn>
+                 </div>
+                </div>
+                <div className="d-flex bd-highlight example-parent text-center mt-3">
+                  <div className="flex-fill bd-highlight col-example">
+                    <div className="font-weight-bold" style={{fontSize: '18px'}}>0</div>
+                  <div>Deals</div>
+                  </div>
+                  <div className="flex-fill bd-highlight col-example">
+                  <div className="font-weight-bold" style={{fontSize: '18px'}}>0.00</div>
+                    <div>Rating</div>
+                  </div>
+                  <div className="flex-fill bd-highlight col-example">
+                  <div className="font-weight-bold" style={{fontSize: '18px'}}>0</div>
+                    <div>Items</div>
+                  </div>
+                </div>
+              </div>
+            </MDBCol>
+          </MDBRow>
+        </div>
+        <MDBModalFooter className="mx-auto">
+          <MDBBtn className="want-ignore-btn px-5 py-2" color="white" onClick={handleClose}>Ignore</MDBBtn>
+          <MDBBtn className="want-ignore-btn color1 px-5 py-2" onClick={val => want(item_id,user_id)}>Want</MDBBtn>
+        </MDBModalFooter>
+      </MDBModal>
 
           {/* //Modals */}
         
@@ -103,10 +255,10 @@ class HomePage extends React.Component {
                   <img src={SwipeImage} className="item-img" />
                 </div>
                 <div className="px-1 flex-fill bd-highlight col-example my-2 select-item-name">
-                  Sample Item Sample Item Sample Item
+                  Search by categories
                 </div>
                 <div className="flex-fill bd-highlight col-example text-center my-3 select-item">
-                  <a className="text-center" onClick={this.toggle} style={{color: "#167D7F", fontSize: '12px'}}>
+                  <a className="text-center" onClick={handelShow2} style={{color: "#167D7F", fontSize: '12px'}}>
                     <MDBIcon icon="sync" className="select-item-icon" style={{fontSize: '28px'}} />
                     <div>Select Item</div>
                   </a>
@@ -114,16 +266,16 @@ class HomePage extends React.Component {
               </div>
               <div className="ss-btns-dsk mt-4">
                 <div className="flex-center">
-                    <MDBBtn className="ss-btn-want p-2 mr-4" color="success"><MDBIcon icon="heart" style={{fontSize: '45px'}} /><br/> Want</MDBBtn>
+                    <MDBBtn className="ss-btn-want p-2 mr-4" onClick={val => want(items[1]._id, items[1].user._id)} color="success"><MDBIcon icon="heart" style={{fontSize: '45px'}} /><br/> Want</MDBBtn>
         
                     <MDBBtn className="ss-btn-swant mx-4 p-2" color="primary"><MDBIcon icon="star" style={{fontSize: '45px'}} /><br/> Super Want</MDBBtn>
 
-                    <MDBBtn className="ss-btn-boring p-2 ml-4" color="danger"><MDBIcon icon="times" style={{fontSize: '50px'}} /><br/> Boring</MDBBtn>
+                    <MDBBtn className="ss-btn-boring p-2 ml-4" color="danger" onClick={val => boring()}><MDBIcon icon="times" style={{fontSize: '50px'}} /><br/> Boring</MDBBtn>
                 </div>
                 <div className="flex-center mt-3">
                     <MDBBtn className="ss-btn-rewind p-2 mr-4" color="warning"><MDBIcon icon="backward" style={{fontSize: '45px'}} /><br/> Rewind</MDBBtn>
          
-                    <MDBBtn className="ss-btn-boost p-2 ml-4" color="secondary" ><MDBIcon icon="rocket" style={{fontSize: '45px'}} /><br/> Boost</MDBBtn>
+                    {/* <MDBBtn className="ss-btn-boost p-2 ml-4" color="secondary" ><MDBIcon icon="rocket" style={{fontSize: '45px'}} /><br/> Boost</MDBBtn> */}
                 </div>
                
               </div>
@@ -133,14 +285,39 @@ class HomePage extends React.Component {
             </MDBCol>
               <MDBCol lg="5">
                 <div className="swiper mx-auto flex-center">
-                  <Swiper />
+                <Carousel title="Carousel">
+                  {
+                    items.length > 0 ? (items.map(item => (
+                      <MDBView>
+                            <a className="swipe-item" onClick={val => handleShow(
+                              item._id, 
+                              item.itemname,
+                              item.description,
+                              item.categories,
+                              item.user._id,
+                              item.user.name,
+                              item.status,
+                              item.photo[1] ? item.photo[1].url : SwipeImage,
+                              item.photo[2] ? item.photo[2].url : SwipeImage,
+                              item.photo[3] ? item.photo[3].url : SwipeImage
+                              )}><Item img={item.photo[0] ? `${item.photo[0].url}` : SwipeImage}/>
+                            <MDBMask>
+                           <div className="swipe-item-details p-3">
+                          <div className="font-weight-bold item-name">{ item.itemname }</div>
+                         </div>
+                        </MDBMask>
+                      </a>
+                    </MDBView>
+                    ))):(<h4>No Items</h4>)
+                  }
+                </Carousel>
                 </div>
                 <div className="ss-btns-m my-3 text-center">
                 <MDBBtn className="ss-btn-rewind-m mx-2" color="warning"><MDBIcon icon="backward" size="lg" /></MDBBtn>
-                <MDBBtn className="ss-btn-boring-m mx-2" color="danger"><MDBIcon icon="times" size="lg" /></MDBBtn>
+                <MDBBtn className="ss-btn-boring-m mx-2" color="danger"><MDBIcon icon="times" size="lg" onClick={val => boring()}/></MDBBtn>
                 <MDBBtn className="ss-btn-swant-m mx-2" color="primary"><MDBIcon icon="star" size="lg" /></MDBBtn>
-                <MDBBtn className="ss-btn-want-m mx-2" color="success"><MDBIcon icon="heart" size="lg" /></MDBBtn>
-                  <MDBBtn className="ss-btn-boost-m mx-2" color="secondary"><MDBIcon icon="rocket" size="lg" /></MDBBtn>
+                <MDBBtn onClick={val => want(item_id,user_id)} className="ss-btn-want-m mx-2" color="success"><MDBIcon icon="heart" size="lg" /></MDBBtn>
+                  {/* <MDBBtn className="ss-btn-boost-m mx-2" color="secondary"><MDBIcon icon="rocket" size="lg" /></MDBBtn> */}
                 </div>
             </MDBCol>
           </MDBRow>
@@ -149,6 +326,9 @@ class HomePage extends React.Component {
       </>
     );
   }
-}
 
-export default HomePage;
+const mapStateToProps = state => ({
+  item: state.item
+})
+
+export default connect(mapStateToProps, { getAllItem, wantItem })(HomePage);

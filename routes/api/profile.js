@@ -4,9 +4,12 @@ const config = require('config')
 const router = express.Router()
 const auth = require('../../middleware/auth')
 const { check, validationResult } = require('express-validator')
+const multer = require('multer')
 const cloudinary = require('cloudinary').v2
+const { CloudinaryStorage } = require('multer-storage-cloudinary')
 
 const Profile = require('../../models/Profile')
+const Item = require('../../models/Item')
 const User = require('../../models/User')
 
 cloudinary.config({
@@ -15,12 +18,41 @@ cloudinary.config({
     api_secret: '1UI_jshZXsKRmgGZ9pG62Wwn-1Q'
 })
 
+const storage = new CloudinaryStorage({
+    cloudinary : cloudinary,
+    params:{
+        folder: "swipeSwap",
+        allowed_formats: ["jpg", "png", "jpeg"],
+        transformation: [{quality: 'auto' }]  
+    }
+})
+
+const parser = multer({ storage: storage })
+
 // @route   GET api/profile/me
 // @des     Get current users profile
 // @access  Private
 router.get('/me', auth, async (req, res) => {
     try{
         const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'email'])
+
+        if(!profile){
+            return res.status(400).json({ msg: 'There is no profile for this user' })
+        }
+
+        res.json(profile)
+    }catch(err){
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+// @route   GET api/profile/me
+// @des     Get users profile by id
+// @access  Private
+router.get('/user/:id', auth, async (req, res) => {
+    try{
+        const profile = await Profile.findById(req.params.id).populate('user', ['name', 'email'])
 
         if(!profile){
             return res.status(400).json({ msg: 'There is no profile for this user' })
@@ -189,25 +221,40 @@ router.put('/badge', async (req, res) => {
 // @route   PUT api/profile/upload/photo
 // @des     Update profile photo
 // @access  Private
-router.put('/upload/photo', auth, async (req, res) => {
+router.put('/upload/photo', parser.single('file'), auth, async (req, res) => {
 
-    const file = req.files.file
-    
     try {
-        await cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
-    
-            profile = await Profile.findOneAndUpdate(
-                { user: req.user.id },
-                { $set: {avatar: result.secure_url} },
-                { new: true }
-            )
-            return res.json(profile)
-        })
+        let profile = await Profile.findOne({ user: req.user.id })
         
+        profile = await Profile.findOneAndUpdate(
+            { user: req.user.id },
+            { $set: {avatar: req.file.path} },
+            { new: true }
+        )
+        return res.json(req.file.path)
+    
     } catch (err) {
         console.error(err.message)
         res.status(500).send("Server Error")
     }
 })
 
+// @route   GET api/profile/swap/received/:item_id
+// @des     Get users modal swapped items
+// @access  Private
+router.get('/swap/received/:item_id', auth, async (req, res) => {
+
+    try {
+        const swappedItems = await Item.findById(req.params.item_id)
+        
+        if(!swappedItems){
+            return res.status(400).json({ msg: 'Empty...' })
+        }
+
+        res.json(swappedItems)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
 module.exports = router

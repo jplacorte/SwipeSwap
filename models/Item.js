@@ -22,7 +22,7 @@ const ItemSchema = new mongoose.Schema({
             }
         }
     ],
-    category: {
+    categories: {
         type: [String]
     },
     rating: {

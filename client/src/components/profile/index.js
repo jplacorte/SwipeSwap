@@ -9,7 +9,6 @@ import Avatar from '../../assets/images/avatar.png';
 import Navbar from '../navbar';
 import ProfileTabs from './tabs';
 import { createProfile, getCurrentProfile, updateAvatar } from '../../actions/profile';
-import ImageUploading from "react-images-uploading";
 
 const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurrentProfile, updateAvatar, history }) => {
 
@@ -43,15 +42,15 @@ useEffect(() =>{
     avatar: loading || !profile.avatar ? Avatar : profile.avatar,
     
   })
-}, [loading]);
+}, [getCurrentProfile, loading]);
 
     const [picture, setPicture] = useState(null);
-    const [file, setfile] = useState('')
+    const [file, setfile] = useState(undefined)
 
     const onChangePicture = e => {
         setPicture(URL.createObjectURL(e.target.files[0]));
         setfile(e.target.files[0])
-        console.log(e.target.files[0])
+        updateAvatar(e.target.files[0])
     };
 
 
@@ -70,20 +69,17 @@ useEffect(() =>{
 
     const onSubmit = e => {
       e.preventDefault();
-      if(file){
-        updateAvatar(file);
-      }
       createProfile(formData, history);
-
+      getCurrentProfile()
       handleClose();
-      window.location.reload()
+      // window.location.reload()
     };
 
     const ImgUpload = () =>{
       return(
         <label htmlFor="photo-upload" className="avatar-upload flex-center">
           <div className="avatar-img-wrap avatar-img-upload" >
-            <img htmlFor="photo-upload" src={picture ? picture : avatar}  className="rounded-circle" />
+            <img htmlFor="photo-upload" src={picture ? picture : `${avatar}`}  className="rounded-circle" />
           </div>
           <input id="photo-upload" type="file" onChange={onChangePicture}/> 
         </label>
@@ -100,13 +96,13 @@ useEffect(() =>{
         <MDBModalBody className="px-4 text-center">
           <form onSubmit={e => onSubmit(e)}>
           <ImgUpload/>
-          <input type="text" id="" name="name" value={name} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Name" />
-          <input type="text" id="" name="location" value={location} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Address" />
-          <input type="email" id="" name="email" value={email} className="form-control mt-3" placeholder="Email" disabled/>
-          <input type="date" id="" name="dateofbirth" value={dateofbirth} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Birthdate" />
-          <input type="text" id="" name="facebook" value={facebook} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Facebook Link" />
-          <input type="text" id="" name="instagram" value={instagram} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Instagram Link" />
-          <input type="text" id="" name="google" value={google} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Gmail Link" />
+          <input type="text" name="name" value={name} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Name" />
+          <input type="text" name="location" value={location} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Address" />
+          <input type="email" name="email" value={email} className="form-control mt-3" placeholder="Email" disabled/>
+          <input type="date" name="dateofbirth" value={dateofbirth} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Birthdate" />
+          <input type="text" name="facebook" value={facebook} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Facebook Link" />
+          <input type="text" name="instagram" value={instagram} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Instagram Link" />
+          <input type="text" name="google" value={google} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Gmail Link" />
           <MDBBtn className="confirm-btn color1 mx-auto mt-4 mb-2 py-2 px-5" type="submit">Confirm</MDBBtn>
           </form>
         </MDBModalBody>
@@ -122,7 +118,7 @@ useEffect(() =>{
               <MDBCol lg="6">
               <div className="d-flex bd-highlight example-parent flex-center">
                 <div className="bd-highlight col-example mx-2">
-                  <img src={loading ? Avatar : avatar} alt="avatar" className="rounded-circle profile-avatar" />
+                  <img src={loading ? Avatar : `${avatar}`} alt="avatar" className="rounded-circle profile-avatar" />
                 </div>
                 <div className="flex-grow-1 bd-highlight col-example">
                   <div className="">
@@ -147,7 +143,7 @@ useEffect(() =>{
                   <div>Badges</div>
                 </div>
                 <div className="p-2 flex-fill bd-highlight col-example px-3">
-                  <div className="font-weight-bold">00.00 <MDBIcon icon="coins" style={{color: 'gold'}} /></div>
+                  <div className="font-weight-bold">10.00 <MDBIcon icon="coins" style={{color: 'gold'}} /></div>
                   <div>SwapCoins</div>
                 </div>
               </div>

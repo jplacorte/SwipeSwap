@@ -50,7 +50,55 @@ const ProfileSchema = new mongoose.Schema({
         instagram: {
             type: String
         }
-    }
+    },
+    receivedFromSwapped: [
+        {
+            owner: {
+                type: Schema.Types.ObjectId,
+                ref:'user'
+            },
+            name: {
+                type: String
+            },
+            avatar: {
+                type: String
+            },
+            item: {
+                type: Schema.Types.ObjectId,
+                ref:'item'
+            },
+            itemname: {
+                type: String
+            },
+            itemimage: {
+                type: String
+            },
+            categories: {
+                type: [String]
+            },
+            rating: {
+                type: String
+            },
+            reviewdetails: {
+                type: String
+            },      
+            status: {
+                type: String
+            }
+        }
+    ],
+    boring: [
+        {
+            item: {
+                type: Schema.Types.ObjectId,
+                ref: 'item'
+            },
+            itemname: {
+                type: String
+            },
+            categories: [String]
+        }
+    ]
 })
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema)

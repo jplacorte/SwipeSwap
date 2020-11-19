@@ -1,8 +1,9 @@
-import { GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from "../actions/types";
+import { GET_PROFILE, UPDATE_AVATAR,PROFILE_ERROR, CLEAR_PROFILE } from "../actions/types";
 
 const initialState = {
     profile: null,
     profiles: [],
+    avatar: null,
     loading: true,
     error: {}
 }
@@ -15,6 +16,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 profile: payload,
+                loading: false
+            };
+        case UPDATE_AVATAR:
+            return {
+                ...state,
+                avatar: payload,
                 loading: false
             };
         case PROFILE_ERROR:

@@ -1,25 +1,45 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 const MatchSchema = new mongoose.Schema({
-    isMatch:{
-        type: Boolean
+    users: [
+        {
+            owner: {
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+            ownername: {
+                type: String
+            },
+            ownerAvatar: {
+                type: String
+            },
+            user: { 
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+            name: {
+                type: String
+            },
+            avatar: {
+                type: String  
+            },
+            item: {
+                type: Schema.Types.ObjectId,
+                ref: 'item'
+            },
+            itemname: {
+                type: String
+            }          
+        }
+    ],
+    status: {
+        type: String
     },
-    match: [
-    {
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: 'user'
-        },
-        name: {
-            type: String
-        },
-        item: {
-            type: Schema.Types.ObjectId,
-            ref: 'item'
-        },
+    superwant: {
+        type: Boolean
     }
-]
+
 })
 
 module.exports = Match = mongoose.model('match', MatchSchema)
