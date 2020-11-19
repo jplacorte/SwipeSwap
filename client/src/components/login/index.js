@@ -44,8 +44,8 @@ class LoginPage extends React.Component {
                             <MDBCol md="12">
                             <Facebook/>
                             </MDBCol>
-                            <MDBCol md="12" style={{fontSize: "14px", fontWeight:   "300"}} className="mt-3 mb-2">
-                              By logging in, you agree to our <a><u>Privacy Policy</  u></a> and <a><u>Licence Agreement</u></a>
+                            <MDBCol md="12" style={{fontSize: "14px", fontWeight: "300"}} className="mt-3 mb-2">
+                              By logging in, you agree to our <a><u>Privacy Policy</  u></a> and <a><u>License Agreement</u></a>
                             </MDBCol>
                         </MDBRow>
                   </div>

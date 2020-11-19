@@ -122,7 +122,7 @@ const Swaps = ({ getAllItemsByUser, item: { items, loading }, rateItem }) => {
             </a>
         </MDBCol>
 
-          ))) : (<h4>No items found...</h4>)}
+          ))) : (<div className="mx-auto grey-text">No Swapped Items yet</div>)}
 
         </MDBRow>
         </div>

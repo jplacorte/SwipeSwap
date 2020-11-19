@@ -429,8 +429,8 @@ function ChatScreen() {
                         </MDBDropdownToggle>
                         <MDBDropdownMenu>
                           <MDBDropdownItem onClick={handleShow}><MDBIcon far icon="calendar-alt" /> Set Schedule</MDBDropdownItem>
-                          <MDBDropdownItem style={{color: '#167D7F'}} ><MDBIcon far icon="thumbs-up"/> Approve</MDBDropdownItem>
-                          <MDBDropdownItem style={{color: 'red'}} ><MDBIcon far icon="times-circle" /> Ignore</MDBDropdownItem>
+                          {/* <MDBDropdownItem style={{color: '#167D7F'}} ><MDBIcon far icon="thumbs-up"/> Approve</MDBDropdownItem> */}
+                          <MDBDropdownItem style={{color: 'red'}} ><MDBIcon far icon="times-circle" /> Report User</MDBDropdownItem>
                         </MDBDropdownMenu>
                       </MDBDropdown>
                       </div>

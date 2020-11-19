@@ -14,7 +14,11 @@ import EditCategories from "./components/settings/editCategories";
 import SwapCoins from "./components/swapCoins.js";
 import Support from "./components/support";
 import Marketplace from "./components/marketplace";
+import EndUserAgreement from "./components/support/endUserAgreement";
+import PrivacyPolicy from "./components/support/privacyPolicy";
+import ProhibitedItems from "./components/support/prohibitedItems";
 import PrivateRoute from "./components/routing/PrivateRoute";
+import LandingPage from "./components/landing";
 
 
 class Routes extends React.Component {
@@ -22,7 +26,7 @@ class Routes extends React.Component {
     return (
     <Fragment>
       <Switch>
-        <Route exact path="/" component={LoginPage} />
+        <Route exact path="/login" component={LoginPage} />
         <PrivateRoute exact path="/introForm" component={IntroFormPage} />
         <PrivateRoute exact path="/homepage" component={HomePage} />
         <PrivateRoute exact path="/conversation" component={Conversation} />
@@ -35,6 +39,10 @@ class Routes extends React.Component {
         <PrivateRoute exact path="/swapCoins" component={SwapCoins} />
         <PrivateRoute exact path="/support" component={Support} />
         <PrivateRoute exact path="/marketplace" component={Marketplace} />
+        <PrivateRoute exact path="/endUserAgreement" component={EndUserAgreement} />
+        <PrivateRoute exact path="/privacyPolicy" component={PrivacyPolicy} />
+        <PrivateRoute exact path="/prohibitedItems" component={ProhibitedItems} />
+        <Route exact path="/" component={LandingPage} />
         <Route
           render={function () {
             return <h1>Not Found</h1>;

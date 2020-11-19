@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBNavLink } from "mdbreact";
+import { MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBNavLink, MDBIcon } from "mdbreact";
 import ItemGallery from "./itemGallery";
 import Swaps from "./swaps";
 import Badges from "./badges";
@@ -29,22 +29,22 @@ class ProfileTabs extends Component {
               <MDBNav className="nav-pills profile-tabs">
                 <MDBNavItem className="profile-tab">
                   <MDBNavLink link to="#" active={this.state.items["default"] === "1"} onClick={this.togglePills("default", "1")} >
-                    Items
+                    <MDBIcon icon="th" /><span className="profile-tab-label"> Items</span>
                   </MDBNavLink>
                 </MDBNavItem>
                 <MDBNavItem className="profile-tab">
                   <MDBNavLink link to="#" active={this.state.items["default"] === "2"} onClick={this.togglePills("default", "2")} >
-                    Swaps
+                    <MDBIcon icon="sync" /><span className="profile-tab-label"> Swaps</span>
                   </MDBNavLink>
                 </MDBNavItem>
                 <MDBNavItem className="profile-tab">
                   <MDBNavLink link to="#" active={this.state.items["default"] === "3"} onClick={this.togglePills("default", "3")} >
-                    Badges
+                    <MDBIcon icon="award" style={{fontSize: "18px"}} /><span className="profile-tab-label"> Badges</span>
                   </MDBNavLink>
                 </MDBNavItem>
-                <MDBNavItem className="profile-tab" style={{borderRight: "solid 1px black"}}>
+                <MDBNavItem className="profile-tab">
                   <MDBNavLink link to="#" active={this.state.items["default"] === "4"} onClick={this.togglePills("default", "4")} >
-                    Reviews
+                    <MDBIcon icon="star" /><span className="profile-tab-label"> Reviews</span>
                   </MDBNavLink>
                 </MDBNavItem>
               </MDBNav>

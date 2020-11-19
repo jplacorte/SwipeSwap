@@ -149,7 +149,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
         <div className="profile-item-details flex-center">
         <MDBCard className="p-3 profile-item-details-card">
         <MDBRow className="profile-item-details-content mx-auto">
-            <MDBCol lg="6" className="px-0">
+            <MDBCol md="6" className="px-0">
             <MDBCarousel
               activeItem={1}
               length={3}
@@ -162,7 +162,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
 
               <MDBCarouselCaption className="text-left back-icon">
               <Link to="/profile">
-                <MDBIcon icon="angle-left" className="pt-2" style={{fontSize: '32px', color: '#167D7F'}} />
+                <MDBIcon icon="angle-left" className="pt-2 angle-left-icon" />
               </Link>
               </MDBCarouselCaption>  
 
@@ -196,7 +196,7 @@ const ItemDetails = ({ getItemById, item:{ item, loading }, match }) => {
             </MDBCarouselInner>         
             </MDBCarousel>
             </MDBCol>
-            <MDBCol lg="6" className="mt-3">
+            <MDBCol md="6" className="mt-3">
               <div className="d-flex bd-highlight example-parent">
                 <div className="w-100 bd-highlight col-example item-name">{itemname}</div>
                 <a className="bd-highlight col-example ml-auto mt-1 font-weight-bold" style={{color: "#167D7F"}} onClick={handleShow}>Edit</a>

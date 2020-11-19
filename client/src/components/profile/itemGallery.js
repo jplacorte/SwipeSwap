@@ -160,7 +160,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
             items.map((item) => (
               <Items key={item._id} item={item}/>
             ))
-          ) : (<h4>No items found...</h4>)
+          ) : (<div className="mx-auto grey-text mt-3">No items yet</div>)
         }
           <MDBCol size="12" className="my-3 text-center">
               <div>Swapped Items</div>
@@ -175,7 +175,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
               <MDBCol size="4" className="p-0 swapped-item item-grid">
               <img src={ItemImg} alt="img.jpg"/>
               </MDBCol>
-            ))): (<h4>No items found...</h4>)
+            ))): (<div className="mx-auto grey-text">No items yet</div>)
           }
 
           

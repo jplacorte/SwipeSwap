@@ -208,7 +208,7 @@
   }
 
   .settings-container{
-    margin-top: 80px;
+    margin-top: 0px;
   }
 
   .edit-categories-container{
@@ -264,6 +264,117 @@
     transition: .5s ease;
     background-color: white;
   }
+
+  .landing-carousel img{
+    height: 100vh;
+    width: auto!important;
+  }
+
+  .landing-carousel video{
+    height: 100vh;
+    width: auto!important;
+  }
+
+  .caption-content-img{
+    height: 100%;
+    display: none;
+  }
+
+  .caption-content{
+    text-align: center;
+  }
+
+  .caption-content-title{
+    font-size: 34px;
+    margin-bottom: 5px;
+  }
+  
+  .caption-content-desc{
+    font-size: 16px;
+    margin-bottom: 3px;
+  }
+
+  .landing-carousel-video{
+    object-fit: cover!important;
+    object-position: center;
+    width: auto!important;
+  }
+  
+  .section-1{
+    margin: 5% 0% 3% 0%!important;
+  }
+
+  .landing-title{
+    font-size: 50px;
+  }
+
+  .landing-title-desc{
+    font-size: 34px;
+  }
+
+  .landing-desc{
+    padding: 0% 5% 0% 5%!important;
+  }
+
+  .section-1{
+    margin: 5% 5% 3% 5%!important;
+  }
+
+  .section-1-carousel{
+    max-height: 170px;
+    height: 170px;
+    margin: 5% -5% 5% -5%!important;
+  }
+
+  .section-1-title{
+    font-weight: bold;
+    font-size: 28px;
+    padding: 1% 5% 1% 5%;
+  }
+  
+  .section-1-desc{
+    font-size: 13px;
+    padding: 0% 5% 2% 5%;
+  }
+
+  .section-1-btn-container{
+    padding: 5%!important;
+  }
+
+  .section-1-btn{
+    font-size: 18px;
+  }
+
+  .section-3{
+    margin: 5% 5% 3% 5%!important;
+  } 
+
+  .section-4-desc{
+    font-size: 20px;
+    color: white!important;
+    padding: 0% 10% 0% 10%;
+  }
+
+  .section-5{
+    margin: 5% 5% 3% 5%!important;
+  }
+
+  .ss-footer-mask{
+      padding: 100px 5%;
+  }
+
+  .ss-footer-title{
+    font-size: 28px;
+  }
+  
+  .footer-icon{
+    background-color: #167D7F;
+    font-size: 30px;
+    border-radius: 50%;
+    padding: 5%;
+    height: 50px;
+    width: 50px;
+  }
   
 }
 
@@ -294,13 +405,23 @@
     .marketplace-swapcoins i{
       margin-left: 14px;
     }
+
+    .landing-navbar-link i{
+      visibility: visible!important;
+      margin: 2% 0%;
+    }
+  }
+
+    .landing-carousel img{
+      height: 100vh;
+      width: auto!important;
   }
   
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-  
+
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -309,6 +430,34 @@
     width: 100%;
     bottom: 1;
     position: relative;
+  }
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 1050px) {
+  .caption-content-img{
+    height: 270px;
+    width: 100%;
+  }
+
+  .caption-content-img img{
+    height: 100%;
+    width: auto;
+  }
+
+  .caption-content-title{
+    font-size: 42px;
+    margin-bottom: 5px;
+  }
+  
+  .caption-content-desc{
+    font-size: 20px;
+    margin-bottom: 3px;
+  }
+}
+
+@media only screen and (max-width: 1051px) and (min-width: 676px) {
+  .caption-content-img{
+    display: none;
   }
 }
 
@@ -325,4 +474,10 @@
     padding: 0% 16%;
   }
 
+}
+
+@media only screen and (max-width: 455px) {
+  .profile-tab-label{
+    display: none;
+  }
 }

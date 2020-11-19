@@ -20,7 +20,7 @@ function ChatSwap({ name, message, profilePic, timestamp }) {
       <div className="">
 
         {/* Modals */}
-        <MDBModal isOpen={show} onHide={handleClose}>
+        <MDBModal isOpen={show} toggle={handleClose}>
         <div className="item-details-modal">
           <MDBRow>
               <MDBCol md="12">

@@ -30,14 +30,14 @@ class Support extends React.Component {
                     </Link>
                 </MDBCol>
                 <MDBCol md="12" className="px-3 mt-4">
-                    <div className="settings-header"><MDBIcon icon="user-shield" className="mr-2" />SwipeSwap Policies</div>
-                    <Link to="#">
-                        <div className="settings-list mt-2 p-2"><MDBIcon icon="clipboard-check" className="mr-2" />Terms of Service</div>
-                    </Link>
-                    <Link to="#">
+                    <div className="settings-header"><MDBIcon icon="user-shield" className="mr-2" />SwipeSwap Policies</div> 
+                    <Link to="PrivacyPolicy">
                         <div className="settings-list mt-2 p-2"><MDBIcon icon="shield-alt" className="mr-2" />Privacy Policy</div>
                     </Link>
-                    <Link to="#">
+                    <Link to="EndUserAgreement">
+                        <div className="settings-list mt-2 p-2"><MDBIcon icon="clipboard-check" className="mr-2" />End User License Agreement</div>
+                    </Link>
+                    <Link to="ProhibitedItems">
                         <div className="settings-list mt-2 p-2"><MDBIcon icon="ban" className="mr-2" />Prohibited and Restricted Items Policy</div>
                     </Link>
                 </MDBCol>
