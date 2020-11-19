@@ -103,8 +103,8 @@ const ChatScreen = ({ getAllChat, getTransactionUsers, transaction: { chat, tran
 
             <MDBRow className="chat-screen-content">
             <MDBCol xl="12" className="mx-">
-            
-            <p className="text-center mt-5">YOU MATCHED WITH {transaction_users.length > 0 ? (transaction_users.map(user_trans => (isAuthenticated ? ( user.name === user_trans.users[0].name ? user_trans.users[1].name : user_trans.users[0].name) : ''))) : ""} ON 10/23/20</p>
+            {/* YOU MATCHED WITH {transaction_users.length > 0 ? (transaction_users.map(user_trans => (isAuthenticated ? ( user.name === user_trans.users[0].name ? user_trans.users[1].name : user_trans.users[0].name) : ''))) : ""} ON 10/23/20 */}
+            <p className="text-center mt-5"></p>
 
             <div>
                 <ChatSwap />

@@ -30,17 +30,7 @@ const TransactionSchema = new mongoose.Schema({
             ownername: {
                 type: String
             },
-            ownerAvatar: {
-                type: String
-            },
-            user: { 
-                type: Schema.Types.ObjectId,
-                ref: 'user'
-            },
-            avatar: {
-                type: String
-            },
-            name: {
+            owneravatar: {
                 type: String
             },
             item: {
@@ -48,6 +38,29 @@ const TransactionSchema = new mongoose.Schema({
                 ref: 'item'
             },
             itemname: {
+                type: String
+            },
+            itemphoto: {
+                type: String
+            },
+            userwant: { 
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+            userwantavatar: {
+                type: String
+            },
+            userwantname: {
+                type: String
+            },
+            userwantitem: {
+                type: Schema.Types.ObjectId,
+                ref: 'item'
+            },
+            userwantitemname: {
+                type: String
+            },
+            userwantitemphoto: {
                 type: String
             }
         }
@@ -65,7 +78,10 @@ const TransactionSchema = new mongoose.Schema({
                 type: String
             },
         }
-    ]
+    ],
+    superwant: {
+        type: Boolean
+    }
 })
 
 module.exports = Transaction = mongoose.model('transaction', TransactionSchema)

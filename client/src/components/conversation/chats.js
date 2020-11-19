@@ -15,16 +15,26 @@ const Chats = ({ getAllTransaction, transaction: { transactions, loading }, auth
             {
              transactions.length > 0 ? (
                  transactions.map( transaction => (
-                    transaction.users.length > 1 ? (
+                    transaction.users.length > 1 && transaction.superwant != true ? (
                     <Chat
                         id={transaction._id}
                         name={isAuthenticated ? ( user.name === transaction.users[0].name ? transaction.users[1].name : transaction.users[0].name) : ''}
                         message="Hello!"
                         timestamp="40 seconds ago"
-                        profilePic="https://res.cloudinary.com/dibx7ua1g/image/upload/v1602141359/swipeSwap/jrpcj5s7vpijiqxau5x0.jpg"
+                        profilePic={`${isAuthenticated ? ( user.name === transaction.users[0].name ? transaction.users[1].avatar : transaction.users[0].avatar) : ''}`}
                     />
                 ): '')) 
              ):(<h4>Chat is empty....</h4>)
+            }
+            {
+                transactions.length > 0 ? (
+                    transactions.map( transaction => transaction.superwant === true ? (<Chat
+                        id={transaction._id}
+                        name={transaction.users[0].userwantname}
+                        message="Hello!"
+                        profilePic={`${transaction.users[0].userwantavatar}`}
+                    />) : ''
+                )) : ("")
             }
     </div>
     );

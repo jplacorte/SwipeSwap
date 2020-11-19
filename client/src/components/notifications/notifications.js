@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Notification from './notification';
-import SwipeSwapLogo from '../../assets/images/ssicon.png';
+import SwipeSwapLogo from '../../assets/icons/icon.png';
 import { connect } from 'react-redux';
 import { getAllTransaction } from '../../actions/transaction';
 
@@ -16,7 +16,7 @@ const Notifications = ({ getAllTransaction, transaction: { transactions, loading
      <div className="notifications">
          {
             transactions.length > 0 ? transactions.map(match => (
-                match.users.length > 1 ? (
+                match.users.length > 1 && match.users.superwant != true ? (
                 <Notification
                 id={match._id} 
                 name="Swipe Swap Team"
@@ -24,12 +24,16 @@ const Notifications = ({ getAllTransaction, transaction: { transactions, loading
                 profilePic={SwipeSwapLogo}
                 />): '')):(<h1>No notifs</h1>)
          }
-         <Notification
-                id="asdua878213" 
+         {
+             transactions.length > 0 ? transactions.map(superwant => (
+                 superwant.superwant === true ? (
+                <Notification
+                id={superwant._id} 
                 name="Swipe Swap Team"
-                message="Jaypee wants your item"
+                message={`${superwant.users[0].userwantname} wants your item`}
                 profilePic={SwipeSwapLogo}
-            />
+                />): '')):("")
+         }
     </div>
     );
 }

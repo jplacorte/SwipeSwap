@@ -18,7 +18,7 @@ const Item = require('../../models/Item')
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {
-        const user = await Transaction.find({users:{$elemMatch:{ user: req.user.id }}})
+        const user = await Transaction.find({users:{$elemMatch:{ owner: req.user.id }}})
 
         return res.json(user)
     } catch (err) {

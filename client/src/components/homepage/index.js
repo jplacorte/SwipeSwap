@@ -11,8 +11,9 @@ import SwipeImage from '../../assets/images/swipeswap_item.jpg';
 import Avatar from '../../assets/images/avatar.png';
 import Carousel from "./carousel";
 import { getAllItem, wantItem } from '../../actions/item';
+import { superWant } from '../../actions/match';
 
-const HomePage = ({ getAllItem, wantItem, item:{ items, loading } }) => {
+const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) => {
 
     useEffect(() => {
       getAllItem() 
@@ -268,7 +269,7 @@ const HomePage = ({ getAllItem, wantItem, item:{ items, loading } }) => {
                 <div className="flex-center">
                     <MDBBtn className="ss-btn-want p-2 mr-4" onClick={val => want(items[1]._id, items[1].user._id)} color="success"><MDBIcon icon="heart" style={{fontSize: '45px'}} /><br/> Want</MDBBtn>
         
-                    <MDBBtn className="ss-btn-swant mx-4 p-2" color="primary"><MDBIcon icon="star" style={{fontSize: '45px'}} /><br/> Super Want</MDBBtn>
+                    <MDBBtn className="ss-btn-swant mx-4 p-2" color="primary" onClick={val => superWant(items[1]._id, items[1].user._id)}><MDBIcon icon="star" style={{fontSize: '45px'}} /><br/> Super Want</MDBBtn>
 
                     <MDBBtn className="ss-btn-boring p-2 ml-4" color="danger" onClick={val => boring()}><MDBIcon icon="times" style={{fontSize: '50px'}} /><br/> Boring</MDBBtn>
                 </div>
@@ -315,7 +316,7 @@ const HomePage = ({ getAllItem, wantItem, item:{ items, loading } }) => {
                 <div className="ss-btns-m my-3 text-center">
                 <MDBBtn className="ss-btn-rewind-m mx-2" color="warning"><MDBIcon icon="backward" size="lg" /></MDBBtn>
                 <MDBBtn className="ss-btn-boring-m mx-2" color="danger"><MDBIcon icon="times" size="lg" onClick={val => boring()}/></MDBBtn>
-                <MDBBtn className="ss-btn-swant-m mx-2" color="primary"><MDBIcon icon="star" size="lg" /></MDBBtn>
+                <MDBBtn className="ss-btn-swant-m mx-2" color="primary"><MDBIcon icon="star" size="lg" onClick={val => superWant(items[1]._id, items[1].user._id)}/></MDBBtn>
                 <MDBBtn onClick={val => want(item_id,user_id)} className="ss-btn-want-m mx-2" color="success"><MDBIcon icon="heart" size="lg" /></MDBBtn>
                   {/* <MDBBtn className="ss-btn-boost-m mx-2" color="secondary"><MDBIcon icon="rocket" size="lg" /></MDBBtn> */}
                 </div>
@@ -331,4 +332,4 @@ const mapStateToProps = state => ({
   item: state.item
 })
 
-export default connect(mapStateToProps, { getAllItem, wantItem })(HomePage);
+export default connect(mapStateToProps, { getAllItem, wantItem, superWant })(HomePage);

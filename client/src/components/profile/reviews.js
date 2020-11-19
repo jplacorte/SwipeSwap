@@ -53,7 +53,7 @@ const Reviews = ({ getSwappedItems, item: { swappedItems, loading } }) => {
                     <p>{items.review[0].reviewdetails ? items.review[0].reviewdetails : 'No reviews yet'}</p>
                   </div>    
               </div>
-            </MDBCol>) : ("No Items")))
+            </MDBCol>) : (<h1>No Items</h1>)))
             
           }
             

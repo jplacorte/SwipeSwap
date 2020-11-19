@@ -1,7 +1,8 @@
-import { GET_MATCH, MATCH_FOUND, ERROR_MATCH } from '../actions/types';
+import { GET_MATCH, MATCH_FOUND, ERROR_MATCH, SUPERWANT } from '../actions/types';
 
 const initialState = {
     match: null,
+    superwant: null,
     matches: [],
     loading: true,
     error: {}
@@ -15,6 +16,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 matches: payload,
+                loading: false
+            };
+        case SUPERWANT:
+            return {
+                ...state,
+                superwant: payload,
                 loading: false
             };
         case ERROR_MATCH:
