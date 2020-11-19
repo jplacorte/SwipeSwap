@@ -230,15 +230,8 @@ const Swaps = ({ getReceivedItemsModal, getReceivedItems, item: { loading, recei
             </div>
             </a>
         </MDBCol>
-<<<<<<< HEAD
-
-          ))) : (<div className="mx-auto grey-text">No Swapped Items yet</div>)}
-=======
             ))
-          ))) : (<h4>No items found...</h4>)
-          
-      }
->>>>>>> 0ceef0df4a37751bc80be2a918e437a3b02ad613
+          ))) : (<div className="mx-auto grey-text">No Swapped Items yet</div>)}
 
         </MDBRow>
         </div>

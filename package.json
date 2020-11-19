@@ -25,11 +25,6 @@
     "multer-storage-cloudinary": "^4.0.0",
     "nodemon": "^2.0.4",
     "react-images-uploading": "^3.0.1",
-<<<<<<< HEAD
-    "react-multiple-select-dropdown-lite": "^1.0.18",
-    "react-scroll": "^1.8.1",
-=======
->>>>>>> 0ceef0df4a37751bc80be2a918e437a3b02ad613
     "request": "^2.88.2"
   },
   "devDependencies": {}
