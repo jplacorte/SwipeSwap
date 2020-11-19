@@ -2,7 +2,6 @@ import React, {  useState } from 'react';
 import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBBtn } from 'mdbreact';
 import MultiSelect from  'react-multiple-select-dropdown-lite';
 import { Link }  from 'react-router-dom';
-import Select from 'react-select';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';

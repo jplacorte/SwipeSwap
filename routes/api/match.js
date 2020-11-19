@@ -44,4 +44,48 @@ router.get('/trans/item', auth, async (req, res) => {
     }
 })
 
+// @route   POST api/match/superwant/:owner_id/:item_id
+// @des     Superwant an item
+// @access  Private
+router.post('/superwant/:owner_id/:item_id', auth, async (req, res) => {
+
+    const item = await Item.findById(req.params.item_id)
+    const user = await User.findById(req.user.id)
+    const ownername = await User.findById(req.params.owner_id)
+
+    try {
+        match = new Match({
+            users: [
+                {
+                    user: req.user.id,
+                    owner: req.params.owner_id,
+                    ownername: ownername.name,
+                    name: user.name,
+                    item: req.params.item_id,
+                    itemname: item.itemname
+                }
+            ],
+            status: "Pending",
+            supwerwant: true
+        })
+        await match.save(async(err, docs) => {
+            trans = new Transaction({
+                match: docs._id,
+                users:{
+                    user: req.user.id,
+                    name: user.name,
+                    item: req.params.item_id,
+                    itemname: item.itemname
+                }
+            })
+            await trans.save()
+        })
+        return res.json(match)
+        
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
+
 module.exports = router

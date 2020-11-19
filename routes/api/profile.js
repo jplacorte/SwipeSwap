@@ -9,6 +9,7 @@ const cloudinary = require('cloudinary').v2
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 
 const Profile = require('../../models/Profile')
+const Item = require('../../models/Item')
 const User = require('../../models/User')
 
 cloudinary.config({
@@ -238,4 +239,22 @@ router.put('/upload/photo', parser.single('file'), auth, async (req, res) => {
     }
 })
 
+// @route   GET api/profile/swap/received/:item_id
+// @des     Get users modal swapped items
+// @access  Private
+router.get('/swap/received/:item_id', auth, async (req, res) => {
+
+    try {
+        const swappedItems = await Item.findById(req.params.item_id)
+        
+        if(!swappedItems){
+            return res.status(400).json({ msg: 'Empty...' })
+        }
+
+        res.json(swappedItems)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
 module.exports = router

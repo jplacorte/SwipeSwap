@@ -9,7 +9,6 @@ import Avatar from '../../assets/images/avatar.png';
 import Navbar from '../navbar';
 import ProfileTabs from './tabs';
 import { createProfile, getCurrentProfile, updateAvatar } from '../../actions/profile';
-import ImageUploading from "react-images-uploading";
 
 const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurrentProfile, updateAvatar, history }) => {
 
@@ -97,13 +96,13 @@ useEffect(() =>{
         <MDBModalBody className="px-4 text-center">
           <form onSubmit={e => onSubmit(e)}>
           <ImgUpload/>
-          <input type="text" id="" name="name" value={name} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Name" />
-          <input type="text" id="" name="location" value={location} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Address" />
-          <input type="email" id="" name="email" value={email} className="form-control mt-3" placeholder="Email" disabled/>
-          <input type="date" id="" name="dateofbirth" value={dateofbirth} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Birthdate" />
-          <input type="text" id="" name="facebook" value={facebook} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Facebook Link" />
-          <input type="text" id="" name="instagram" value={instagram} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Instagram Link" />
-          <input type="text" id="" name="google" value={google} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Gmail Link" />
+          <input type="text" name="name" value={name} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Name" />
+          <input type="text" name="location" value={location} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Address" />
+          <input type="email" name="email" value={email} className="form-control mt-3" placeholder="Email" disabled/>
+          <input type="date" name="dateofbirth" value={dateofbirth} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Birthdate" />
+          <input type="text" name="facebook" value={facebook} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Facebook Link" />
+          <input type="text" name="instagram" value={instagram} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Instagram Link" />
+          <input type="text" name="google" value={google} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Gmail Link" />
           <MDBBtn className="confirm-btn color1 mx-auto mt-4 mb-2 py-2 px-5" type="submit">Confirm</MDBBtn>
           </form>
         </MDBModalBody>

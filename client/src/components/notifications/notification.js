@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link }  from 'react-router-dom';
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { MDBRow, MDBCol } from 'mdbreact';
 
 function Notification({ id, name, message, profilePic, timestamp }) {
     return (

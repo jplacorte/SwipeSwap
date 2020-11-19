@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
-// import ImageUploading from "react-images-uploading";
 import MultiSelect from  'react-multiple-select-dropdown-lite';
 import 'react-multiple-select-dropdown-lite/dist/index.css';
 import { connect } from 'react-redux';
-import Add from '../../assets/images/additem.png';
 import PropTypes from 'prop-types';
-import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBMask, MDBBtn, MDBCarouselCaption } from 'mdbreact';
+import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBBtn, MDBCarouselCaption } from 'mdbreact';
 import { Link }  from 'react-router-dom';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-// import ItemCondition from '../itemCondition';
 import Navbar from '../navbar';
 import { getItemById, updateItem, uploadImage } from '../../actions/item';
 import ItemImg from '../../assets/images/swipeswap_item.jpg';

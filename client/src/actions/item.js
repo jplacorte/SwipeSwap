@@ -12,7 +12,8 @@ import {
     GET_SWAPPED_ITEMS, 
     OPEN_ITEM_MODAL,
     UPLOAD_ITEM_IMAGE,
-    GET_RECEIVED_ITEM
+    GET_RECEIVED_ITEM,
+    GET_RECEIVED_ITEM_MODAL
 } from './types';
 
 // @route   GET item/
@@ -298,6 +299,29 @@ export const getReceivedItems = () => async dispatch => {
 
         dispatch({
             type: GET_RECEIVED_ITEM,
+            payload: res.data
+        });
+        
+    } catch (err) {
+
+        dispatch({
+            type: ITEMS_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+        
+    }
+}
+
+// @route   GET api/transaction/swap/received/
+// @des     Get received from swap transaction
+// @access  Private
+export const getReceivedItemsModal = (itemID) => async dispatch => {
+    try {
+
+        const res = await axios.get(`/api/profile/swap/received/${itemID}`)
+
+        dispatch({
+            type: GET_RECEIVED_ITEM_MODAL,
             payload: res.data
         });
         

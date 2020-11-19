@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link, NavLink} from 'react-router-dom';
-import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBNavLink, MDBIcon, MDBListGroup, MDBListGroupItem, MDBBadge } from 'mdbreact';
+import { NavLink} from 'react-router-dom';
+import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBIcon, MDBListGroup, MDBListGroupItem, MDBBadge } from 'mdbreact';
 import 'react-pro-sidebar/dist/css/styles.css';
 import Sidebar from "react-sidebar";
-import { BrowserRouter as Router } from 'react-router-dom';
 import SSLogo from '../assets/icons/sslogo2.png';
 import Logout from './Logout';
 

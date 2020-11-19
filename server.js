@@ -8,6 +8,7 @@ const profile = require('./routes/api/profile')
 const transaction = require('./routes/api/transaction')
 const item = require('./routes/api/item')
 const match = require('./routes/api/match')
+const want = require('./routes/api/want')
 
 const app = express()
 
@@ -24,6 +25,7 @@ app.use('/api/profile', profile)
 app.use('/api/item', item)
 app.use('/api/transaction', transaction)
 app.use('/api/match', match)
+app.use('/api/want', want)
 
 // Set static folder
 // app.use(express.static('client/build'))

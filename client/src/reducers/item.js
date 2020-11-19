@@ -1,9 +1,10 @@
-import { ADD_ITEMS, UPDATE_ITEMS, GET_ITEMS, ITEMS_ERROR, GET_ITEM, GET_SWAPPED_ITEMS, OPEN_ITEM_MODAL, UPLOAD_ITEM_IMAGE, GET_RECEIVED_ITEM } from '../actions/types';
+import { ADD_ITEMS, UPDATE_ITEMS, GET_ITEMS, ITEMS_ERROR, GET_ITEM, GET_SWAPPED_ITEMS, OPEN_ITEM_MODAL, UPLOAD_ITEM_IMAGE, GET_RECEIVED_ITEM, GET_RECEIVED_ITEM_MODAL } from '../actions/types';
 
 const initialState = {
     item: null,
     items: [],
     receivedItems: [],
+    receivedItemsModal: null,
     itemImage: [],
     itemModal: null,
     swappedItems: [],
@@ -56,6 +57,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 receivedItems: payload,
+                loading: false
+            };
+        case GET_RECEIVED_ITEM_MODAL:
+            return {
+                ...state,
+                receivedItemsModal: payload,
                 loading: false
             };
         case ITEMS_ERROR:

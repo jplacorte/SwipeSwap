@@ -5,7 +5,7 @@ import { getAllChat, getTransactionUsers } from '../../actions/transaction';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
-import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBNavbar, MDBView, MDBMask, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
+import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBNavbar, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import ChatSwap from './chatSwap';
 import 'react-chat-elements/dist/main.css';
 
@@ -26,9 +26,9 @@ const ChatScreen = ({ getAllChat, getTransactionUsers, transaction: { chat, tran
     const [ input, setInput ] = useState ('');
     const [ messages, setMessages ] = useState ([
         {
-            name: 'John Phillip Lacorte',
-            image: 'https://res.cloudinary.com/dibx7ua1g/image/upload/v1602141359/swipeSwap/jrpcj5s7vpijiqxau5x0.jpg',
-            message: 'Hi!'
+            // name: 'John Phillip Lacorte',
+            // image: 'https://res.cloudinary.com/dibx7ua1g/image/upload/v1602141359/swipeSwap/jrpcj5s7vpijiqxau5x0.jpg',
+            // message: 'Hi!'
         }
     ]);
 

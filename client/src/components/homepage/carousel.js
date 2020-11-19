@@ -4,7 +4,6 @@ import {
   Wrapper,
   CarouselContainer,
   CarouselSlot,
-  SlideButton,
   PREV,
   NEXT
 } from "./swipestyle";
@@ -26,7 +25,7 @@ const Carousel = props => {
   };
   const handlers = useSwipeable({
     onSwipedLeft: () => slide(NEXT),
-    onSwipedRight: () => slide(PREV),
+    // onSwipedRight: () => slide(PREV),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });

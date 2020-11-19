@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link }  from 'react-router-dom';
 import { MDBCol, MDBRow, MDBRating  } from 'mdbreact';
 import { connect } from 'react-redux';
 import ItemImg from '../../assets/images/item1.jpg';
@@ -19,21 +18,21 @@ const Reviews = ({ getSwappedItems, item: { swappedItems, loading } }) => {
       },
       {
         tooltip: 'Satisfactory',
-        choosed: true
       },
       {
         tooltip: 'Very Satisfactory'
       },
       {
-        tooltip: 'Outstanding'
+        tooltip: 'Outstanding',
+        choosed: true
       }
     ]);
   return (
         <MDBRow className="reviews-container mx-auto px-2 py-3">
 
           {
-            swappedItems.length > 0 ? (swappedItems.map(items => (
-              items.review > 0 ? (
+            swappedItems.map(items => (
+              items.review[0].user ? (
                 <MDBCol md="12">
               <div className="reviews">
                   <img src={items.photo[0].url ? items.photo[0].url : ItemImg} className="item-img rounded-circle mr-3" alt="KB" />
@@ -51,12 +50,11 @@ const Reviews = ({ getSwappedItems, item: { swappedItems, loading } }) => {
                     ]}  
                     iconRegular 
                     />
-                    <p>{items.review[0].reviewdetails}</p>
+                    <p>{items.review[0].reviewdetails ? items.review[0].reviewdetails : 'No reviews yet'}</p>
                   </div>    
               </div>
-            </MDBCol>
-            ):(<h1>No items...</h1>))))
-            :(<h1>No items...</h1>)
+            </MDBCol>) : ("No Items")))
+            
           }
             
         </MDBRow>

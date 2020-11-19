@@ -35,3 +35,4 @@ export const GET_MATCH = 'GET_MATCH';
 export const ERROR_MATCH = 'ERROR MATCH';
 export const MATCH_FOUND = 'MATCH_FOUND';
 export const APPROVE = 'APRROVE';
+export const GET_RECEIVED_ITEM_MODAL = "GET_RECEIVED_ITEM_MODAL";

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link }  from 'react-router-dom';
-import { MDBRow, MDBContainer, MDBCol, MDBView, MDBMask, MDBIcon, MDBBtn, MDBModal, MDBModalFooter } from 'mdbreact';
+import { MDBRow, MDBCol, MDBView, MDBMask, MDBIcon, MDBBtn, MDBModal, MDBModalFooter } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import SwipeImage from '../../assets/images/item1.jpg';
-import SwipeImage2 from '../../assets/images/item3.jpg';
 import ProfileAvatar from '../../assets/images/avatar.png';
 import Avatar from '../../assets/images/avatar.png';
 import ImgSlider from '../imgSlider';
@@ -124,11 +122,11 @@ const ChatSwap = ({ getAllChat, approve, transaction: { chats, loading }, auth: 
       </div>
 
       <div className="mb-3 text-center">
-          <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger">Ignore</MDBBtn>
+          <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger">Decline</MDBBtn>
           {
             chats.length > 0 ? chats.map(users => (
               <MDBBtn onClick={val => approveTrans(userID, userName, itemID)} className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
-            )):("Error")
+            )):(<MDBBtn className="chat-swap-btn-approve mx-2">Accept</MDBBtn>)
           }
       </div>
 

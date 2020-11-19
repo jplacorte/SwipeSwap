@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link }  from 'react-router-dom';
-import { MDBCol, MDBRow, MDBIcon } from 'mdbreact';
+import { MDBCol, MDBRow } from 'mdbreact';
 import BadgeIcon from '../../assets/icons/medal.png';
 
 function Badges() {

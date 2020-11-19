@@ -35,6 +35,9 @@ const MatchSchema = new mongoose.Schema({
     ],
     status: {
         type: String
+    },
+    superwant: {
+        type: Boolean
     }
 
 })

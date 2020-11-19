@@ -1,5 +1,5 @@
 import React from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon, MDBFormInline, MDBTabPane, MDBTabContent, MDBNavLink, MDBNavItem, MDBNav } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBTabPane, MDBTabContent, MDBNavLink, MDBNavItem, MDBNav } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';

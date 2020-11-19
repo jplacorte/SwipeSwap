@@ -24,6 +24,12 @@ const Notifications = ({ getAllTransaction, transaction: { transactions, loading
                 profilePic={SwipeSwapLogo}
                 />): '')):(<h1>No notifs</h1>)
          }
+         <Notification
+                id="asdua878213" 
+                name="Swipe Swap Team"
+                message="Jaypee wants your item"
+                profilePic={SwipeSwapLogo}
+            />
     </div>
     );
 }
