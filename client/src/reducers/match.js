@@ -1,8 +1,9 @@
-import { GET_MATCH, MATCH_FOUND, ERROR_MATCH, SUPERWANT } from '../actions/types';
+import { GET_MATCH, MATCH_FOUND, ERROR_MATCH, SUPERWANT, ACCEPT_SUPERWANT } from '../actions/types';
 
 const initialState = {
     match: null,
     superwant: null,
+    superwantaccept: null,
     matches: [],
     loading: true,
     error: {}
@@ -22,6 +23,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 superwant: payload,
+                loading: false
+            };
+        case ACCEPT_SUPERWANT:
+            return {
+                ...state,
+                superwantaccept: payload,
                 loading: false
             };
         case ERROR_MATCH:

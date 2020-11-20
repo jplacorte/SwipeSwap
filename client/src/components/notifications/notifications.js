@@ -4,13 +4,14 @@ import "../../css/mediaQuery.css";
 import Notification from './notification';
 import SwipeSwapLogo from '../../assets/icons/icon.png';
 import { connect } from 'react-redux';
-import { getAllTransaction } from '../../actions/transaction';
+import { getAllTransaction, getUserWantTransaction } from '../../actions/transaction';
 
-const Notifications = ({ getAllTransaction, transaction: { transactions, loading }, auth: { isAuthenticated, user } }) => {
+const Notifications = ({ getAllTransaction, getUserWantTransaction, transaction: { transactions, userwanttransaction }, auth: { isAuthenticated, user } }) => {
     
     useEffect(() => {
         getAllTransaction()
-    }, [getAllTransaction])
+        getUserWantTransaction()
+    }, [getAllTransaction, getUserWantTransaction])
 
     return (
      <div className="notifications">
@@ -20,19 +21,37 @@ const Notifications = ({ getAllTransaction, transaction: { transactions, loading
                 <Notification
                 id={match._id} 
                 name="Swipe Swap Team"
-                message={`${isAuthenticated ? ( user.name == match.users[0].name ? match.users[1].name : match.users[0].name) : ''} matched with you!`}
+                message={`${isAuthenticated ? ( user.name === match.users[0].name ? match.users[1].name : match.users[0].name) : ''} matched with you!`}
                 profilePic={SwipeSwapLogo}
-                />): '')):(<h1>No notifs</h1>)
+                superwant = "false"
+                usersuperwant="false"
+                />): '')):("")
          }
          {
              transactions.length > 0 ? transactions.map(superwant => (
-                 superwant.superwant === true ? (
+                superwant.superwant === true ? (
                 <Notification
                 id={superwant._id} 
                 name="Swipe Swap Team"
-                message={`${superwant.users[0].userwantname} wants your item`}
+                message={superwant.accepted ? `Accepted ${superwant.users[0].userwantname}'s super want` : `${superwant.users[0].userwantname} wants your item`}
                 profilePic={SwipeSwapLogo}
+                superwant = "true"
+                accepted = {superwant.accepted}
+                usersuperwant="false"
                 />): '')):("")
+         }
+         {
+             userwanttransaction.length > 0 ? userwanttransaction.map(usertrans => (
+                usertrans.superwant === true ? (
+                    <Notification
+                    id={usertrans._id} 
+                    name="Swipe Swap Team"
+                    message={usertrans.accepted ? `${usertrans.users[0].ownername} accepted your super want` : `Waiting for ${usertrans.users[0].ownername}'s Approval`}
+                    profilePic={SwipeSwapLogo}
+                    superwant = "true"
+                    accepted = {usertrans.accepted}
+                    usersuperwant="true"
+                    />): '')):("")
          }
     </div>
     );
@@ -42,4 +61,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { getAllTransaction })(Notifications);
+export default connect(mapStateToProps, { getAllTransaction, getUserWantTransaction })(Notifications);

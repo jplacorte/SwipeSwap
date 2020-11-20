@@ -9,7 +9,6 @@ import { getAllChat, approve } from '../../actions/transaction';
 import { getAllItemsByUser } from '../../actions/item';
 import MultiSelect from  'react-multiple-select-dropdown-lite';
 
-
 const ChatSwap = ({ getAllItemsByUser, getAllChat, approve, transaction: { chats, loading }, auth: { isAuthenticated, user }, item: { items } }) => {
 
     useEffect(() => {
@@ -31,14 +30,14 @@ const ChatSwap = ({ getAllItemsByUser, getAllChat, approve, transaction: { chats
     let userName = ''
     let itemID = ''
     chats.map(result => {
-      if(isAuthenticated && user.name === result.users[0].name){
-        userID = result.users[1].user 
-        userName = result.users[1].name
-        itemID = result.users[1].item
-      }else{
-        userID = result.users[0].user 
-        userName = result.users[0].name
+      if(isAuthenticated && user.name === result.users[0].ownername){
+        userID = result.users[0].owner 
+        userName = result.users[0].ownername
         itemID = result.users[0].item
+      }else{
+        userID = result.users[0].userwant 
+        userName = result.users[0].userwantname
+        itemID = result.users[0].userwantitem ? result.users[0].userwantitem : ''
       }
     })
     const selecitems = [
@@ -83,9 +82,9 @@ const ChatSwap = ({ getAllItemsByUser, getAllChat, approve, transaction: { chats
           <MDBIcon icon="sync-alt" style={{color: 'gray'}} size="lg" />
 
           <MDBView className="chat-swap-img mx-3">
-          <img src={chats.length > 0 ? chats.map(chat => `${chat.users[0].userwantitemphoto > 0 ? chat.users[0].userwantitemphoto :SwipeImage }`): ''} />
+          <img src={chats.length > 0 ? chats.map(chat => `${isAuthenticated ? ( user.name === chat.users[0].ownername ? chat.users[0].userwantitemphoto : chat.users[0].itemphoto) :ProfileAvatar}`):ProfileAvatar}/>
               <MDBMask className="m-1">
-                <p className="chat-swap-avatar"><img src={chats.length > 0 ? chats.map(chat => `${chat.users[0].userwantavatar}`):ProfileAvatar} className="rounded-circle"/></p>
+                <p className="chat-swap-avatar"><img src={chats.length > 0 ? chats.map(chat => `${isAuthenticated ? ( user.name === chat.users[0].ownername ? chat.users[0].userwantavatar : chat.users[0].owneravatar) :ProfileAvatar}`):ProfileAvatar} className="rounded-circle"/></p>
               </MDBMask>
           </MDBView>
       </div>

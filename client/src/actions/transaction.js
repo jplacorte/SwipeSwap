@@ -5,6 +5,7 @@ import {
     GET_TRANSACTION,
     GET_TRANSACTIONS,
     GET_TRANSACTION_USERS,
+    GET_USER_WANT_TRANSACTION,
     GET_CHAT,
     GET_CHATS,
     SET_DATE_TRANS,
@@ -22,6 +23,29 @@ export const getAllTransaction = () => async dispatch => {
 
         dispatch({
             type: GET_TRANSACTIONS,
+            payload: res.data
+        });
+        
+    } catch (err) {
+
+        dispatch({
+            type: TRANSACTION_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    
+    }
+}
+
+// @route   GET transaction/
+// @des     Get all transaction from user
+// @access  Private
+export const getUserWantTransaction = () => async dispatch => {
+    try {
+
+        const res = await axios.get('/api/want/');
+
+        dispatch({
+            type: GET_USER_WANT_TRANSACTION,
             payload: res.data
         });
         

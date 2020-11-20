@@ -6,13 +6,27 @@ const UserTransactionSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
+    name: {
+        type: String
+    },
+    avatar: {
+        type: String
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    },
+    ownername: {
+        type: String
+    },
+    owneravatar: {
+        type: String
+    },
     transaction: {
         type: Schema.Types.ObjectId,
         ref: 'transaction'
     },
-        name: {
-        type: String
-    },
+    
 })
 
 module.exports = UserTransaction = mongoose.model('usertransaction', UserTransactionSchema)

@@ -2046,3 +2046,29 @@ a.active-nav-item{
   color: #167D7F!important;
   transition: width 2s;
 }
+
+.notif-btn-accept{
+  height: 30px;
+  background-color:white!important;
+  border-radius: 10px;
+  width: 150px;
+  color: #167D7F;
+  font-weight: bold;
+}
+
+.notif-btn-accept:hover{
+  background-color: #98d7c2!important;
+  color: white;
+}
+
+.notif-btn-decline{
+  height: 30px;
+  background-color: #f05353!important;
+  border-radius: 10px;
+  width: 150px;
+  font-weight: bold;
+}
+
+.notif-btn-decline:hover{
+  background-color: red!important;
+}

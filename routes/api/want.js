@@ -10,8 +10,21 @@ const User = require('../../models/User')
 const Match = require('../../models/Match')
 const Transaction = require('../../models/Transaction')
 const Profile = require('../../models/Profile')
+const UserTransaction = require('../../models/UserTransaction')
 
+// @route  GET api/want/
+// @desc   Get all transaction of user
+// @access Private
+router.get('/', auth, async (req, res) => {
+    try {
+        const user = await Transaction.find({users:{$elemMatch:{ userwant: req.user.id }}})
 
+        return res.json(user)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
 // @route  GET api/want/
 // @desc   Get match id
 // @access Private
@@ -187,7 +200,18 @@ router.post('/superwant/:item_id/:owner_id', auth, async (req, res) => {
                 },
                 superwant:true
             })
-            await trans.save()
+            await trans.save(async(data, result) => {
+                userTrans = new UserTransaction({
+                    user: req.user.id,
+                    transaction: result._id,
+                    name: user.user.name,
+                    avatar: user.avatar,
+                    owner: req.params.owner_id,
+                    ownername: owner.user.name,
+                    owneravatar: owner.avatar
+                })
+            await userTrans.save()
+            })   
         })
         return res.json(match)
         
@@ -197,13 +221,39 @@ router.post('/superwant/:item_id/:owner_id', auth, async (req, res) => {
     }
 })
 
-// @route   POST api/want/:user_id
-// @des     Accept superwant
+// @route   PUT api/want/:trans_id
+// @des     Udate transaction
 // @access  Private
-router.post('/:user_id/:trans_id', auth, async (req, res) => {
+router.put('/:trans_id', auth, async (req, res) => {
     try {
-        
+        transaction = await Transaction.findOneAndUpdate(
+            { _id: req.params.trans_id },
+            { $set: {accepted: true} },
+            { new: true }
+        )
+        return res.json(transaction)
     } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+// @route   PUT api/want/change/owner/:trans_id
+// @des     Change item by owner
+// @access  Private
+router.put('/change/owner/:trans_id', auth, async (req, res) => {
+    const {
+        item
+    } = req.body
+    const itemparams = await Item.findById(item)
+    try {
+        transaction = await Transaction.findOneAndUpdate(
+            { _id: req.params.trans_id },
+            { $set: {users:{ item:item, itemname:itemparams.itemname, itemphoto:itemparams.photo[0].url }} },
+            { new: true }
+        )
+        return res.json(transaction)
+    } catch (err){
         console.error(err.message)
         res.status(500).send('Server Error')
     }

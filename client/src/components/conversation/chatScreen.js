@@ -78,7 +78,7 @@ const ChatScreen = ({ getAllChat, getTransactionUsers, transaction: { chat, tran
                    <div className="flex-fill bd-highlight col-example text-right">
                    <div className="d-flex bd-highlight example-parent">
                       <div className="w-100 bd-highlight col-example">
-                          <div>{transaction_users.length > 0 ? (transaction_users.map(user_trans => (isAuthenticated ? ( user.name === user_trans.users[0].name ? user_trans.users[1].name : user_trans.users[0].name) : ''))) : ""}</div>
+                        <div>Name</div>
                           <div style={{fontSize: '12px', color: 'grey'}}>Active 40 seconds ago</div>
                       </div>
                       <div className="bd-highlight col-example">

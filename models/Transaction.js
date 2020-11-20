@@ -80,7 +80,10 @@ const TransactionSchema = new mongoose.Schema({
         }
     ],
     superwant: {
-        type: Boolean
+        type: Boolean, default: false
+    },
+    accepted: {
+        type: Boolean, default: false
     }
 })
 
