@@ -42,122 +42,63 @@ router.get('/:item_id', auth, async (req, res) => {
 // @des     Want an item
 // @access  Private
 router.post('/:item_id/:owner_id', auth, async (req, res) => {
-
     const item = await Item.findById(req.params.item_id)
-    const user = await User.findById(req.user.id)
-    const ownername = await User.findById(req.params.owner_id)
-    const owner = await Match.find({users:{$elemMatch:{owner:req.user.id}}})
-    const matchItem = await Match.find({users:{$elemMatch:{ item: req.params.item_id }}})
+    const user = await Profile.findOne({ user: req.user.id }).populate('user', ['name'])
+    const user2 = await Profile.findOne({ user:req.params.owner_id }).populate('user', ['name'])
+    const checkUser1 = await Match.findOne({ user1: req.user.id }).select('user1')
+    const checkUser2 = await Match.findOne({ user2: req.user.id }).select('user2')
+    const checkItem1 = await Match.findOne({ item1: req.params.item_id }).select('item1')
+    const checkItem2 = await Match.findOne({ item2: req.params.item_id }).select('item2')
 
-    const {
-        match_id
-    } = req.body
-
-    console.log(owner)
-    console.log(match_id)
-    
-    if(matchItem.length > 0){
-        console.log("Ara ang item")
-        if(owner.length > 0 ){
-            try {
-                match = new Match({
-                    users: [
-                        {
-                            user: req.user.id,
-                            owner: req.params.owner_id,
-                            ownername: ownername.name,
-                            name: user.name,
-                            item: req.params.item_id,
-                            itemname: item.itemname
-                        }
-                    ]
-                })
-                await match.save(async(err, docs) => {
-                    trans = new Transaction({
-                        match: docs._id,
-                        users:{
-                            user: req.user.id,
-                            name: user.name,
-                            item: req.params.item_id,
-                            itemname: item.itemname
-                        }
-                    })
-                    await trans.save()
-                })
-                return res.json(match)
-                
-            } catch (err) {
-                console.error(err.message)
-                res.status(500).send('Server Error')
-            }
-        }else{
-            try {
-                match = new Match({
-                    users: [
-                        {
-                            user: req.user.id,
-                            owner: req.params.owner_id,
-                            ownername: ownername.name,
-                            name: user.name,
-                            item: req.params.item_id,
-                            itemname: item.itemname
-                        }
-                    ]
-                })
-                await match.save(async(err, docs) => {
-                    trans = new Transaction({
-                        match: docs._id,
-                        users:{
-                            user: req.user.id,
-                            name: user.name,
-                            item: req.params.item_id,
-                            itemname: item.itemname
-                        }
-                    })
-                    await trans.save()
-                })
-                return res.json(match)
-                
-            } catch (err) {
-                console.error(err.message)
-                res.status(500).send('Server Error')
-            }
-        }
+    if(checkItem1 || checkItem2 && checkUser1 || checkUser2){
+        // console.log("UPDAAAATTTTTTTTEEEEE", checkItem2, checkUser1, checkUser2)
+        match = await Match.findOneAndUpdate(
+            { user1: req.params.owner_id, user2: req.user.id},
+            { $set: {item1: req.params.item_id, itemname1: item.itemname } },
+            { new: true }
+        )
+        transaction = await Transaction.findOneAndUpdate(
+            { user1: req.params.owner_id, user2: req.user.id},
+            { $set: {item1: req.params.item_id, itemname1: item.itemname }},
+            { new: true }
+        )
     }else{
-        try {
-
-            match = new Match({
-                users: [
-                    {
-                        user: req.user.id,
-                        owner: req.params.owner_id,
-                        ownername: ownername.name,
-                        name: user.name,
-                        item: req.params.item_id,
-                        itemname: item.itemname
-                    }
-                ]
+        // console.log("INSEEEEEERRRRRRTTTTTT", checkUser1, checkUser2)
+        match = new Match({
+            user1: req.user.id,
+            user2: req.params.owner_id,
+            username1: user.user.name,
+            username2: user2.user.name,
+            item2: req.params.item_id,
+            itemname2: item.itemname,
+        })
+        await match.save(async(err, docs) => {
+            trans = new Transaction({
+                match: docs._id,
+                user1: req.user.id,
+                user2: req.params.owner_id,
+                username1: user.user.name,
+                username2: user2.user.name,
+                item2: req.params.item_id,
+                itemname2: item.itemname,
+                itemphoto2: item.photo[0].url
             })
-            await match.save(async(err, docs) => {
-                trans = new Transaction({
-                    match: docs._id,
-                    users:{
-                        user: req.user.id,
-                        name: user.name,
-                        item: req.params.item_id,
-                        itemname: item.itemname
-                    }
+            await trans.save(async(data, result) => {
+                userTrans = new UserTransaction({
+                    user: req.user.id,
+                    transaction: result._id,
+                    name: user.user.name,
+                    avatar: user.avatar,
+                    owner: req.params.owner_id,
+                    ownername: user2.user.name,
+                    owneravatar: user2.avatar
                 })
-                await trans.save()
-            })
-            return res.json(match)
-            
-        } catch (err) {
-            console.error(err.message)
-            res.status(500).send('Server Error')
-        }
+            await userTrans.save()
+            })   
+        })
+        return res.json(match)
     }
-    res.json(matchItem)
+    return res.json(match)
 })
 
 // @route   POST api/want/superwant/:item_id/:owner_id
@@ -172,32 +113,26 @@ router.post('/superwant/:item_id/:owner_id', auth, async (req, res) => {
     
     try {
         match = new Match({
-            users: [
-                {
-                    user: req.user.id,
-                    owner: req.params.owner_id,
-                    ownername: owner.user.name,
-                    name: user.user.name,
-                    item: req.params.item_id,
-                    itemname: item.itemname
-                }
-            ],
+            user: req.user.id,
+            owner: req.params.owner_id,
+            ownername: owner.user.name,
+            name: user.user.name,
+            item: req.params.item_id,
+            itemname: item.itemname,
             superwant: true
         })
         await match.save(async(err, docs) => {
             trans = new Transaction({
                 match: docs._id,
-                users:{
-                    owner: req.params.owner_id,
-                    ownername: owner.user.name,
-                    item: req.params.item_id,
-                    itemname: item.itemname,
-                    itemphoto: item.photo[1].url,
-                    owneravatar: owner.avatar,
-                    userwant: req.user.id,
-                    userwantavatar: user.avatar,
-                    userwantname: user.user.name,
-                },
+                owner: req.params.owner_id,
+                ownername: owner.user.name,
+                item: req.params.item_id,
+                itemname: item.itemname,
+                itemphoto: item.photo[1].url,
+                owneravatar: owner.avatar,
+                userwant: req.user.id,
+                userwantavatar: user.avatar,
+                userwantname: user.user.name,
                 superwant:true
             })
             await trans.save(async(data, result) => {
