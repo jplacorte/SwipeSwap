@@ -1,28 +1,61 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAllTransaction } from '../../actions/transaction';
+import { useGetConversations } from '../../actions/chat';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Chat from './chat';
+import socketIOClient from 'socket.io-client';
 
-const Chats = ({ getAllTransaction, transaction: { transactions, loading }, auth: { isAuthenticated, user } }) => {
+const Chats = ({props, auth: { isAuthenticated, user } }) => {
+
+    const [conversations, setConversations] = useState([]);
+    const [newConversation, setNewConversation] = useState(null);
+    const getConversations = useGetConversations();
+
     useEffect(() => {
-        getAllTransaction()
-    }, [getAllTransaction])
+        getConversations().then((res) => setConversations(res));
+    }, [newConversation]);
+    
+    useEffect(() => {
+        let socket = socketIOClient('http://localhost:5000/');
+        socket.on("messages", (data) => setNewConversation(data));
+    
+        return () => {
+          socket.removeListener("messages");
+        };
+    }, []);
     return (
      <div className="chats">
-            {
+         {
+             conversations.length > 0 ? (
+                 <>
+                 {
+                     conversations.map((c) => (
+                        <Chat
+                            id="aasdad"
+                            name="Jaypee"
+                            message={c.lastMessage}
+                            // timestamp="40 seconds ago"
+                            // profilePic={}
+                        />
+                     ))
+                 }
+                 </>
+             ) : (<center><h1>Conversation is Empty...</h1></center>)
+         }
+                {/* <Chat
+                    id="aasdad"
+                    name="Jaypee"
+                    message="Hello!"
+                    // timestamp="40 seconds ago"
+                    // profilePic={}
+                /> */}
+            {/* {
              transactions.length > 0 ? (
                  transactions.map( transaction => (
                     transaction.users.length > 1 && transaction.superwant != true ? (
-                    <Chat
-                        id={transaction._id}
-                        name={isAuthenticated ? ( user.name === transaction.users[0].name ? transaction.users[1].name : transaction.users[0].name) : ''}
-                        message="Hello!"
-                        timestamp="40 seconds ago"
-                        profilePic={`${isAuthenticated ? ( user.name === transaction.users[0].name ? transaction.users[1].avatar : transaction.users[0].avatar) : ''}`}
-                    />
+                    
                 ): '')) 
              ):(<h4>Chat is empty....</h4>)
             }
@@ -35,14 +68,14 @@ const Chats = ({ getAllTransaction, transaction: { transactions, loading }, auth
                         profilePic={`${transaction.users[0].userwantavatar}`}
                     />) : ''
                 )) : ("")
-            }
+            } */}
     </div>
     );
 }
 
 const mapStateToProps = state => ({
-    transaction: state.transaction,
+    chat: state.chat,
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { getAllTransaction })(Chats);
+export default connect(mapStateToProps, {})(Chats);

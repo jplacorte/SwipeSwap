@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link }  from 'react-router-dom';
 import { getAllChat, getTransactionUsers } from '../../actions/transaction';
@@ -8,9 +8,44 @@ import Navbar from '../navbar';
 import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBNavbar, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import ChatSwap from './chatSwap';
 import 'react-chat-elements/dist/main.css';
+import socketIOClient from "socket.io-client";
+import { useGetConversations, useSendConversationMessage } from '../../actions/chat';
 
 // CHATSCREEN 
-const ChatScreen = ({ getAllChat, getTransactionUsers, transaction: { chat, transaction_users, loading }, match, auth: { isAuthenticated, user } }) => {
+const ChatScreen = ({props, getAllChat, getTransactionUsers, transaction: { chat, transaction_users, loading }, match, auth: { isAuthenticated, user } }) => {
+
+  const [newMessage, setNewMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [lastMessage, setLastMessage] = useState(null);
+  let chatBottom = useRef(null);
+
+  const getConversationMessages = useGetConversations();
+  const sendConversationMessage = useSendConversationMessage();
+
+  // useEffect(() => {
+  //   reloadMessages();
+  //   scrollToBottom();
+  // }, [lastMessage]);
+
+  useEffect(() => {
+    const socket = socketIOClient(process.env.REACT_APP_API_URL);
+    socket.on("messages", (data) => setLastMessage(data));
+  }, []);
+
+  // const reloadMessages = () => {
+  // if(props.conversationId !== null) {
+  //     getConversationMessages(props.user._id).then((res) => setMessages(res));
+  //   } else {
+  //     setMessages([]);
+  //   }
+  // };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendConversationMessage(props.user._id, newMessage).then((res) => {
+      setNewMessage("");
+    });
+  };
 
   useEffect(() => {
     getAllChat(match.params.id)
@@ -22,22 +57,22 @@ const ChatScreen = ({ getAllChat, getTransactionUsers, transaction: { chat, tran
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
   
-    const [ inputFile, setInputFile ] = useState ('');
-    const [ input, setInput ] = useState ('');
-    const [ messages, setMessages ] = useState ([
+    // const [ inputFile, setInputFile ] = useState ('');
+    // const [ input, setInput ] = useState ('');
+    // const [ messages, setMessages ] = useState ([
         {
             // name: 'John Phillip Lacorte',
             // image: 'https://res.cloudinary.com/dibx7ua1g/image/upload/v1602141359/swipeSwap/jrpcj5s7vpijiqxau5x0.jpg',
             // message: 'Hi!'
         }
-    ]);
+    // ]);
 
-    const handleSend = e => {
-        e.preventDefault();
-        setMessages([...messages, { message: input }]);
-        setInputFile("");
-        setInput("");
-    }
+    // const handleSend = e => {
+    //     e.preventDefault();
+    //     setMessages([...messages, { message: input }]);
+    //     setInputFile("");
+    //     setInput("");
+    // }
     return (
         <div className="chat-screen">
 
@@ -109,8 +144,8 @@ const ChatScreen = ({ getAllChat, getTransactionUsers, transaction: { chat, tran
             <div>
                 <ChatSwap />
             </div>
-                
-            {messages.map((message) => 
+            {/*Chat*/}    
+            {/* {messages.map((message) => 
                     message.name ? (
                 <div className="chat-screen-message">
                     <img 
@@ -118,16 +153,16 @@ const ChatScreen = ({ getAllChat, getTransactionUsers, transaction: { chat, tran
                         className="rounded-circle chat-screen-image mb-2"   
                         alt={message.name}
                     />
-                    <p className="chat-screen-text">{message.message}</p>
+                    <p className="chat-screen-text">Hi</p>
                 </div>
                 ) : 
                 (
                 <div className="chat-screen-message">
-                 <p className="chat-screen-text-user">{message.message}</p>
+                 <p className="chat-screen-text-user">Hello</p>
                  </div>
                 )
-                )}
-                    <form className="chat-screen-input" onSubmit={handleSend}>
+                )} */}
+                    <form className="chat-screen-input" onSubmit={handleSubmit}>
                     {/* <div className="input-group" style={{width: '50px', zIndex: '-1'}}
                     >
                       <MDBView className="custom-file mt-1">
@@ -144,13 +179,14 @@ const ChatScreen = ({ getAllChat, getTransactionUsers, transaction: { chat, tran
                       </MDBView>
                     </div> */}
                         <input 
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
+                            name="message"
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            value={newMessage}
                             type="text" 
                             className="chat-screen-input-field"
                             placeholder="Type a message..."
                         />
-                        <button onClick={handleSend} type="submit" className="chat-screen-input-btn">Send</button>
+                        <button type="submit" className="chat-screen-input-btn">Send</button>
                     </form>
                     </MDBCol>
                 </MDBRow>

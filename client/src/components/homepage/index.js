@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Item, AppContainer, ExtraInfo, Code } from "./swipestyle";
-import { MDBRow, MDBCol, MDBBtn, MDBModal,  MDBModalFooter, MDBView, MDBMask, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBRating, MDBIcon, MDBModalHeader, MDBModalBody, MDBContainer } from 'mdbreact';
-import Select from 'react-select';
+import { Item, PREV, NEXT } from "./swipestyle";
+import { MDBRow, MDBCol, MDBBtn, MDBModal,  MDBModalFooter, MDBView, MDBMask, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBRating, MDBIcon, MDBContainer } from 'mdbreact';
 import { connect } from 'react-redux';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
@@ -93,40 +92,12 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
     const handleClose = () => setShowModal(false);
     const handleClose2 = () => setShowModal2(false);
   
-    const categoriesoptions = [
-      { value: 'Vehicles', label: 'Vehicles' },
-      { value: 'Apparel', label: 'Apparel' },
-      { value: 'Electronics', label: 'Electronics' },
-      { value: 'Entertainment', label: 'Entertainment' },
-      { value: 'Baby & Kids Items', label: 'Baby & Kids Items' },
-      { value: 'Health & Beauty', label: 'Health & Beauty' },
-      { value: 'Pet Supplies', label: 'Pet Supplies' },
-      { value: 'Musical Instruments', label: 'Musical Instruments' },
-      { value: 'Office Supplies', label: 'Office Supplies' },
-      { value: 'Sporting Goods', label: 'Sporting Goods' },
-      { value: 'Toys & Games', label: 'Toys & Games' }
-    ];
-
     return (
       <>
       <Navbar />
         <div className="homepage">
 
           {/* Modals */}
-          <MDBModal isOpen={showModal2} toggle={handleClose2}>
-            <MDBModalHeader toggle={handleClose2}>Select Item</MDBModalHeader>
-            <MDBModalBody className="px-4 text-center">
-              <img src={SwipeImage} className="item-img-modal mx-auto mb-3" />
-              <label className="mt-3">Item Categories to Swap</label>
-                <Select
-                options={categoriesoptions}
-                isMulti
-              />
-            </MDBModalBody>
-
-            <MDBBtn className="confirm-btn color1 mx-auto my-4 py-2 px-5" >Confirm</MDBBtn>
-
-          </MDBModal>
 
       <MDBModal isOpen={showModal} toggle={handleClose}>
         <div className="item-details-modal">
@@ -256,20 +227,6 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
           <MDBContainer className="homepage-container">
             <MDBRow>
             <MDBCol lg="7" className="px-4">
-              <div className="d-flex bd-highlight example-parent">
-                <div className="p-1 flex-fill bd-highlight col-example mb-5">
-                  <img src={SwipeImage} className="item-img" />
-                </div>
-                <div className="px-1 flex-fill bd-highlight col-example my-2 select-item-name">
-                  Search by categories
-                </div>
-                <div className="flex-fill bd-highlight col-example text-center my-3 select-item">
-                  <a className="text-center" onClick={handelShow2} style={{color: "#167D7F", fontSize: '12px'}}>
-                    <MDBIcon icon="sync" className="select-item-icon" style={{fontSize: '28px'}} />
-                    <div>Select Item</div>
-                  </a>
-                </div>
-              </div>
               <div className="ss-btns-dsk mt-4">
                 <div className="flex-center">
                     <MDBBtn className="ss-btn-want p-2 mr-4" onClick={val => want(items[1]._id, items[1].user._id)} color="success"><MDBIcon icon="heart" style={{fontSize: '45px'}} /><br/> Want</MDBBtn>
