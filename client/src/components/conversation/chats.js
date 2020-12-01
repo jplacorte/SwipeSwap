@@ -18,7 +18,7 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
     }, [newConversation]);
     
     useEffect(() => {
-        let socket = socketIOClient(process.env.REACT_APP_API_URL);
+        let socket = socketIOClient('http:localhost:5000');
         socket.on("messages", (data) => setNewConversation(data));
     
         return () => {

@@ -1,6 +1,5 @@
 const express = require('express')
 const connectDB = require('./config/db')
-const path = require('path')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
@@ -45,29 +44,22 @@ app.use(bodyParser.json())
 // CORS middleware
 app.use(cors())
 
-// Set static folder
-app.use(express.static('client/build'))
-
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-})
-
 // Define Routes
-app.use('/users', users)
-app.use('/auth', auth)
-app.use('/profile', profile)
-app.use('/item', item)
-app.use('/transaction', transaction)
-app.use('/match', match)
-app.use('/want', want)
-app.use('/chat', chat)
+// app.use('/users', users)
+// app.use('/auth', auth)
+// app.use('/profile', profile)
+// app.use('/item', item)
+// app.use('/transaction', transaction)
+// app.use('/match', match)
+// app.use('/want', want)
+// app.use('/chat', chat)
 
 // Development
-// app.use('/api/users', users)
-// app.use('/api/auth', auth)
-// app.use('/api/profile', profile)
-// app.use('/api/item', item)
-// app.use('/api/transaction', transaction)
-// app.use('/api/match', match)
-// app.use('/api/want', want)
-// app.use('/api/chat', chat)
+app.use('/api/users', users)
+app.use('/api/auth', auth)
+app.use('/api/profile', profile)
+app.use('/api/item', item)
+app.use('/api/transaction', transaction)
+app.use('/api/match', match)
+app.use('/api/want', want)
+app.use('/api/chat', chat)

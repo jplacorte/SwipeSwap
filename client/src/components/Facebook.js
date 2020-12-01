@@ -27,7 +27,7 @@ const Facebook = ({ login, isAuthenticated }) => {
     />)
 
     if(isAuthenticated){
-        return window.location.href="/profile"
+         window.location.href="/homepage"
     }
     return (               
         <Fragment>
