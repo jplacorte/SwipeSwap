@@ -10,9 +10,21 @@ const ChatSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
+    toAvatar: {
+        type: String
+    },
+    toName: {
+        type: String
+    },
     from: {
         type: Schema.Types.ObjectId,
         ref: 'user'
+    },
+    fromAvatar: {
+        type: String
+    },
+    fromName: {
+        type: String
     },
     body: {
         type: String,

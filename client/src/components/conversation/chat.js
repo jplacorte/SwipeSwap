@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link }  from 'react-router-dom';
 
-function Chat({ name, message, profilePic, timestamp, id }) {
+function Chat({ name, message, profilePic, timestamp, id, conID }) {
     return (
-    <Link to={`/chatScreen/${id}`}>
+    <Link to={`/chatScreen/${conID}/${id}/`}>
       <div className="chat">
         <img src={profilePic} className="rounded-circle chat-image mr-3" alt="KB" />
           <div className="chat-details pt-3">

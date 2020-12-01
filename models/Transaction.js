@@ -21,64 +21,47 @@ const TransactionSchema = new mongoose.Schema({
     reason: {
         type: String
     },
-    users: [
-        {
-            owner: {
-                type: Schema.Types.ObjectId,
-                ref: 'user'
-            },
-            ownername: {
-                type: String
-            },
-            owneravatar: {
-                type: String
-            },
-            item: {
-                type: Schema.Types.ObjectId,
-                ref: 'item'
-            },
-            itemname: {
-                type: String
-            },
-            itemphoto: {
-                type: String
-            },
-            userwant: { 
-                type: Schema.Types.ObjectId,
-                ref: 'user'
-            },
-            userwantavatar: {
-                type: String
-            },
-            userwantname: {
-                type: String
-            },
-            userwantitem: {
-                type: Schema.Types.ObjectId,
-                ref: 'item'
-            },
-            userwantitemname: {
-                type: String
-            },
-            userwantitemphoto: {
-                type: String
-            }
-        }
-    ],
-    chat: [
-        {
-            user:{
-                type: Schema.Types.ObjectId,
-                ref: 'user'
-            },
-            name: {
-                type: String
-            },
-            text:{
-                type: String
-            },
-        }
-    ],
+    
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    },
+    ownername: {
+        type: String
+    },
+    owneravatar: {
+        type: String
+    },
+    item: {
+        type: Schema.Types.ObjectId,
+        ref: 'item'
+    },
+    itemname: {
+        type: String
+    },
+    itemphoto: {
+        type: String
+    },
+    userwant: { 
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    },
+    userwantavatar: {
+        type: String
+    },
+    userwantname: {
+        type: String
+    },
+    userwantitem: {
+        type: Schema.Types.ObjectId,
+        ref: 'item'
+    },
+    userwantitemname: {
+        type: String
+    },
+    userwantitemphoto: {
+        type: String
+    },
     user1: {
         type: Schema.Types.ObjectId,
         ref: 'user'
@@ -120,6 +103,9 @@ const TransactionSchema = new mongoose.Schema({
         type: String
     },
     superwant: {
+        type: Boolean, default: false
+    },
+    messaged: {
         type: Boolean, default: false
     },
     accepted: {

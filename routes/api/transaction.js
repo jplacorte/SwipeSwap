@@ -18,7 +18,7 @@ const Item = require('../../models/Item')
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {
-        const user = await Transaction.find({users:{$elemMatch:{ owner: req.user.id }}})
+        const user = await Transaction.find({owner: req.user.id })
 
         return res.json(user)
     } catch (err) {
@@ -30,7 +30,7 @@ router.get('/', auth, async (req, res) => {
 // @route   GET api/transaction/:id
 // @des     Get all chat by transaction
 // @access  Private
-router.get('/:id', auth, async (req, res) => {
+router.get('/trans/chat/get/conv/:id', auth, async (req, res) => {
     try {
 
         const chat = await Transaction.find({_id: req.params.id})

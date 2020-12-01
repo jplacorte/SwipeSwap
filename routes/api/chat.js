@@ -5,15 +5,17 @@ const auth = require('../../middleware/auth')
 
 const Conversation = require('../../models/Conversation')
 const Chat = require('../../models/Chat')
+const Profile = require('../../models/Profile')
+const Transaction = require('../../models/Transaction')
 
 // @route   GET api/chat/
 // @des     Get conversations list
 // @access  Private
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, (req, res) => {
 
     let from = mongoose.Types.ObjectId(req.user.id)
 
-    await Conversation.aggregate([
+    Conversation.aggregate([
         {
             $lookup: {
                 from: 'user',
@@ -26,7 +28,7 @@ router.get('/', auth, async (req, res) => {
         users: { $all: [{ $elemMatch: { $eq: from } }] }
     }).project({
         'usersObj._v': 0
-    }).exec(async (err, conversations) => {
+    }).exec((err, conversations) => {
         if(err){
             console.log(err)
             res.setHeader('Content-Type', 'application/json')
@@ -62,61 +64,81 @@ router.get('/:con_id', auth, async (req, res) => {
 // @route   POST api/chat/message
 // @des     Post a message
 // @access  Private
-router.post('/messages', auth, async (req, res) => {
+router.post('/messages/:trans_id', auth, async (req, res) => {
 
-    let from = mongoose.Types.ObjectId(req.user.id);
-    let to = mongoose.Types.ObjectId(req.body.to);
-
+    let fromProfile = await Profile.findOne({user:req.user.id}).populate('user', ['name'])
+    let toProfile = await Profile.findOne({user:req.body.to}).populate('user', ['name'])
+    
     await Conversation.findOneAndUpdate({
-        users: {
-            $all: [
-                {$elemMatch: { $eq: from }},
-                {$elemMatch: { $eq: to }}
-            ]
-        }
+        _id: req.body.convID
     }, 
     {
+        transaction: req.params.trans_id,
         users: [req.user.id, req.body.to],
+        avatars: [fromProfile.avatar, toProfile.avatar],
+        names:[fromProfile.user.name, toProfile.user.name],
         lastMessage: req.body.body,
         date: Date.now()
     },
-    { upsert: true, new: true, setDefaultsOnInsert: true },
-    function(err, conversation){
-        if(err){
-            console.log(err)
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ message: 'Failure' }))
-            res.status(500)
-        }else{
+    { upsert: true, new: true },
+    async (err, conversation) => {
+        try {
+
             let chat = new Chat({
                 conversation: conversation._id,
                 to: req.body.to,
+                toAvatar: toProfile.avatar,
+                toName: toProfile.user.name,
                 from: req.user.id,
+                fromAvatar: fromProfile.avatar,
+                fromName:fromProfile.user.name,
                 body: req.body.body,
                 date: Date.now()
             })
             
             req.io.sockets.emit('messages', req.body.body)
 
-            chat.save( err => {
-                if (err) {
-                    console.log(err);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.end(JSON.stringify({ message: 'Failure' }));
-                    res.sendStatus(500);
-                } else {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.end(
-                        JSON.stringify({
-                            message: 'Success',
-                            conversationId: conversation._id,
-                        })
-                    );
-                }
-            })
+            chat.save()
+            return res.json(chat)
+        } catch (err) {
+            console.error(err.message)
+            res.status(500).send("Server Error")
         }
-    }
+     }
     )
+})
+
+//  @route  POST api/chat/:trans_id
+//  @desc   Create a new message
+//  @access Private
+router.post('/:trans_id', auth, async (req, res) => {
+
+        const fromProfile = await Profile.findOne({user:req.user.id}).populate    ('user', ['name'])
+        const toProfile = await Profile.findOne({user:req.body.to}).populate  ('user', ['name'])
+        
+    try {
+        const con = new Conversation({
+            transaction: req.params.trans_id,
+            users: [req.user.id, req.body.to],
+            avatars: [fromProfile.avatar, toProfile.avatar],
+            names:[fromProfile.user.name, toProfile.user.name],
+            lastMessage: "Hi!",
+            date: Date.now()
+        })
+
+        await Transaction.findByIdAndUpdate(
+            { _id: req.params.trans_id },
+            { $set: { messaged: true } },
+            { new: true }
+        )
+
+        con.save()
+        return res.json(con)
+        
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
 })
 
 module.exports = router

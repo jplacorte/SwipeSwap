@@ -17,7 +17,29 @@ const UserTransaction = require('../../models/UserTransaction')
 // @access Private
 router.get('/', auth, async (req, res) => {
     try {
-        const user = await Transaction.find({users:{$elemMatch:{ userwant: req.user.id }}})
+        const user = await Transaction.find({userwant: req.user.id})
+
+        return res.json(user)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+router.get('/user/1', auth, async (req, res) => {
+    try {
+        const user = await Transaction.find({user1: req.user.id})
+
+        return res.json(user)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+router.get('/want/user/2', auth, async (req, res) => {
+    try {
+        const user = await Transaction.find({user2: req.user.id})
 
         return res.json(user)
     } catch (err) {

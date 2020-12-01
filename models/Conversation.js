@@ -12,6 +12,16 @@ const ConversationSchema = new mongoose.Schema({
             ref: 'user'
         }
     ],
+    avatars: [
+        {
+            type: String
+        }
+    ],
+    names: [
+        {
+            type: String
+        }
+    ],
     lastMessage: {
         type: String
     },

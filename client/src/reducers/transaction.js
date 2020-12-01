@@ -1,10 +1,12 @@
-import { GET_TRANSACTION, GET_TRANSACTIONS, GET_TRANSACTION_USERS,GET_CHAT, GET_CHATS, SET_DATE_TRANS ,TRANSACTION_ERROR, APPROVE, GET_USER_WANT_TRANSACTION } from '../actions/types';
+import { GET_TRANSACTION, GET_TRANSACTIONS, GET_TRANSACTION_USERS,GET_CHAT, GET_CHATS, SET_DATE_TRANS ,TRANSACTION_ERROR, APPROVE, GET_USER_WANT_TRANSACTION, GET_USER_WANT_1, GET_USER_WANT_2 } from '../actions/types';
 
 const initialState = {
     transaction: null,
     transactions: [],
     transaction_users: [],
     userwanttransaction: [],
+    transaction1: [],
+    transaction2: [],
     approve:[],
     chat: null,
     chats: [],
@@ -38,6 +40,18 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 userwanttransaction: payload,
+                loading: false
+            }
+        case GET_USER_WANT_1: 
+            return {
+                ...state,
+                transaction1: payload,
+                loading: false
+            }
+        case GET_USER_WANT_2: 
+            return {
+                ...state,
+                transaction2: payload,
                 loading: false
             }
         case GET_CHAT:

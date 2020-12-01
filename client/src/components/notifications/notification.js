@@ -5,8 +5,9 @@ import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import { acceptSuperWant } from "../../actions/match";
 import { connect } from 'react-redux';
+import { createConversation } from '../../actions/chat';
 
-const Notification = ({ id, name, message, profilePic, timestamp, superwant, usersuperwant, acceptSuperWant,accepted }) => {
+const Notification = ({ id, userID, name, message, profilePic, timestamp, superwant, usersuperwant, acceptSuperWant,accepted, messaged }) => {
     const accept = (val) => {
       acceptSuperWant(val)
       usersuperwant = "false"
@@ -14,6 +15,11 @@ const Notification = ({ id, name, message, profilePic, timestamp, superwant, use
     }
     const decline = (val) => {
       console.log(val)
+    }
+
+    const createMessage = () => {
+      createConversation(userID, id)
+      window.location.href = "/conversation"
     }
     return (
       <>
@@ -31,7 +37,8 @@ const Notification = ({ id, name, message, profilePic, timestamp, superwant, use
                   <div className="notif-message">{message}</div>
                   <div className="notif-timestamp">{timestamp}</div>
               </div>
-              <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" href={`/chatScreen/${id}`}>View</MDBBtn>              
+              {messaged ?  '' : <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => createMessage()}>Message</MDBBtn>}
+                           
             </div>
             </MDBCol>
           </MDBRow>
@@ -52,7 +59,9 @@ const Notification = ({ id, name, message, profilePic, timestamp, superwant, use
             </div>
             {
             accepted || usersuperwant === "true" ? (<>
-            <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" href={`/chatScreen/${id}`}>View</MDBBtn>
+            {
+              messaged ? '' : <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => createMessage()}>Message</MDBBtn>
+            }
             </>):(<>
             <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => accept(id)} >Accept</MDBBtn>
             <MDBBtn className="my-auto mr-3 notif-btn-decline p-1 text-capitalize" onClick={val => decline(id)} >Decline</MDBBtn></>)

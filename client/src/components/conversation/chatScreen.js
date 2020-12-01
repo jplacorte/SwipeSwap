@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link }  from 'react-router-dom';
-import { getAllChat, getTransactionUsers } from '../../actions/transaction';
+import { getTrans } from '../../actions/transaction';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
@@ -9,48 +9,78 @@ import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBNavbar, MDBDropdown, MDBDropd
 import ChatSwap from './chatSwap';
 import 'react-chat-elements/dist/main.css';
 import socketIOClient from "socket.io-client";
-import { useGetConversations, useSendConversationMessage } from '../../actions/chat';
+import { useGetConversationMessages, useSendConversationMessage } from '../../actions/chat';
 
 // CHATSCREEN 
-const ChatScreen = ({props, getAllChat, getTransactionUsers, transaction: { chat, transaction_users, loading }, match, auth: { isAuthenticated, user } }) => {
+const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading }, match, auth: { isAuthenticated, user } }) => {
+
+    let userID = ''
+    let userName = ''
+    let itemID = ''
+    
+    chats.map(result => {
+      if(result.ownername || result.userwant){
+        if(isAuthenticated && user._id === result.owner){
+          userID = result.userwant 
+          userName = result.userwantname
+          itemID = result.userwantitem ? result.users.userwantitem : ''
+        }else{
+          userID = result.owner 
+          userName = result.ownername
+          itemID = result.item
+        }
+      }else{
+        if(result.user1 || result.user2){
+          if(isAuthenticated && user._id === result.user1){
+            userID = result.user2 
+            userName = result.username2
+            itemID = result.useritem2
+          }else{
+            userID = result.user1 
+            userName = result.username1
+            itemID = result.useritem1
+          }
+        }
+      }
+    })
 
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [lastMessage, setLastMessage] = useState(null);
-  let chatBottom = useRef(null);
+  // let chatBottom = useRef(null);
 
-  const getConversationMessages = useGetConversations();
+  const getConversationMessages = useGetConversationMessages();
   const sendConversationMessage = useSendConversationMessage();
 
-  // useEffect(() => {
-  //   reloadMessages();
+  useEffect(() => {
+    reloadMessages();
   //   scrollToBottom();
-  // }, [lastMessage]);
+  }, [lastMessage, match.params.conID]);
 
   useEffect(() => {
     const socket = socketIOClient(process.env.REACT_APP_API_URL);
     socket.on("messages", (data) => setLastMessage(data));
   }, []);
 
-  // const reloadMessages = () => {
-  // if(props.conversationId !== null) {
-  //     getConversationMessages(props.user._id).then((res) => setMessages(res));
-  //   } else {
-  //     setMessages([]);
-  //   }
-  // };
+  const reloadMessages = () => {
+  if(match.params.conID != "conv") {
+      getConversationMessages(match.params.conID).then((res) => setMessages(res));
+    } else {
+      setMessages([]);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendConversationMessage(props.user._id, newMessage).then((res) => {
+    sendConversationMessage(userID, match.params.conID, newMessage, match.params.id).then((res) => {
       setNewMessage("");
     });
+    console.log(userID)
   };
 
   useEffect(() => {
-    getAllChat(match.params.id)
-    getTransactionUsers(match.params.id)
-  }, [getAllChat, getTransactionUsers, match.params.id])
+    getTrans(match.params.id)
+  }, [getTrans, match.params.id])
 
     const [show, setShow] = useState(false);
 
@@ -113,11 +143,11 @@ const ChatScreen = ({props, getAllChat, getTransactionUsers, transaction: { chat
                    <div className="flex-fill bd-highlight col-example text-right">
                    <div className="d-flex bd-highlight example-parent">
                       <div className="w-100 bd-highlight col-example">
-                        <div>Name</div>
-                          <div style={{fontSize: '12px', color: 'grey'}}>Active 40 seconds ago</div>
+                        <div>{chats.map(m => m.owner && m.superwant?  isAuthenticated ? user._id === m.owner ? m.userwantname : m.ownername : '' : isAuthenticated ? user._id === m.user1 ? m.username2 : m.username1: '')}</div>
+                          {/* <div style={{fontSize: '12px', color: 'grey'}}>Active 40 seconds ago</div> */}
                       </div>
                       <div className="bd-highlight col-example">
-                      <img src={"https://res.cloudinary.com/dibx7ua1g/image/upload/v1602141359/swipeSwap/jrpcj5s7vpijiqxau5x0.jpg"} className="rounded-circle chat-screen-image ml-2 mt-1" alt="KB" />
+                      <img src={chats.map(m => m.owner && m.superwant?  isAuthenticated ? user._id === m.owner ? m.userwantavatar : m.owneravatar : '' : isAuthenticated ? user._id === m.user1 ? m.useravatar2 : m.useravatar1: '')} className="rounded-circle chat-screen-image ml-2 mt-1" alt="KB" />
                       </div>
                       <div className="text-right">
                       <MDBDropdown className="pt-1" style={{fontSize: '10px!important'}} dropleft>
@@ -145,23 +175,24 @@ const ChatScreen = ({props, getAllChat, getTransactionUsers, transaction: { chat
                 <ChatSwap />
             </div>
             {/*Chat*/}    
-            {/* {messages.map((message) => 
-                    message.name ? (
+            {messages && (messages.map((m) => 
+                  isAuthenticated ? user._id === m.to ? (
                 <div className="chat-screen-message">
                     <img 
-                        src={message.image} 
+                        src={m.fromAvatar} 
                         className="rounded-circle chat-screen-image mb-2"   
-                        alt={message.name}
+                        alt={m.fromName}
                     />
-                    <p className="chat-screen-text">Hi</p>
+                    <p className="chat-screen-text">{m.body}</p>
                 </div>
                 ) : 
                 (
                 <div className="chat-screen-message">
-                 <p className="chat-screen-text-user">Hello</p>
+                 <p className="chat-screen-text-user">{m.body}</p>
                  </div>
+                ) : ""
                 )
-                )} */}
+            )}
                     <form className="chat-screen-input" onSubmit={handleSubmit}>
                     {/* <div className="input-group" style={{width: '50px', zIndex: '-1'}}
                     >
@@ -199,4 +230,4 @@ const mapStateToProps = state => ({
     transaction: state.transaction,
     auth: state.auth
 })
-export default connect(mapStateToProps, { getAllChat, getTransactionUsers })(ChatScreen);
+export default connect(mapStateToProps, { getTrans })(ChatScreen);

@@ -44,11 +44,11 @@ class NotificationsList extends React.Component {
                         All
                       </MDBNavLink>
                     </MDBNavItem>
-                    <MDBNavItem>
+                    {/* <MDBNavItem>
                       <MDBNavLink link to="#" active={this.state.items["default"] === "2"}  onClick={this.togglePills("default", "2")} className="notif-pills mx-1 text-center" >
                         Unread
                       </MDBNavLink>
-                    </MDBNavItem>
+                    </MDBNavItem> */}
                     <MDBNavItem>
                       <MDBNavLink link to="#" active={this.state.items["default"] === "3"}  onClick={this.togglePills("default", "3")} className="notif-pills mx-1 text-center" >
                         Matches

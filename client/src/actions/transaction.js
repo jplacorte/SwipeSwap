@@ -10,7 +10,9 @@ import {
     GET_CHATS,
     SET_DATE_TRANS,
     APPROVE,
-    TRANSACTION_ERROR
+    TRANSACTION_ERROR,
+    GET_USER_WANT_1,
+    GET_USER_WANT_2
 } from './types';
 
 // @route   GET transaction/
@@ -59,13 +61,59 @@ export const getUserWantTransaction = () => async dispatch => {
     }
 }
 
+// @route   GET transaction/
+// @des     Get all transaction from user
+// @access  Private
+export const getUserWant1 = () => async dispatch => {
+    try {
+
+        const res = await axios.get('/api/want/user/1');
+
+        dispatch({
+            type: GET_USER_WANT_1,
+            payload: res.data
+        });
+        
+    } catch (err) {
+
+        dispatch({
+            type: TRANSACTION_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    
+    }
+}
+
+// @route   GET transaction/
+// @des     Get all transaction from user
+// @access  Private
+export const getUserWant2 = () => async dispatch => {
+    try {
+
+        const res = await axios.get('/api/want/want/user/2');
+
+        dispatch({
+            type: GET_USER_WANT_2,
+            payload: res.data
+        });
+        
+    } catch (err) {
+
+        dispatch({
+            type: TRANSACTION_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    
+    }
+}
+
 // @route   GET api/transaction/:id
 // @des     Get all transaction from user
 // @access  Private
-export const getAllChat = trans_id => async dispatch => {
+export const getTrans = trans_id => async dispatch => {
     try {
         
-        const res = await axios.get(`/api/transaction/${trans_id}`);
+        const res = await axios.get(`/api/transaction/trans/chat/get/conv/${trans_id}`);
 
         dispatch({
             type: GET_CHATS,

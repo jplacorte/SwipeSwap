@@ -30,7 +30,7 @@ class Routes extends React.Component {
         <PrivateRoute exact path="/introForm" component={IntroFormPage} />
         <PrivateRoute exact path="/homepage" component={HomePage} />
         <PrivateRoute exact path="/conversation" component={Conversation} />
-        <PrivateRoute exact path="/chatScreen/:id" component={ChatScreen} />
+        <PrivateRoute exact path="/chatScreen/:conID/:id" component={ChatScreen} />
         <PrivateRoute exact path="/notifications" component={Notifications} />
         <PrivateRoute exact path="/profile" component={Profile} />
         <PrivateRoute exact path="/itemDetails/:id" component={ItemDetails} />

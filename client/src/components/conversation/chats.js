@@ -18,7 +18,7 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
     }, [newConversation]);
     
     useEffect(() => {
-        let socket = socketIOClient('http://localhost:5000/');
+        let socket = socketIOClient(process.env.REACT_APP_API_URL);
         socket.on("messages", (data) => setNewConversation(data));
     
         return () => {
@@ -33,11 +33,12 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
                  {
                      conversations.map((c) => (
                         <Chat
-                            id="aasdad"
-                            name="Jaypee"
+                            id={c.transaction}
+                            conID={c._id}
+                            name={isAuthenticated ? user._id === c.users[0] ? c.names[1] : c.names[0] : ''}
                             message={c.lastMessage}
                             // timestamp="40 seconds ago"
-                            // profilePic={}
+                            profilePic={isAuthenticated ? user._id === c.users[0] ? c.avatars[1] : c.avatars[0] : ''}
                         />
                      ))
                  }
