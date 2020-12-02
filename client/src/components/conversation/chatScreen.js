@@ -8,7 +8,6 @@ import Navbar from '../navbar';
 import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBNavbar, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import ChatSwap from './chatSwap';
 import 'react-chat-elements/dist/main.css';
-import socketIOClient from "socket.io-client";
 import { useGetConversationMessages, useSendConversationMessage } from '../../actions/chat';
 
 // CHATSCREEN 
@@ -58,7 +57,7 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
   }, [lastMessage, match.params.conID]);
 
   useEffect(() => {
-    const socket = socketIOClient('http://localhost:5000');
+    let socket = require('socket.io-client')('http://localhost:5000/');
     socket.on("messages", (data) => setLastMessage(data));
   }, []);
 

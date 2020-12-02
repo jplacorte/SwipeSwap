@@ -5,7 +5,6 @@ import { useGetConversations } from '../../actions/chat';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Chat from './chat';
-import socketIOClient from 'socket.io-client';
 
 const Chats = ({props, auth: { isAuthenticated, user } }) => {
 
@@ -18,7 +17,7 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
     }, [newConversation]);
     
     useEffect(() => {
-        let socket = socketIOClient('http:localhost:5000');
+        let socket = require('socket.io-client')('http://localhost:5000/');
         socket.on("messages", (data) => setNewConversation(data));
     
         return () => {

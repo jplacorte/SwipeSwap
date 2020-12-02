@@ -96,9 +96,9 @@ router.post('/messages/:trans_id', auth, async (req, res) => {
                 date: Date.now()
             })
             
-            req.io.sockets.emit('messages', req.body.body)
+            await req.io.sockets.emit('messages', req.body.body)
 
-            chat.save()
+            await chat.save()
             return res.json(chat)
         } catch (err) {
             console.error(err.message)
