@@ -8,6 +8,15 @@ import {
   NEXT
 } from "./swipestyle";
 
+
+export const slidePrev = () => {
+  console.log("Prev")
+}
+
+export const slideNext = () => {
+  console.log("Next")
+}
+
 const getOrder = ({ index, pos, numItems }) => {
   return index - pos < 0 ? numItems - Math.abs(index - pos) : index - pos;
 };

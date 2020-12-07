@@ -43,7 +43,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
 
     const onSubmit = async e => {
       e.preventDefault();
-        addItem(formData)
+        addItem(file, formData)
         window.location.reload()
     }
 

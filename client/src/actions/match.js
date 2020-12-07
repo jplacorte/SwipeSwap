@@ -7,13 +7,14 @@ import {
     ACCEPT_SUPERWANT
 } from './types';
 
+const url = "http://localhost:5000";
 // @route   GET match/
 // @des     Get all match
 // @access  Private
 export const getAllMatch = () => async dispatch => {
     try {
 
-        const res = await axios.get('/api/match');
+        const res = await axios.get(`${url}/api/match`);
 
         dispatch({
             type: GET_MATCH,
@@ -34,7 +35,7 @@ export const getAllMatch = () => async dispatch => {
 export const superWant = (itemID, ownerID) => async dispatch => {
     try {
 
-        const res = await axios.post(`/api/want/superwant/${itemID}/${ownerID}`);
+        const res = await axios.post(`${url}/api/want/superwant/${itemID}/${ownerID}`);
 
         dispatch({
             type: SUPERWANT,
@@ -55,7 +56,7 @@ export const superWant = (itemID, ownerID) => async dispatch => {
 export const acceptSuperWant = (transID) => async dispatch => {
     try {
 
-        const res = await axios.put(`/api/want/${transID}`);
+        const res = await axios.put(`${url}/api/want/${transID}`);
 
         dispatch({
             type: ACCEPT_SUPERWANT,

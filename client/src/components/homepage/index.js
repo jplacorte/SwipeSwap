@@ -8,7 +8,7 @@ import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
 import SwipeImage from '../../assets/images/swipeswap_item.jpg';
 import Avatar from '../../assets/images/avatar.png';
-import Carousel from "./carousel";
+import Carousel, { slideNext, slidePrev } from "./carousel";
 import { getAllItem, wantItem } from '../../actions/item';
 import { superWant } from '../../actions/match';
 
@@ -56,7 +56,7 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
     } = itemsData
 
     const want = (item_id, user_id) => {
-      // wantItem(item_id, user_id)
+      wantItem(item_id, user_id)
       console.log(item_id, user_id)
     }
 
@@ -233,10 +233,10 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
         
                     <MDBBtn className="ss-btn-swant mx-4 p-2" color="primary" onClick={val => superwant(items[1]._id, items[1].user._id)}><MDBIcon icon="star" style={{fontSize: '45px'}} /><br/> Super Want</MDBBtn>
 
-                    <MDBBtn className="ss-btn-boring p-2 ml-4" color="danger" onClick={val => boring()}><MDBIcon icon="times" style={{fontSize: '50px'}} /><br/> Boring</MDBBtn>
+                    <MDBBtn className="ss-btn-boring p-2 ml-4" color="danger" onClick={val => boring()}><MDBIcon icon="times" style={{fontSize: '50px'}} onClick={slidePrev}/><br/> Boring</MDBBtn>
                 </div>
                 <div className="flex-center mt-3">
-                    <MDBBtn className="ss-btn-rewind p-2 mr-4" color="warning"><MDBIcon icon="backward" style={{fontSize: '45px'}} /><br/> Rewind</MDBBtn>
+                    <MDBBtn className="ss-btn-rewind p-2 mr-4" color="warning"><MDBIcon icon="backward" style={{fontSize: '45px'}} onClick={slidePrev}/><br/> Rewind</MDBBtn>
          
                     {/* <MDBBtn className="ss-btn-boost p-2 ml-4" color="secondary" ><MDBIcon icon="rocket" style={{fontSize: '45px'}} /><br/> Boost</MDBBtn> */}
                 </div>

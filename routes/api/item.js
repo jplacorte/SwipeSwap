@@ -1,17 +1,12 @@
 const express = require('express')
-const request = require('request')
-const config = require('config')
 const router = express.Router()
 const auth = require('../../middleware/auth')
-const { check, validationResult } = require('express-validator')
 const multer = require('multer')
 const cloudinary = require('cloudinary').v2
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 
 const Item = require('../../models/Item')
 const User = require('../../models/User')
-const Match = require('../../models/Match')
-const Transaction = require('../../models/Transaction')
 
 
 cloudinary.config({
@@ -118,7 +113,6 @@ router.post('/', parser.single('file'), auth, async (req, res) => {
             insertedID.photo.push({ url: req.file.path })
             await insertedID.save()
         })
-        await item.save()
         return res.json(item)
 
     } catch (err) {

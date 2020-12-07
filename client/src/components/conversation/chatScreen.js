@@ -74,7 +74,6 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
     sendConversationMessage(userID, match.params.conID, newMessage, match.params.id).then((res) => {
       setNewMessage("");
     });
-    console.log(userID)
   };
 
   useEffect(() => {
