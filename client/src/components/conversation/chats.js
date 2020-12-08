@@ -17,9 +17,7 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
     }, [newConversation]);
     
     useEffect(() => {
-        let socket = require('socket.io-client')('http://localhost:5000', {
-            path: '/mysocket'
-        });
+        let socket = require('socket.io-client')('http://localhost:5000');
         socket.on("messages", (data) => setNewConversation(data));
     
         return () => {

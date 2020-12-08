@@ -57,9 +57,7 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
   }, [lastMessage, match.params.conID]);
 
   useEffect(() => {
-    let socket = require('socket.io-client')('http://localhost:5000', {
-      path: '/mysocket'
-    });
+    let socket = require('socket.io-client')('http://localhost:5000');
     socket.on("messages", (data) => setLastMessage(data));
   }, []);
 
