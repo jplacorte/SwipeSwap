@@ -271,7 +271,7 @@ export const uploadImage = (file, item_id) => async dispatch => {
 export const wantItem = (itemID, userID) => async dispatch => {
     try {
 
-        const res = await axios.post(`/api/item/want/${itemID}/${userID}`);
+        const res = await axios.post(`/api/want/${itemID}/${userID}`);
 
         dispatch({
             type: WANT_ITEM,
