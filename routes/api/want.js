@@ -69,10 +69,10 @@ router.post('/:item_id/:owner_id', auth, async (req, res) => {
     const user2 = await Profile.findOne({ user:req.params.owner_id }).populate('user', ['name'])
     const checkUser1 = await Match.findOne({ user1: req.user.id }).select('user1')
     const checkUser2 = await Match.findOne({ user2: req.user.id }).select('user2')
-    const checkItem1 = await Match.findOne({ item1: req.params.item_id }).select('item1')
-    const checkItem2 = await Match.findOne({ item2: req.params.item_id }).select('item2')
+    // const checkItem1 = await Match.findOne({ item1: req.params.item_id }).select('item1')
+    // const checkItem2 = await Match.findOne({ item2: req.params.item_id }).select('item2')
 
-    if(checkItem1 || checkItem2 && checkUser1 || checkUser2){
+    if(checkUser1 || checkUser2){
         // console.log("UPDAAAATTTTTTTTEEEEE", checkItem2, checkUser1, checkUser2)
         match = await Match.findOneAndUpdate(
             { user1: req.params.owner_id, user2: req.user.id},
