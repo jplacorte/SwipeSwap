@@ -18,8 +18,9 @@ const Notification = ({ id, userID, name, message, profilePic, timestamp, superw
     }
 
     const createMessage = () => {
-      createConversation(userID, id)
-      window.location.href = "/conversation"
+      createConversation(userID, id).then(() => {
+        window.location.href='/conversation'
+      })
     }
     return (
       <>

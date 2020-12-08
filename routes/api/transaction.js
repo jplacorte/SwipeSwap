@@ -101,8 +101,11 @@ router.post('/:item_id', auth, async (req, res) => {
 // @route   POST api/transaction/swapped/:item_id
 // @des     Approve a transaction
 // @access  Private
-router.post('/swapped/:item_id', auth, async (req, res) => {
-    
+router.post('/swapped/:item_id/:owner_id', auth, async (req, res) => {
+    const {
+        reviewdetails
+    } = req.body
+
     const user = await User.findById(req.user.id)
 
     const itemFields = {}
@@ -110,7 +113,7 @@ router.post('/swapped/:item_id', auth, async (req, res) => {
     itemFields.review = {}
     itemFields.review.user = req.user.id,
     itemFields.review.name = user.name,
-    itemFields.review.reviewdetails = "Pending to review"
+    itemFields.review.reviewdetails = reviewdetails
 
     try {
         
@@ -119,7 +122,6 @@ router.post('/swapped/:item_id', auth, async (req, res) => {
             { $set: itemFields },
             { new: true }
         )
-        return res.json(item)
     } catch (err) {
 
         console.error(err.message)

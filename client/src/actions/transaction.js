@@ -156,10 +156,16 @@ export const getTransactionUsers = trans_id => async dispatch => {
 // @route   POST api/transaction/swapped/:item_id
 // @des     Get all users by transaction
 // @access  Private
-export const approve = item_id => async dispatch => {
+export const approve = (formData, item_id, owner_id) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
     try {
         
-        const res = await axios.post(`/api/transaction/swapped/${item_id}`);
+        const res = await axios.post(`/api/transaction/swapped/${item_id}/${owner_id}`, formData, config);
 
         dispatch({
             type: GET_TRANSACTION_USERS,

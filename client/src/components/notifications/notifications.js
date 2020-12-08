@@ -19,7 +19,7 @@ const Notifications = ({ getAllTransaction, getUserWantTransaction, getUserWant1
      <div className="notifications">
          {
             transaction1.length > 0 ? transaction1.map(match => (
-                match.superwant != true && match.user2 ? (
+                match.superwant != true && match.user2 && match.item1 ? (
                 <Notification
                 id={match._id} 
                 userID={match.user2}
@@ -32,7 +32,7 @@ const Notifications = ({ getAllTransaction, getUserWantTransaction, getUserWant1
                 />): ''))
                 :
             transaction2.map(match =>(
-                match.superwant != true && match.user1 ? (
+                match.superwant != true && match.user1 && match.item1 ? (
                 <Notification
                 id={match._id} 
                 userID={match.user1}

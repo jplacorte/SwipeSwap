@@ -73,9 +73,6 @@ const ProfileSchema = new mongoose.Schema({
             itemimage: {
                 type: String
             },
-            categories: {
-                type: [String]
-            },
             rating: {
                 type: String
             },
@@ -83,6 +80,9 @@ const ProfileSchema = new mongoose.Schema({
                 type: String
             },      
             status: {
+                type: String
+            },
+            description: {
                 type: String
             }
         }

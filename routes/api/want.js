@@ -76,12 +76,12 @@ router.post('/:item_id/:owner_id', auth, async (req, res) => {
         // console.log("UPDAAAATTTTTTTTEEEEE", checkItem2, checkUser1, checkUser2)
         match = await Match.findOneAndUpdate(
             { user1: req.params.owner_id, user2: req.user.id},
-            { $set: {item1: req.params.item_id, itemname1: item.itemname } },
+            { $set: {item1: req.params.item_id, itemname1: item.itemname, itemphoto1: item.photo[0].url, itemdesc1: item.description, itemstatus1: item.status } },
             { new: true }
         )
         transaction = await Transaction.findOneAndUpdate(
             { user1: req.params.owner_id, user2: req.user.id},
-            { $set: {item1: req.params.item_id, itemname1: item.itemname }},
+            { $set: {item1: req.params.item_id, itemname1: item.itemname, itemphoto1: item.photo[0].url, itemdesc1: item.description, itemstatus1: item.status }},
             { new: true }
         )
     }else{
@@ -99,10 +99,14 @@ router.post('/:item_id/:owner_id', auth, async (req, res) => {
                 match: docs._id,
                 user1: req.user.id,
                 user2: req.params.owner_id,
+                useravatar1:user.avatar,
+                useravatar2:user2.avatar,
                 username1: user.user.name,
                 username2: user2.user.name,
                 item2: req.params.item_id,
                 itemname2: item.itemname,
+                itemdesc2: item.description,
+                itemstatus2: item.status,
                 itemphoto2: item.photo[0].url
             })
             await trans.save(async(data, result) => {
@@ -150,6 +154,7 @@ router.post('/superwant/:item_id/:owner_id', auth, async (req, res) => {
                 ownername: owner.user.name,
                 item: req.params.item_id,
                 itemname: item.itemname,
+                itemdesc: item.description,
                 itemphoto: item.photo[1].url,
                 owneravatar: owner.avatar,
                 userwant: req.user.id,

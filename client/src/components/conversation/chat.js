@@ -5,7 +5,7 @@ function Chat({ name, message, profilePic, timestamp, id, conID }) {
     return (
     <Link to={`/chatScreen/${conID}/${id}`}>
       <div className="chat">
-        <img src={profilePic} className="rounded-circle chat-image mr-3" alt="KB" />
+        <img src={`${profilePic}`} className="rounded-circle chat-image mr-3" alt="KB" />
           <div className="chat-details pt-3">
             <div>{name}</div>
             <p>{message}</p>

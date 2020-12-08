@@ -39,6 +39,12 @@ const TransactionSchema = new mongoose.Schema({
     itemname: {
         type: String
     },
+    itemdesc: {
+        type: String
+    },
+    itemstatus: {
+        type: String
+    },
     itemphoto: {
         type: String
     },
@@ -57,6 +63,12 @@ const TransactionSchema = new mongoose.Schema({
         ref: 'item'
     },
     userwantitemname: {
+        type: String
+    },
+    userwantitemdesc: {
+        type: String
+    },
+    userwantitemstat: {
         type: String
     },
     userwantitemphoto: {
@@ -79,6 +91,12 @@ const TransactionSchema = new mongoose.Schema({
     itemname1: {
         type: String
     },
+    itemdesc1: {
+        type: String
+    },
+    itemstatus1: {
+        type: String
+    },
     itemphoto1: {
         type: String
     },
@@ -97,6 +115,12 @@ const TransactionSchema = new mongoose.Schema({
         ref: 'item'
     },
     itemname2: {
+        type: String
+    },
+    itemdesc2: {
+        type: String
+    },
+    itemstatus2: {
         type: String
     },
     itemphoto2:{
