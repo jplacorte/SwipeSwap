@@ -27,10 +27,10 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
-// @route   GET api/transaction/:id
+// @route   GET api/transaction/:con_id/:id
 // @des     Get all chat by transaction
 // @access  Private
-router.get('/trans/chat/get/conv/:id', auth, async (req, res) => {
+router.get('/trans/chat/get/:con_id/:id', auth, async (req, res) => {
     try {
 
         const chat = await Transaction.find({_id: req.params.id})

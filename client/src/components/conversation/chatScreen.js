@@ -57,12 +57,14 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
   }, [lastMessage, match.params.conID]);
 
   useEffect(() => {
-    let socket = require('socket.io-client')('http://localhost:5000');
+    let socket = require('socket.io-client')('http://localhost:5000', {
+      path: '/mysocket'
+    });
     socket.on("messages", (data) => setLastMessage(data));
   }, []);
 
   const reloadMessages = () => {
-  if(match.params.conID != "conv") {
+  if(match.params.conID) {
       getConversationMessages(match.params.conID).then((res) => setMessages(res));
     } else {
       setMessages([]);
@@ -77,8 +79,8 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
   };
 
   useEffect(() => {
-    getTrans(match.params.id)
-  }, [getTrans, match.params.id])
+    getTrans(match.params.conID, match.params.id)
+  }, [getTrans, match.params.conID, match.params.id])
 
     const [show, setShow] = useState(false);
 

@@ -110,10 +110,10 @@ export const getUserWant2 = () => async dispatch => {
 // @route   GET api/transaction/:id
 // @des     Get all transaction from user
 // @access  Private
-export const getTrans = trans_id => async dispatch => {
+export const getTrans = (con_id, trans_id) => async dispatch => {
     try {
         
-        const res = await axios.get(`/api/transaction/trans/chat/get/conv/${trans_id}`);
+        const res = await axios.get(`/api/transaction/trans/chat/get/${con_id}/${trans_id}`);
 
         dispatch({
             type: GET_CHATS,
