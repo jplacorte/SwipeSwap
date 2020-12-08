@@ -214,6 +214,7 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
                             type="text" 
                             className="chat-screen-input-field"
                             placeholder="Type a message..."
+                            required="true"
                         />
                         <button type="submit" className="chat-screen-input-btn">Send</button>
                     </form>
