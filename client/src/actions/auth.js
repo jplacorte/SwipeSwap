@@ -10,7 +10,6 @@ import {
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
-const url = "http://localhost:5000";
 // Load User
 export const loadUser = () => async dispatch => {
     if(localStorage.token){
@@ -19,7 +18,7 @@ export const loadUser = () => async dispatch => {
 
     try {
 
-        const res = await axios.get(`${url}/api/auth`);
+        const res = await axios.get(`/api/auth`);
 
         dispatch({
             type: USER_LOADED,
@@ -44,7 +43,7 @@ export const login = (name, email, avatar) => async dispatch => {
     const body = JSON.stringify({ name, email, avatar });
 
     try {
-        const res = await axios.post(`${url}/api/auth`, body, config);
+        const res = await axios.post(`/api/auth`, body, config);
 
         dispatch({
             type: LOGIN_SUCCESS,

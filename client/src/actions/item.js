@@ -16,15 +16,13 @@ import {
     GET_RECEIVED_ITEM_MODAL
 } from './types';
 
-const url = "http://localhost:5000";
-
 // @route   GET item/
 // @des     Get all item from user
 // @access  Private
 export const getAllItemsByUser = () => async dispatch => {
     try {
 
-        const res = await axios.get(`${url}/api/item`);
+        const res = await axios.get(`/api/item`);
 
         dispatch({
             type: GET_ITEMS,
@@ -47,7 +45,7 @@ export const getAllItemsByUser = () => async dispatch => {
 export const getSwappedItems = () => async dispatch => {
     try {
 
-        const res = await axios.get(`${url}/api/item/swapped/items`);
+        const res = await axios.get(`/api/item/swapped/items`);
 
         dispatch({
             type: GET_SWAPPED_ITEMS,
@@ -70,7 +68,7 @@ export const getSwappedItems = () => async dispatch => {
 export const getItemById = itemID => async dispatch => {
     try {
 
-        const res = await axios.get(`${url}/api/item/${itemID}`);
+        const res = await axios.get(`/api/item/${itemID}`);
 
         dispatch({
             type: GET_ITEM,
@@ -90,7 +88,7 @@ export const getItemById = itemID => async dispatch => {
 export const openItemModal = id => async dispatch => {
     try {
 
-        const res = await axios.get(`${url}/api/item/${id}`);
+        const res = await axios.get(`/api/item/${id}`);
 
         dispatch({
             type: OPEN_ITEM_MODAL,
@@ -112,7 +110,7 @@ export const openItemModal = id => async dispatch => {
 export const getAllItem = () => async dispatch => {
     try {
 
-        const res = await axios.get(`${url}/api/item/swipe/items/all`);
+        const res = await axios.get(`/api/item/swipe/items/all`);
 
         dispatch({
             type: GET_ITEMS,
@@ -145,7 +143,7 @@ export const addItem = (file, formData, edit = false) => async dispatch => {
             }
         }
 
-        const res = await axios.post(`${url}/api/item`, formData, photoData, config);
+        const res = await axios.post(`/api/item`, formData, photoData, config);
 
         dispatch({
             type: ADD_ITEMS,
@@ -182,7 +180,7 @@ export const updateItem = (formData, itemID) => async dispatch => {
             }
         }
 
-        const res = await axios.put(`${url}/api/item/${itemID}`, formData, config);
+        const res = await axios.put(`/api/item/${itemID}`, formData, config);
 
         dispatch({
             type: UPDATE_ITEMS,
@@ -216,7 +214,7 @@ export const rateItem = (formData, itemID) => async dispatch => {
             }
         }
 
-        const res = await axios.put(`${url}/api/item/review/${itemID}`, formData, config);
+        const res = await axios.put(`/api/item/review/${itemID}`, formData, config);
 
         dispatch({
             type: RATE_ITEMS,
@@ -252,7 +250,7 @@ export const uploadImage = (file, item_id) => async dispatch => {
             }
         }
 
-        const res = await axios.put(`${url}/api/item/upload/photo/${item_id}`, photoData, config)
+        const res = await axios.put(`/api/item/upload/photo/${item_id}`, photoData, config)
 
         dispatch({
             type: UPLOAD_ITEM_IMAGE,
@@ -273,7 +271,7 @@ export const uploadImage = (file, item_id) => async dispatch => {
 export const wantItem = (itemID, userID) => async dispatch => {
     try {
 
-        const res = await axios.post(`${url}/api/item/want/${itemID}/${userID}`);
+        const res = await axios.post(`/api/item/want/${itemID}/${userID}`);
 
         dispatch({
             type: WANT_ITEM,
@@ -301,7 +299,7 @@ export const wantItem = (itemID, userID) => async dispatch => {
 export const getReceivedItems = () => async dispatch => {
     try {
 
-        const res = await axios.get(`${url}/api/transaction/swap/received/`)
+        const res = await axios.get(`/api/transaction/swap/received/`)
 
         dispatch({
             type: GET_RECEIVED_ITEM,
@@ -324,7 +322,7 @@ export const getReceivedItems = () => async dispatch => {
 export const getReceivedItemsModal = (itemID) => async dispatch => {
     try {
 
-        const res = await axios.get(`${url}/api/profile/swap/received/${itemID}`)
+        const res = await axios.get(`/api/profile/swap/received/${itemID}`)
 
         dispatch({
             type: GET_RECEIVED_ITEM_MODAL,
