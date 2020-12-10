@@ -4,34 +4,33 @@ import {
   Wrapper,
   CarouselContainer,
   CarouselSlot,
+  SlideButton,
   PREV,
   NEXT
 } from "./swipestyle";
 
-
-export const slidePrev = () => {
-  console.log("Prev")
-}
-
-export const slideNext = () => {
-  console.log("Next")
-}
 
 const getOrder = ({ index, pos, numItems }) => {
   return index - pos < 0 ? numItems - Math.abs(index - pos) : index - pos;
 };
 const initialState = { pos: 0, sliding: false, dir: NEXT };
 
+var a, b
+
 const Carousel = props => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const numItems = React.Children.count(props.children);
+
+    a = numItems;
+    b = dispatch;
+
   const slide = dir => {
     dispatch({ type: dir, numItems });
     setTimeout(() => {
       dispatch({ type: "stopSliding" });
     }, 50);
-    console.log("Swipe Function")
   };
+
   const handlers = useSwipeable({
     onSwipedLeft: () => slide(NEXT),
     // onSwipedRight: () => slide(PREV),
@@ -62,6 +61,15 @@ const Carousel = props => {
     </div>
   );
 };
+
+export const slide = dir => {
+  b({ type: dir, a });
+    setTimeout(() => {
+      b({ type: "stopSliding" });
+    }, 50);  
+}
+
+
 
 function reducer(state, { type, numItems }) {
   switch (type) {
