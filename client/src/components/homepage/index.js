@@ -275,9 +275,9 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
                 </Carousel>
                 </div>
                 <div className="ss-btns-m my-3 text-center">
-                <MDBBtn className="ss-btn-rewind-m mx-2" color="warning"><MDBIcon icon="backward" size="lg" /></MDBBtn>
-                <MDBBtn className="ss-btn-boring-m mx-2" color="danger"><MDBIcon icon="times" size="lg" onClick={val => boring()}/></MDBBtn>
-                <MDBBtn className="ss-btn-swant-m mx-2" color="primary"><MDBIcon icon="star" size="lg" onClick={val => superwant(item_id,user_id)}/></MDBBtn>
+                <MDBBtn className="ss-btn-rewind-m mx-2" color="warning" onClick={rewind}><MDBIcon icon="backward" size="lg" /></MDBBtn>
+                <MDBBtn className="ss-btn-boring-m mx-2" color="danger" onClick={val => boring()}><MDBIcon icon="times" size="lg"/></MDBBtn>
+                <MDBBtn className="ss-btn-swant-m mx-2" color="primary" onClick={val => superwant(item_id,user_id)}><MDBIcon icon="star" size="lg"/></MDBBtn>
                 <MDBBtn onClick={val => want(item_id,user_id)} className="ss-btn-want-m mx-2" color="success"><MDBIcon icon="heart" size="lg" /></MDBBtn>
                   {/* <MDBBtn className="ss-btn-boost-m mx-2" color="secondary"><MDBIcon icon="rocket" size="lg" /></MDBBtn> */}
                 </div>
