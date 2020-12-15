@@ -47,25 +47,48 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
 
     const want = () => {
       wantItem(items[count]._id, items[count].user._id)
+
       setCount(count => count + 1)
+
       slideNext()
-      // console.log(items[count].itemname)
+      
+      if(count === items.length - 1){
+        setCount(count => count = 0)
+      }
+
     }
 
     const superwant = () => {
       superWant(items[count]._id, items[count].user._id)
+
       setCount(count => count + 1)
+
       slideNext()
+
+      if(count === items.length - 1){
+        setCount(count => count = 0)
+      }
+
     }
 
     const boring = () => {
       setCount(count => count + 1)
+      
       slideNext()
+
+      if(count === items.length - 1){
+        setCount(count => count = 0)
+      }
     }
 
     const rewind = () => {
       slidePrev()
+
       setCount(count => count - 1)
+
+      if(count === 0){
+        setCount(count => count = items.length - 1)
+      }
     }
   
     const handleShow = (id, name, desc, cat, userId, user, status, photo1, photo2, photo3) => {
@@ -290,7 +313,6 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
                 <MDBBtn className="ss-btn-swant-m mx-2" color="primary" onClick={val => superwant(item_id,user_id)}><MDBIcon icon="star" size="lg"/></MDBBtn>
                 <MDBBtn onClick={val => want(item_id,user_id)} className="ss-btn-want-m mx-2" color="success"><MDBIcon icon="heart" size="lg" /></MDBBtn>
                   {/* <MDBBtn className="ss-btn-boost-m mx-2" color="secondary"><MDBIcon icon="rocket" size="lg" /></MDBBtn> */}
-                <p>{count}</p>
                 </div>
             </MDBCol>
           </MDBRow>
