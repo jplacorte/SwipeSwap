@@ -113,8 +113,8 @@ router.post('/messages/:trans_id', auth, async (req, res) => {
 //  @access Private
 router.post('/:trans_id', auth, async (req, res) => {
 
-        const fromProfile = await Profile.findOne({user:req.user.id}).populate    ('user', ['name'])
-        const toProfile = await Profile.findOne({user:req.body.to}).populate  ('user', ['name'])
+        const fromProfile = await Profile.findOne({user:req.user.id}).populate('user', ['name'])
+        const toProfile = await Profile.findOne({user:req.body.to}).populate('user', ['name'])
         
     try {
         const con = new Conversation({
@@ -122,7 +122,7 @@ router.post('/:trans_id', auth, async (req, res) => {
             users: [req.user.id, req.body.to],
             avatars: [fromProfile.avatar, toProfile.avatar],
             names:[fromProfile.user.name, toProfile.user.name],
-            lastMessage: "Hi!",
+            lastMessage: "new",
             date: Date.now()
         })
 

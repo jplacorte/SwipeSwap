@@ -35,7 +35,7 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
                             id={c.transaction}
                             conID={c._id}
                             name={isAuthenticated ? user._id === c.users[0] ? c.names[1] : c.names[0] : ''}
-                            message={c.lastMessage}
+                            message={c.lastMessage === "new" ? `Say hi` : c.lastMessage}
                             // timestamp="40 seconds ago"
                             profilePic={isAuthenticated ? user._id === c.users[0] ? c.avatars[1] : c.avatars[0] : ''}
                         />

@@ -45,16 +45,6 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // Define Routes
-// app.use('/users', users)
-// app.use('/auth', auth)
-// app.use('/profile', profile)
-// app.use('/item', item)
-// app.use('/transaction', transaction)
-// app.use('/match', match)
-// app.use('/want', want)
-// app.use('/chat', chat)
-
-// Development
 app.use('/api/users', users)
 app.use('/api/auth', auth)
 app.use('/api/profile', profile)

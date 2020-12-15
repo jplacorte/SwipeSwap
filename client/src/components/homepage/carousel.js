@@ -15,14 +15,14 @@ const getOrder = ({ index, pos, numItems }) => {
 };
 const initialState = { pos: 0, sliding: false, dir: NEXT };
 
-var a, b
+// var a, b
 
 const Carousel = props => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const numItems = React.Children.count(props.children);
 
-    a = numItems;
-    b = dispatch;
+    // a = numItems;
+    // b = dispatch;
 
   const slide = dir => {
     dispatch({ type: dir, numItems });
@@ -32,7 +32,7 @@ const Carousel = props => {
   };
 
   const handlers = useSwipeable({
-    onSwipedLeft: () => slide(NEXT),
+    // onSwipedLeft: () => slide(NEXT),
     // onSwipedRight: () => slide(PREV),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
@@ -52,21 +52,30 @@ const Carousel = props => {
           ))}
         </CarouselContainer>
       </Wrapper>
-      {/* <SlideButton onClick={() => slide(PREV)} float="left">
+      <SlideButton onClick={() => slide(PREV)} float="left" id="prevBtn" hidden>
         Prev
       </SlideButton>
-      <SlideButton onClick={() => slide(NEXT)} float="right">
+      <SlideButton onClick={() => slide(NEXT)} float="right" id="nextBtn" hidden>
         Next
-      </SlideButton> */}
+      </SlideButton>
     </div>
   );
 };
 
-export const slide = dir => {
-  b({ type: dir, a });
-    setTimeout(() => {
-      b({ type: "stopSliding" });
-    }, 50);  
+export const slidePrev = () => {
+  // b({ type: dir, a });
+  //   setTimeout(() => {
+  //     b({ type: "stopSliding" });
+  //   }, 50);  
+  document.getElementById("prevBtn").click()
+}
+
+export const slideNext = () => {
+  // b({ type: dir, a });
+  //   setTimeout(() => {
+  //     b({ type: "stopSliding" });
+  //   }, 50);  
+  document.getElementById("nextBtn").click()
 }
 
 

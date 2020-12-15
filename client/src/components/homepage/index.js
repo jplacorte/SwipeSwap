@@ -7,7 +7,7 @@ import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
 import SwipeImage from '../../assets/images/swipeswap_item.jpg';
 import Avatar from '../../assets/images/avatar.png';
-import Carousel, { slide } from "./carousel";
+import Carousel, { slideNext, slidePrev } from "./carousel";
 import { getAllItem, wantItem } from '../../actions/item';
 import { superWant } from '../../actions/match';
 
@@ -45,24 +45,27 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
       image3
     } = itemsData
 
-    const want = (item_id, user_id) => {
-      wantItem(item_id, user_id)
-      slide(NEXT)
-      // console.log(item_id, user_id)
+    const want = () => {
+      wantItem(items[count]._id, items[count].user._id)
+      setCount(count => count + 1)
+      slideNext()
+      // console.log(items[count].itemname)
     }
 
-    const superwant = (item_id, user_id) => {
-      superWant(item_id, user_id)
-      slide(NEXT)
-      // console.log(item_id, user_id)
+    const superwant = () => {
+      superWant(items[count]._id, items[count].user._id)
+      setCount(count => count + 1)
+      slideNext()
     }
 
     const boring = () => {
-      slide(NEXT)
+      setCount(count => count + 1)
+      slideNext()
     }
 
     const rewind = () => {
-      slide(PREV)
+      slidePrev()
+      setCount(count => count - 1)
     }
   
     const handleShow = (id, name, desc, cat, userId, user, status, photo1, photo2, photo3) => {
@@ -87,6 +90,8 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
     const [showModal2, setShowModal2] = useState(false);  
     const handleClose = () => setShowModal(false);
     const handleClose2 = () => setShowModal2(false);
+
+    const [count, setCount] = useState(1)
   
     return (
       <>
@@ -224,23 +229,28 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
             <MDBRow>
             <MDBCol lg="7" className="px-4">
               <div className="ss-btns-dsk mt-4">
-                <div className="flex-center">
-                    <MDBBtn className="ss-btn-want p-2 mr-4" onClick={val => want(item_id,user_id)} color="success">
+              <div className="d-flex bd-highlight example-parent mb-5 px-4">
+                  <div className="flex-fill bd-highlight col-example">
+                    <MDBBtn className="ss-btn-want p-2" onClick={val => want(item_id,user_id)} color="success">
                       <MDBIcon icon="heart" style={{fontSize: '45px'}} /><br/> Want</MDBBtn>
-        
-                    <MDBBtn className="ss-btn-swant mx-4 p-2" color="primary" onClick={val => superwant(item_id,user_id)}>
+                  </div>
+                  <div className="flex-fill bd-highlight col-example">
+                    <MDBBtn className="ss-btn-swant p-2" color="primary" onClick={val => superwant(item_id,user_id)}>
                       <MDBIcon icon="star" style={{fontSize: '45px'}} /><br/> Super Want</MDBBtn>
-
-                    <MDBBtn className="ss-btn-boring p-2 ml-4" color="danger" onClick={val => boring()}>
+                  </div>
+              </div>
+              <div className="d-flex bd-highlight example-parent px-4">
+                <div className="flex-fill bd-highlight col-example">
+                    <MDBBtn className="ss-btn-boring p-2" color="danger" onClick={val => boring()}>
                       <MDBIcon icon="times" style={{fontSize: '50px'}}/><br/> Boring</MDBBtn>
                 </div>
-                <div className="flex-center mt-3" style={{zIndex:-1}}>
-                    <MDBBtn className="ss-btn-rewind p-2 mr-4" color="warning" onClick={rewind}><MDBIcon icon="backward" style={{fontSize: '45px'}} /><br/>Rewind</MDBBtn>
-         
+                <div className="flex-fill bd-highlight col-example">
+                    <MDBBtn className="ss-btn-rewind p-2" color="warning" onClick={rewind}><MDBIcon icon="backward" style={{fontSize: '45px'}} /><br/>Rewind</MDBBtn>
+                </div> 
                     {/* <MDBBtn className="ss-btn-boost p-2 ml-4" color="secondary" ><MDBIcon icon="rocket" style={{fontSize: '45px'}} /><br/> Boost</MDBBtn> */}
-                </div>
-               
+                  
               </div>
+            </div>
 
               {/* <Select options={this.options} setValue={this.setValue}/> <br />
               You select "{this.state.value}" */}
@@ -274,12 +284,13 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
                   }
                 </Carousel>
                 </div>
-                <div className="ss-btns-m my-3 text-center">
+                <div className="ss-btns-m mt-4 mb-3 text-center">
                 <MDBBtn className="ss-btn-rewind-m mx-2" color="warning" onClick={rewind}><MDBIcon icon="backward" size="lg" /></MDBBtn>
                 <MDBBtn className="ss-btn-boring-m mx-2" color="danger" onClick={val => boring()}><MDBIcon icon="times" size="lg"/></MDBBtn>
                 <MDBBtn className="ss-btn-swant-m mx-2" color="primary" onClick={val => superwant(item_id,user_id)}><MDBIcon icon="star" size="lg"/></MDBBtn>
                 <MDBBtn onClick={val => want(item_id,user_id)} className="ss-btn-want-m mx-2" color="success"><MDBIcon icon="heart" size="lg" /></MDBBtn>
                   {/* <MDBBtn className="ss-btn-boost-m mx-2" color="secondary"><MDBIcon icon="rocket" size="lg" /></MDBBtn> */}
+                <p>{count}</p>
                 </div>
             </MDBCol>
           </MDBRow>

@@ -1,20 +1,16 @@
 import React, { Component } from "react";
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBIcon } from "mdbreact";
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, NavLink } from 'react-router-dom';
 import { Link, animateScroll as scroll } from "react-scroll";
-
 class LandingNavbar extends Component {
 state = {
   isOpen: false
 };
-
 toggleCollapse = () => {
   this.setState({ isOpen: !this.state.isOpen });
 }
-
 render() {
   return (
-    <Router>
       <MDBNavbar className="px-5 fixed-top" color="black" dark expand="lg">
         <MDBNavbarBrand style={{fontSize: '30px'}}>
           <strong className="white-text font-weight-bold">SWIPESWAP</strong>
@@ -39,15 +35,18 @@ render() {
             </MDBNavItem>
             <MDBNavItem>
               <Link className="landing-navbar-link" to="reviews" activeClass="active-nav-item" spy={true} smooth={true} offset={-85} duration={500}>
-                REVIEWS<MDBIcon className="mx-2" icon="circle" style={{visibility:"hidden"}} />
+                REVIEWS<MDBIcon className="mx-2" icon="circle" />
               </Link>
+            </MDBNavItem>
+            <MDBNavItem>
+              <NavLink className="landing-navbar-link" to="/login">
+                LOGIN<MDBIcon className="mx-2" icon="circle" style={{visibility:"hidden"}} />
+              </NavLink>
             </MDBNavItem>
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBNavbar>
-    </Router>
     );
   }
 }
-
 export default LandingNavbar;

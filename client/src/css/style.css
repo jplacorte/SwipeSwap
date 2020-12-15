@@ -331,7 +331,7 @@ img.image-preview{
 }
 
 .homepage-container{
-  margin-top: 150px!important;
+  margin-top: 125px!important;
 }
 
 .item-img{
@@ -364,12 +364,16 @@ img.image-preview{
   color: #00c851!important;
   border-radius: 50%;
   padding: 13px 10px;
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
-  width: 130px;
-  height: 130px;
+  width: 180px;
+  height: 180px;
   border: 2px solid #00c851!important;
   text-transform: capitalize;
+}
+
+.ss-btn-want i{
+  font-size: 70px!important;
 }
 
 .ss-btn-want:hover{
@@ -383,12 +387,16 @@ img.image-preview{
   color: red!important;
   border-radius: 50%;
   padding: 13px 10px;
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
-  width: 130px;
-  height: 130px;
+  width: 180px;
+  height: 180px;
   border: 2px solid red!important;
   text-transform: capitalize;
+}
+
+.ss-btn-boring i{
+  font-size: 78px!important;
 }
 
 .ss-btn-boring:hover{
@@ -402,13 +410,17 @@ img.image-preview{
   background-color: white!important;
   border-radius: 50%;
   padding: 13px 10px;
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
-  width: 130px;
-  height: 130px;
+  width: 180px;
+  height: 180px;
   border: 2px solid #4285f4!important;
   text-transform: capitalize;
   border: 2px solid #4285f4;
+}
+
+.ss-btn-swant i{
+  font-size: 70px!important;
 }
 
 .ss-btn-swant:hover{
@@ -422,13 +434,17 @@ img.image-preview{
   background-color: white!important;
   border-radius: 50%;
   padding: 13px 10px;
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
-  width: 130px;
-  height: 130px;
+  width: 180px;
+  height: 180px;
   border: 2px solid #ffbb33!important;
   text-transform: capitalize;
   border: 2px solid #ffbb33;
+}
+
+.ss-btn-rewind i{
+  font-size: 70px!important;
 }
 
 .ss-btn-rewind:hover{
@@ -444,8 +460,8 @@ img.image-preview{
   padding: 13px 10px;
   font-size: 16px;
   text-align: center;
-  width: 130px;
-  height: 130px;
+  width: 200px;
+  height: 200px;
   border: 2px solid #a6c!important;
   text-transform: capitalize;
   border: 2px solid #a6c;
@@ -464,60 +480,60 @@ img.image-preview{
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 025);
   background-color: white!important;
   color: #00c851!important;
-  border-radius: 25px;
-  padding: 13px 10px;
-  font-size: 20px;
+  border-radius: 50px;
+  padding: 16px 10px;
+  font-size: 30px;
   text-align: center;
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
 }
 
 .ss-btn-boring-m{
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 025);
   background-color: white!important;
   color: red!important;
-  border-radius: 25px;
-  padding: 11px 10px;
-  font-size: 22px;
+  border-radius: 50px;
+  padding: 14px 10px;
+  font-size: 34px;
   text-align: center;
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
 }
 
 .ss-btn-swant-m{
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 025);
   background-color: white!important;
   color: #4285f4!important;
-  border-radius: 25px;
-  padding: 12px 10px;
-  font-size: 20px;
+  border-radius: 50px;
+  padding: 14px 10px;
+  font-size: 30px;
   text-align: center;
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
 }
 
 .ss-btn-rewind-m{
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 025);
   background-color: white!important;
   color: #ffbb33!important;
-  border-radius: 25px;
-  padding: 12px 6px;
-  font-size: 20px;
+  border-radius: 50px;
+  padding: 15px 10px;
+  font-size: 30px;
   text-align: center;
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
 }
 
 .ss-btn-boost-m{
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 025);
   background-color: white!important;
   color: #a6c!important;
-  border-radius: 25px;
-  padding: 13px 10px;
-  font-size: 20px;
+  border-radius: 50px;
+  padding: 16px 10px;
+  font-size: 30px;
   text-align: center;
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
 }
 
 .item-img-slider{
@@ -2097,4 +2113,33 @@ cta-login-modal-header{
 }
 a.carousel-control-prev {
   visibility: hidden;
+}
+
+.cta-login-modal-header{
+  background-color: #167D7F;
+  border-bottom: 0px transparent!important;
+}
+
+.cta-login-modal-body{
+  background-color: #167D7F;
+  border-top: 0px transparent!important;;
+}
+
+.cta-login-modal{
+  animation-delay: 0s!important;
+  animation: mymove 15s;
+}
+
+@keyframes mymove {
+  from {top: -200px;}
+  to {top: 0px;}
+}
+
+.ss-logo-modal{
+  height: 60px;
+  width: 250px;;
+}
+
+.swipeswap-slider img{
+  height: 500px;;
 }

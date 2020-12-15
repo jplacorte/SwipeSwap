@@ -1,5 +1,5 @@
-import React from 'react';
-import { MDBCol, MDBRow, MDBView, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBContainer, MDBBtn, MDBMask, MDBIcon, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCardFooter } from "mdbreact";
+import React, {useState} from 'react';
+import { MDBCol, MDBRow, MDBView, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBContainer, MDBBtn, MDBMask, MDBIcon, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBAnimation } from "mdbreact";
 import { Link }  from 'react-router-dom';
 import NavbarLanding from './navbar';
 import LandingNavbar from './navbar';
@@ -18,11 +18,37 @@ import Items2 from "../../assets/images/bg7.jpg";
 import Items3 from "../../assets/images/bg9.jpg";
 import Items4 from "../../assets/images/bg10.jpg";
 import Footer from "../../assets/images/bg1.jpg";
+import Swipe from "../../assets/icons/1.png";
+import Swap from "../../assets/icons/2.png";
+import Facebook from '../Facebook';
 
 
 function LandingPage() {
+
+  const [showModal, setShowModal] = useState(true);
+  const handleClose = () => setShowModal(false);
+
     return (
         <div>
+          <MDBModal className="" isOpen={showModal} toggle={handleClose} backdrop={true} centered>
+              <MDBModalHeader toggle={handleClose} className="cta-login-modal-header"></MDBModalHeader>
+                <MDBModalBody className="cta-login-modal-body text-center">
+                <MDBRow className="mx-auto">
+                <MDBCol size="12" className="mx-auto text-center">
+                 
+                    <img src={Swipe} className="ss-logo-modal swipe" />
+                    <img src={Swap} className="ss-logo-modal swap" />
+            
+                </MDBCol>
+                <MDBCol size="12" className="my-5">
+                  <Facebook/>
+                </MDBCol>
+               
+
+                 </MDBRow>
+                </MDBModalBody>    
+          </MDBModal>
+   
             <LandingNavbar/>
             <div className="mb-5" id="home"><LandingCarousel/></div>
             
@@ -97,7 +123,7 @@ function LandingPage() {
               </MDBCol>
               <MDBCol className="section-1-btn-container p-0 mt-4" size="12">
                 <Link to="login">
-                  <MDBBtn className="section-1-btn w-100 m-0">REGISTER NOW USING FACEBOOK</MDBBtn>
+                  <MDBBtn className="section-1-btn w-100 m-0">SNAP, SWIPE & SWAP NOW!</MDBBtn>
                 </Link>
               </MDBCol>
             </MDBRow>
