@@ -2,7 +2,6 @@ const express = require('express')
 const connectDB = require('./config/db')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const path = require('path')
 
 const users = require('./routes/api/users')
 const auth = require('./routes/api/auth')
@@ -14,6 +13,23 @@ const want = require('./routes/api/want')
 const chat = require('./routes/api/chat')
 
 const app = express()
+
+const PORT = process.env.PORT || 5000
+
+const server = app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+
+const io = require('socket.io')(server, {
+  cors: {
+    origin: '*',
+  },
+  path: '/chat/socket.io'
+});
+
+// Assign socket object to every request
+app.use(function (req, res, next) {
+  req.io = io;
+  next();
+})
 
 // Connect Database
 connectDB()
@@ -38,26 +54,3 @@ app.use('/api/transaction', transaction)
 app.use('/api/match', match)
 app.use('/api/want', want)
 app.use('/api/chat', chat)
-
-// Set static folder
-app.use(express.static('client/build'));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-});
-
-const PORT = process.env.PORT || 5000
-
-const server = app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
-
-const io = require('socket.io')(server, {
-  cors: {
-    origin: '*',
-  }
-});
-
-// Assign socket object to every request
-app.use(function (req, res, next) {
-  req.io = io;
-  next();
-})
