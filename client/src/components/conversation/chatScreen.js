@@ -73,6 +73,7 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
     e.preventDefault();
     sendConversationMessage(userID, match.params.conID, newMessage, match.params.id).then((res) => {
       setNewMessage("");
+      getConversationMessages(match.params.conID).then((res) => setMessages(res))
     });
   };
 
