@@ -17,6 +17,16 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
       getAllItem() 
 
     }, [getAllItem])
+
+    const handelShow2 = () => setShowModal2(true);
+
+    const [showModal, setShowModal] = useState(false);
+    const [showModal2, setShowModal2] = useState(false);  
+    
+    const handleClose = () => setShowModal(false);
+    const handleClose2 = () => setShowModal2(false);
+
+    const [count, setCount] = useState(1)
   
     const [itemsData, setItemsData] = useState({
       item_id: '',
@@ -107,14 +117,6 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
       })
       setShowModal(true)
     }
-    const handelShow2 = () => setShowModal2(true);
-
-    const [showModal, setShowModal] = useState(false);
-    const [showModal2, setShowModal2] = useState(false);  
-    const handleClose = () => setShowModal(false);
-    const handleClose2 = () => setShowModal2(false);
-
-    const [count, setCount] = useState(1)
   
     return (
       <>
