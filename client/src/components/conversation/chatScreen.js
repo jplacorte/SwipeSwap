@@ -53,8 +53,9 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
 
   useEffect(() => {
     reloadMessages();
+    getTrans(match.params.conID, match.params.id)
   //   scrollToBottom();
-  }, [lastMessage, match.params.conID]);
+  }, [lastMessage, match.params.conID, getTrans, match.params.id]);
 
   useEffect(() => {
     let socket = require('socket.io-client')('http://localhost:5000');
@@ -76,10 +77,6 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
       getConversationMessages(match.params.conID).then((res) => setMessages(res))
     });
   };
-
-  useEffect(() => {
-    getTrans(match.params.conID, match.params.id)
-  }, [getTrans, match.params.conID, match.params.id])
 
     const [show, setShow] = useState(false);
 
