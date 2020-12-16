@@ -57,8 +57,18 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
   //   scrollToBottom();
   }, [lastMessage, match.params.conID, getTrans, match.params.id]);
 
+  // Dev
+  // useEffect(() => {
+  //   let socket = require('socket.io-client')('http://localhost:5000', {
+  //     path: '/chat/socket.io'
+  //   });
+  //   socket.on("messages", (data) => setLastMessage(data));
+  // }, []);
+
   useEffect(() => {
-    let socket = require('socket.io-client')('http://localhost:5000', {
+    let socket = require('socket.io-client')('/', {
+      secure: true,
+      rejectUnauthorized: false,
       path: '/chat/socket.io'
     });
     socket.on("messages", (data) => setLastMessage(data));

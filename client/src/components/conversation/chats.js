@@ -16,8 +16,22 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
         getConversations().then((res) => setConversations(res));
     }, [newConversation]);
     
+    //Dev
+    // useEffect(() => {
+    //     let socket = require('socket.io-client')('http://localhost:5000', {
+    //         path: '/chat/socket.io'
+    //     });
+    //     socket.on("messages", (data) => setNewConversation(data));
+    
+    //     return () => {
+    //       socket.removeListener("messages");
+    //     };
+    // }, []);
+
     useEffect(() => {
-        let socket = require('socket.io-client')('http://localhost:5000', {
+        let socket = require('socket.io-client')('/', {
+            secure: true,
+            rejectUnauthorized: false,
             path: '/chat/socket.io'
         });
         socket.on("messages", (data) => setNewConversation(data));
@@ -26,6 +40,7 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
           socket.removeListener("messages");
         };
     }, []);
+
     return (
      <div className="chats">
          {
