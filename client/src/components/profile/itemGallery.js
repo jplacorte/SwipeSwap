@@ -9,7 +9,9 @@ import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import { getAllItemsByUser, getSwappedItems, addItem } from '../../actions/item';
-import MultiSelect from  'react-multiple-select-dropdown-lite';
+// import MultiSelect from  'react-multiple-select-dropdown-lite';
+import Select, { components } from "react-select";
+import { Multiselect } from 'multiselect-react-dropdown';
 
 
 const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swappedItems }, addItem }) => {
@@ -147,10 +149,23 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
       { value: 'Excellent', label: 'Excellent' }
     ];
 
+
+    const Menu = props => {
+      const optionSelectedLength = props.getValue().length || 0;
+      return (
+        <components.Menu {...props}>
+          {optionSelectedLength < 5 ? (
+            props.children
+          ) : (
+            <div className="p-2 red-text" style={{fontSize: "14px"}}>Max limit reached!</div>
+          )}
+        </components.Menu>
+      );
+    };
+    
     return (
       <Fragment>
       {/* Modals */}
-
       <MDBModal isOpen={showModal} toggle={handleClose}>
         <MDBModalHeader toggle={handleClose}>Add Item</MDBModalHeader>
         <MDBModalBody className="px-4">
@@ -171,18 +186,20 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
             </MDBRow>
             <input type="text" name="itemname" value={itemname} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Item Name" required />
             <textarea type="text" name="description" value={description} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Description" />
-            <MultiSelect
+            <Select
               className="w-100 mt-3"
               onChange={onChangeCategory}
               options={cat}
               placeholder="Categories"
+              isMulti
+              isSearchable
+              components={{ Menu }}
             />
-            <MultiSelect
+            <Select
               className="w-100 mt-3"
               onChange={onChangeStatus}
               options={conditions}
               placeholder="Condition"
-              singleSelect={true}
             />
             <div className="flex-center">
               <MDBBtn type="submit" className="confirm-btn color1 my-4 py-2 px-5">Confirm</MDBBtn>
