@@ -4,14 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Add from '../../assets/images/additem.png';
 import ItemImg from '../../assets/images/swipeswap_item.jpg';
-import { MDBIcon, MDBRow, MDBCol, MDBModal, MDBModalHeader, MDBModalBody, MDBBtn, MDBAnimation } from 'mdbreact';
+import { MDBRow, MDBCol, MDBModal, MDBModalHeader, MDBModalBody, MDBBtn, MDBAnimation } from 'mdbreact';
 import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import { getAllItemsByUser, getSwappedItems, addItem } from '../../actions/item';
-// import MultiSelect from  'react-multiple-select-dropdown-lite';
 import Select, { components } from "react-select";
-import { Multiselect } from 'multiselect-react-dropdown';
 
 
 const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swappedItems }, addItem }) => {
@@ -26,6 +24,8 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     const [showModal, setShowModal] = useState(false);  
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
+
+    const [selectedValue, setSelectedValue] = useState('');
 
     const [formData, setFormData] = useState({
       description:'',
@@ -119,12 +119,14 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     // const [picture4, setPicture4] = useState(null);
     // const [file4, setfile4] = useState(undefined);
     
-    const onChangeStatus = val => {
-      setFormData({ ...formData, status: val })
+    const onChangeStatus = e => {
+      console.log(e.value)
+      setFormData({ ...formData, status: e.value })
     }
 
     const onChangeCategory = val => {
-      setFormData({ ...formData, categories: val })
+      setFormData({ ...formData, categories: selectedValue.toString() })
+      setSelectedValue(Array.isArray(val) ? val.map(x => x.value) : '')
     }
 
     const cat = [
@@ -189,6 +191,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
             <Select
               className="w-100 mt-3"
               onChange={onChangeCategory}
+              value={cat.filter(obj => selectedValue.includes(obj.value))}
               options={cat}
               placeholder="Categories"
               isMulti

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Item, PREV, NEXT } from "./swipestyle";
 import { MDBRow, MDBCol, MDBBtn, MDBModal,  MDBModalFooter, MDBView, MDBMask, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBRating, MDBIcon, MDBContainer } from 'mdbreact';
 import { connect } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
@@ -27,6 +28,7 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
     const handleClose2 = () => setShowModal2(false);
 
     const [count, setCount] = useState(1)
+    const [prev, setPrev] = useState(0)
   
     const [itemsData, setItemsData] = useState({
       item_id: '',
@@ -92,8 +94,12 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
     }
 
     const rewind = () => {
+      if(prev > 4){
+        toast.error("Max limit reached!");        
+      }else{
       slidePrev()
-
+      }
+      setPrev(prev => prev + 1)
       setCount(count => count - 1)
 
       if(count === 0){
@@ -120,6 +126,7 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
   
     return (
       <>
+      <ToastContainer/>
       <Navbar />
         <div className="homepage">
 

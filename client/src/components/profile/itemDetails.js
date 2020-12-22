@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MultiSelect from  'react-multiple-select-dropdown-lite';
-import 'react-multiple-select-dropdown-lite/dist/index.css';
+import Select, { components } from "react-select";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MDBIcon, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBBtn, MDBCarouselCaption } from 'mdbreact';
@@ -69,12 +68,15 @@ const ItemDetails = ({ getItemById, updateItem, uploadImage, item:{ item, loadin
   const [picture4, setPicture4] = useState(null);
   const [file4, setfile4] = useState(undefined);
 
-  const onChangeStatus = val => {
-    setFormData({ ...formData, status: val })
+  const [selectedValue, setSelectedValue] = useState('');
+
+  const onChangeStatus = e => {
+    setFormData({ ...formData, status: e.value })
   }
 
   const onChangeCategory = val => {
-    setFormData({ ...formData, catvalue: val })
+    setFormData({ ...formData, catvalue: selectedValue.toString() })
+    setSelectedValue(Array.isArray(val) ? val.map(x => x.value) : '')
   }
 
   const ImgUpload = () =>{
@@ -168,6 +170,19 @@ const ItemDetails = ({ getItemById, updateItem, uploadImage, item:{ item, loadin
     { value: 'Excellent', label: 'Excellent' }
   ];
 
+  const Menu = props => {
+    const optionSelectedLength = props.getValue().length || 0;
+    return (
+      <components.Menu {...props}>
+        {optionSelectedLength < 5 ? (
+          props.children
+        ) : (
+          <div className="p-2 red-text" style={{fontSize: "14px"}}>Max limit reached!</div>
+        )}
+      </components.Menu>
+    );
+  };
+
     return (
       <>
       {/* Modals */}
@@ -192,19 +207,22 @@ const ItemDetails = ({ getItemById, updateItem, uploadImage, item:{ item, loadin
             </MDBRow>
             <input type="text" name="itemname" value={itemname} onChange={e => onChange(e)} className="form-control mt-3" placeholder="itemname" />
             <textarea type="text" name="description" value={description} onChange={e => onChange(e)} className="form-control mt-3" placeholder="Description" />
-            <MultiSelect
+            <Select
               className="w-100 mt-3"
               onChange={onChangeCategory}
               options={cat}
-              defaultValue={catvalue}
+              value={cat.filter(obj => catvalue.includes(obj.value))}
               placeholder="Categories"
+              isMulti
+              isSearchable
+              components={{ Menu }}
             />
-            <MultiSelect
+            <Select
               className="w-100 mt-3"
               onChange={onChangeStatus}
               options={conditions}
               placeholder="Condition"
-              defaultValue={status}
+              value={conditions.find(obj => obj.value === status)}
               singleSelect={true}
             />
    
