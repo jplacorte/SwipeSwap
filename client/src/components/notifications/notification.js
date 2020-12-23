@@ -1,25 +1,26 @@
 import React from 'react';
-import { Link }  from 'react-router-dom';
 import { MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import { acceptSuperWant } from "../../actions/match";
 import { connect } from 'react-redux';
 import { createConversation } from '../../actions/chat';
+import { useHistory } from 'react-router-dom';
 
 const Notification = ({ id, userID, name, message, profilePic, timestamp, superwant, usersuperwant, acceptSuperWant,accepted, messaged }) => {
     const accept = (val) => {
       acceptSuperWant(val)
       usersuperwant = "false"
-      window.location.reload()
     }
     const decline = (val) => {
       console.log(val)
     }
 
+    let history = useHistory()
+
     const createMessage = () => {
       createConversation(userID, id).then(() => {
-        window.location.href='/conversation'
+        history.push('/conversation')
       })
     }
     return (

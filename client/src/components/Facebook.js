@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useHistory } from 'react-router-dom';
 import { MDBIcon } from 'mdbreact';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -25,9 +26,10 @@ const Facebook = ({ login, isAuthenticated }) => {
         textButton="Login with facebook"
         icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
     />)
+    let history = useHistory()
 
     if(isAuthenticated){
-         window.location.href="/homepage"
+         history.push("/homepage")
     }
     return (               
         <Fragment>

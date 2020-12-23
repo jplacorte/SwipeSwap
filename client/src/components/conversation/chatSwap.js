@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { getTrans, approve } from '../../actions/transaction';
 import { getAllItemsByUser } from '../../actions/item';
 import MultiSelect from  'react-multiple-select-dropdown-lite';
+import { useHistory } from 'react-router-dom';
 import ItemCondition from '../itemCondition'
 
 const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, loading }, auth: { isAuthenticated, user }, item: { items } }) => {
@@ -33,14 +34,16 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
       reviewdetails,
     } = formData
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    let history = useHistory()
 
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    
     const onSubmit = async e => {
       e.preventDefault();
       approve(formData, itemID2, userID2)
-
+    
       setTimeout(() => {
-        window.location.href='/profile'
+        history.push('/profile')
       }, 1000);
       
     }
