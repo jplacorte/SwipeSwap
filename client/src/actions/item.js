@@ -130,7 +130,7 @@ export const getAllItem = () => async dispatch => {
 // @route   POST item/
 // @des     Add Item
 // @access  Private
-export const addItem = (file, formData, edit = false) => async dispatch => {
+export const addItem = (file, formData) => async dispatch => {
     const photoData = new FormData();
     photoData.append('file', file);
 
@@ -149,8 +149,6 @@ export const addItem = (file, formData, edit = false) => async dispatch => {
             type: ADD_ITEMS,
             payload: res.data
         });
-
-        dispatch(setAlert(edit ? 'Item Updated' : 'Item Created'));
 
 
     } catch (err) {

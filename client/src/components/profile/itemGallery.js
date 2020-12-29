@@ -25,7 +25,10 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
 
-    const [selectedValue, setSelectedValue] = useState('');
+    const [picture, setPicture] = useState(null);
+    const [file, setfile] = useState(undefined);
+
+    const [selectedValue, setSelectedValue] = useState([]);
 
     const [formData, setFormData] = useState({
       description:'',
@@ -43,10 +46,8 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const onSubmit = async e => {
-      e.preventDefault();
+    const onSubmit = () => {
         addItem(file, formData)
-        window.location.reload()
     }
 
     const ImgUpload = () =>{
@@ -93,6 +94,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     const onChangePicture = e => {
       setPicture(URL.createObjectURL(e.target.files[0]));
       setfile(e.target.files[0])
+      console.log(file)
     };
     // const onChangePicture2 = e => {
     //   setPicture2(URL.createObjectURL(e.target.files[0]));
@@ -107,9 +109,6 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     //   setfile4(e.target.files[0])
     // };
 
-    const [picture, setPicture] = useState(null);
-    const [file, setfile] = useState(undefined);
-
     // const [picture2, setPicture2] = useState(null);
     // const [file2, setfile2] = useState(undefined);
   
@@ -120,7 +119,6 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     // const [file4, setfile4] = useState(undefined);
     
     const onChangeStatus = e => {
-      console.log(e.value)
       setFormData({ ...formData, status: e.value })
     }
 
@@ -220,7 +218,8 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
             items.map(item => (
               <MDBCol size="4" className="item-gallery-image item-grid" style={{padding: '2px'}}>
                 <a href={`/itemDetails/${item._id}`}>
-                  <img src={item.photo[0] ? `${item.photo[0].url}` : ItemImg} alt="img.png"/>
+                  {/* item.photo[0] ? `${item.photo[0].url}` :  */}
+                  <img src={ItemImg} alt="img.png"/>
                 </a>
              </MDBCol>
             ))

@@ -91,31 +91,31 @@ const ItemDetails = ({ getItemById, updateItem, uploadImage, item:{ item, loadin
   }
   const ImgUpload2 = () =>{
     return(
-      <label htmlFor="photo-upload" className="item-prev-upload flex-center">
+      <label htmlFor="photo-upload2" className="item-prev-upload flex-center">
         <div className="item-prev-upload-wrap item-prev-upload-img" >
-          <img htmlFor="photo-upload" src={picture2 ? picture2 : photo2} />
+          <img htmlFor="photo-upload2" src={picture2 ? picture2 : photo2} />
         </div>
-        <input id="photo-upload" type="file" onChange={onChangePicture2}/> 
+        <input id="photo-upload2" type="file" onChange={onChangePicture2}/> 
       </label>
     );
   }
   const ImgUpload3 = () =>{
     return(
-      <label htmlFor="photo-upload" className="item-prev-upload flex-center">
+      <label htmlFor="photo-upload3" className="item-prev-upload flex-center">
         <div className="item-prev-upload-wrap item-prev-upload-img" >
-          <img htmlFor="photo-upload" src={picture3 ? picture3 : photo3} />
+          <img htmlFor="photo-upload3" src={picture3 ? picture3 : photo3} />
         </div>
-        <input id="photo-upload" type="file" onChange={onChangePicture3}/> 
+        <input id="photo-upload3" type="file" onChange={onChangePicture3}/> 
       </label>
     );
   }
   const ImgUpload4 = () =>{
     return(
-      <label htmlFor="photo-upload" className="item-prev-upload flex-center">
+      <label htmlFor="photo-upload4" className="item-prev-upload flex-center">
         <div className="item-prev-upload-wrap item-prev-upload-img" >
-          <img htmlFor="photo-upload" src={picture4 ? picture4 : photo4} />
+          <img htmlFor="photo-upload4" src={picture4 ? picture4 : photo4} />
         </div>
-        <input id="photo-upload" type="file" onChange={onChangePicture4}/> 
+        <input id="photo-upload4" type="file" onChange={onChangePicture4}/> 
       </label>
     );
   }

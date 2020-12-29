@@ -110,7 +110,7 @@ router.post('/', parser.single('file'), auth, async (req, res) => {
         await item.save(async (err, docs) => {
             const insertedID = await Item.findById(docs._id)
         
-            insertedID.photo.push({ url: req.file.path })
+            insertedID.photo.push({ url: "../../assets/images/swipeswap_item.jpg" })
             await insertedID.save()
         })
         return res.json(item)

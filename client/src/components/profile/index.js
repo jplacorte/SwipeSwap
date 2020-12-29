@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBIcon } from 'mdbreact';
@@ -11,6 +12,32 @@ import ProfileTabs from './tabs';
 import { createProfile, getCurrentProfile, updateAvatar } from '../../actions/profile';
 
 const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurrentProfile, updateAvatar, history }) => {
+
+useEffect(() => {
+      
+  let socket = require('socket.io-client')('/', {
+    secure: true,
+    rejectUnauthorized: false,
+    path: '/chat/socket.io'
+  });
+
+  socket.on("messageFrom", (data) => toast(`New message from ${data}`, {
+    transition: Slide
+  }));
+
+  socket.on("match", (data) => toast.success(data, {
+    transition: Slide
+  }));
+
+  socket.on("accept", (data) => toast.success(`Superwant accepted by ${data}!`, {
+    transition: Slide
+  }));
+
+  return () => {
+    socket.removeListener("messageFrom");
+    socket.removeListener("accept");
+  };
+}, []);
 
 const [showModal, setShowModal] = useState(false);  
 const handleClose = () => setShowModal(false);
@@ -110,7 +137,7 @@ useEffect(() =>{
       {/* Edit Profile Modal */}
       
       {/* //Modals */}
-
+      <ToastContainer/>
       <Navbar />
         <div className="profile">
           <div className="profile-container">

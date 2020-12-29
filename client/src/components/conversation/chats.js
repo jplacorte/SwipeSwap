@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 import { connect } from 'react-redux';
 import { useGetConversations } from '../../actions/chat';
 import "../../css/style.css";
@@ -34,10 +34,20 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
             rejectUnauthorized: false,
             path: '/chat/socket.io'
         });
+
         socket.on("messages", (data) => setNewConversation(data));
+
+        socket.on("match", (data) => toast.success(data, {
+            transition: Slide
+        }));
+        
+        socket.on("accept", (data) => toast.success(`Superwant accepted by ${data}!`, {
+            transition: Slide
+        }));
     
         return () => {
           socket.removeListener("messages");
+          socket.removeListener("accept");
         };
     }, []);
 

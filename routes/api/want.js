@@ -69,23 +69,22 @@ router.post('/:item_id/:owner_id', auth, async (req, res) => {
     const user2 = await Profile.findOne({ user: req.params.owner_id }).populate('user', ['name'])
     const checkUser1 = await Match.findOne({ user1: req.params.owner_id }).select('user1')
     const checkUser2 = await Match.findOne({ user2: req.user.id }).select('user2')
-    // const checkItem1 = await Match.findOne({ item1: req.params.item_id }).select('item1')
-    // const checkItem2 = await Match.findOne({ item2: req.params.item_id }).select('item2')
 
     if(checkUser1 && checkUser2){
-        // console.log("UPDAAAATTTTTTTTEEEEE", checkItem2, checkUser1, checkUser2)
+
+        await req.io.sockets.emit('match', 'Match found! Please check your notification')
+
         match = await Match.findOneAndUpdate(
-            { user1: req.params.owner_id, user2: req.user.id},
+            { user1: req.params.owner_id, user2: req.user.id },
             { $set: {item1: req.params.item_id, itemname1: item.itemname, itemphoto1: item.photo[0].url, itemdesc1: item.description, itemstatus1: item.status } },
-            { new: true }
+            { new: true, upsert: true }
         )
         transaction = await Transaction.findOneAndUpdate(
             { user1: req.params.owner_id, user2: req.user.id},
             { $set: {item1: req.params.item_id, itemname1: item.itemname, itemphoto1: item.photo[0].url, itemdesc1: item.description, itemstatus1: item.status }},
-            { new: true }
+            { new: true, upsert: true }
         )
     }else{
-        // console.log("INSEEEEEERRRRRRTTTTTT", checkUser1, checkUser2)
         match = new Match({
             user1: req.user.id,
             user2: req.params.owner_id,
@@ -184,10 +183,13 @@ router.post('/superwant/:item_id/:owner_id', auth, async (req, res) => {
 })
 
 // @route   PUT api/want/:trans_id
-// @des     Udate transaction
+// @des     Update transaction
 // @access  Private
 router.put('/:trans_id', auth, async (req, res) => {
     try {
+        
+        await req.io.sockets.emit('accept', req.user.name)
+
         transaction = await Transaction.findOneAndUpdate(
             { _id: req.params.trans_id },
             { $set: {accepted: true} },

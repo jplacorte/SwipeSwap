@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Item, PREV, NEXT } from "./swipestyle";
+import { Item } from "./swipestyle";
 import { MDBRow, MDBCol, MDBBtn, MDBModal,  MDBModalFooter, MDBView, MDBMask, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBRating, MDBIcon, MDBContainer } from 'mdbreact';
 import { connect } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
@@ -18,6 +18,32 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
       getAllItem() 
 
     }, [getAllItem])
+
+    useEffect(() => {
+      
+      let socket = require('socket.io-client')('/', {
+        secure: true,
+        rejectUnauthorized: false,
+        path: '/chat/socket.io'
+      });
+
+      socket.on("messageFrom", (data) => toast(`New message from ${data}`, {
+        transition: Slide
+      }));
+
+      socket.on("match", (data) => toast.success(data, {
+        transition: Slide
+      }));
+
+      socket.on("accept", (data) => toast.success(`Superwant accepted by ${data}!`, {
+        transition: Slide
+      }));
+
+      return () => {
+        socket.removeListener("messageFrom");
+        socket.removeListener("accept");
+      };
+    }, []);
 
     const handelShow2 = () => setShowModal2(true);
 
