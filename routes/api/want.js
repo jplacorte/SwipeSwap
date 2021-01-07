@@ -154,7 +154,7 @@ router.post('/superwant/:item_id/:owner_id', auth, async (req, res) => {
                 item: req.params.item_id,
                 itemname: item.itemname,
                 itemdesc: item.description,
-                itemphoto: item.photo[1].url,
+                itemphoto: item.photo[0].url,
                 owneravatar: owner.avatar,
                 userwant: req.user.id,
                 userwantavatar: user.avatar,
