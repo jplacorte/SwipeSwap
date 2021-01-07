@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Item, AppContainer, ExtraInfo, Code } from "./swipestyle";
+import { Item } from "./swipestyle";
 import { connect } from 'react-redux';
 import { getAllItem, wantItem } from '../../actions/item';
 import Carousel from "./carousel";

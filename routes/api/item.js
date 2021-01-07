@@ -84,12 +84,13 @@ router.get('/:id', auth, async (req, res) => {
 // @route   POST item
 // @des     Add Item
 // @access  Private
-router.post('/', parser.single('file'), auth, async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const {
         itemname,
         description,
         status,
-        categories
+        categories,
+        imgUrl
     } = req.body
 
     //Build Item Objects
@@ -103,16 +104,13 @@ router.post('/', parser.single('file'), auth, async (req, res) => {
     if(categories){
         itemFields.categories = categories.split(',').map(cat => cat.trim())
     }
+    itemFields.photo = {}
+    itemFields.photo.url = imgUrl
 
     try {
 
         item = new Item(itemFields)
-        await item.save(async (err, docs) => {
-            const insertedID = await Item.findById(docs._id)
-        
-            insertedID.photo.push({ url: "../../assets/images/swipeswap_item.jpg" })
-            await insertedID.save()
-        })
+        await item.save()
         return res.json(item)
 
     } catch (err) {
@@ -151,6 +149,17 @@ router.put('/:item_id', auth, async (req, res) => {
             { new: true, upsert: true, setDefaultsOnInsert: true }
         )
         return res.json(item)  
+        
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+router.post('/upload/image', parser.single('file'), async (req, res) => {
+    try {
+
+        return res.json(req.file.path)
         
     } catch (err) {
         console.error(err.message)

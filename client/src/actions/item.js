@@ -130,20 +130,17 @@ export const getAllItem = () => async dispatch => {
 // @route   POST item/
 // @des     Add Item
 // @access  Private
-export const addItem = (file, formData) => async dispatch => {
-    const photoData = new FormData();
-    photoData.append('file', file);
+export const addItem = (formData) => async dispatch => {
 
     try {
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json'
             }
         }
 
-        const res = await axios.post(`/api/item`, formData, photoData, config);
+        const res = await axios.post(`/api/item`, formData, config);
 
         dispatch({
             type: ADD_ITEMS,
@@ -165,7 +162,29 @@ export const addItem = (file, formData) => async dispatch => {
 
     }
 }
+export function useUploadPhoto(){
 
+    const uploadPhoto = async (file) => {
+        const photoData = new FormData();
+        photoData.append('file', file);
+
+        try {
+
+            const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+            const res = await axios.post(`/api/item/upload/image`, photoData, config);
+
+            return res.data
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    return uploadPhoto
+}
 // @route   Put item/:itemID
 // @des     Update Item
 // @access  Private

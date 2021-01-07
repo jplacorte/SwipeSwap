@@ -55,6 +55,7 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
 
     const [count, setCount] = useState(1)
     const [prev, setPrev] = useState(0)
+    const [prevNotif, setPrevNotif] = useState(4)
   
     const [itemsData, setItemsData] = useState({
       item_id: '',
@@ -120,13 +121,18 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
     }
 
     const rewind = () => {
-      if(prev > 4){
-        toast.error("Max limit reached!");        
-      }else{
-      slidePrev()
-      }
+
       setPrev(prev => prev + 1)
       setCount(count => count - 1)
+      setPrevNotif(prevNotif - 1)
+
+      if(prev < 5){
+        slidePrev()
+        toast.info(`You have ${prevNotif === 0 ? "" : prevNotif} ${ prevNotif === 0 ? "no rewinds" : "rewinds"} left`)      
+      }else{
+        toast.error("Max limit reached!")
+      }
+      
 
       if(count === 0){
         setCount(count => count = items.length - 1)

@@ -8,7 +8,7 @@ import { MDBRow, MDBCol, MDBModal, MDBModalHeader, MDBModalBody, MDBBtn, MDBAnim
 import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-import { getAllItemsByUser, getSwappedItems, addItem } from '../../actions/item';
+import { getAllItemsByUser, getSwappedItems, addItem, useUploadPhoto } from '../../actions/item';
 import Select, { components } from "react-select";
 
 
@@ -34,20 +34,22 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
       description:'',
       itemname:'',
       status:'',
-      categories: ''
+      categories: '',
+      imgUrl:''
     })
 
     const {
       description,
       itemname,
       status,
-      categories
+      categories,
+      imgUrl
     } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = () => {
-        addItem(file, formData)
+        addItem(formData)
     }
 
     const ImgUpload = () =>{
@@ -91,11 +93,23 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     //   );
     // }
 
+    const uploadPhoto = useUploadPhoto()
+
     const onChangePicture = e => {
+      document.getElementById('uploadButton').style.display = "";
+      document.getElementById('cnfrmBtn').style.display = "none";
+
       setPicture(URL.createObjectURL(e.target.files[0]));
       setfile(e.target.files[0])
-      console.log(file)
+      
+      uploadPhoto(e.target.files[0]).then((res) => {
+        document.getElementById('uploadButton').style.display = "none";
+        document.getElementById('cnfrmBtn').style.display = "";
+        setFormData({ imgUrl: res })
+      })
     };
+
+
     // const onChangePicture2 = e => {
     //   setPicture2(URL.createObjectURL(e.target.files[0]));
     //   setfile2(e.target.files[0])
@@ -162,6 +176,10 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
         </components.Menu>
       );
     };
+
+    useEffect(() => {
+
+    }, [file, selectedValue, imgUrl])
     
     return (
       <Fragment>
@@ -202,8 +220,11 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
               options={conditions}
               placeholder="Condition"
             />
-            <div className="flex-center">
-              <MDBBtn type="submit" className="confirm-btn color1 my-4 py-2 px-5">Confirm</MDBBtn>
+            <div id="uploadButton" className="flex-center" style={{display: 'none' }}>
+              <MDBBtn className="confirm-btn color1 my-4 py-2 px-5" disabled>Uploading Image</MDBBtn>
+            </div>
+            <div  id="cnfrmBtn" className="flex-center">
+              <MDBBtn  type="submit" className="confirm-btn color1 my-4 py-2 px-5">Confirm</MDBBtn>
             </div>
             </form>
         </MDBModalBody>
@@ -219,7 +240,7 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
               <MDBCol size="4" className="item-gallery-image item-grid" style={{padding: '2px'}}>
                 <a href={`/itemDetails/${item._id}`}>
                   {/* item.photo[0] ? `${item.photo[0].url}` :  */}
-                  <img src={ItemImg} alt="img.png"/>
+                  <img src={item.photo[0] ? `${item.photo[0].url}` : ItemImg} alt="img.png"/>
                 </a>
              </MDBCol>
             ))
@@ -262,12 +283,6 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
     );
 }
 
-ItemGallery.propTypes = {
-  getAllItemsByUser: PropTypes.func.isRequired,
-  getSwappedItems: PropTypes.func.isRequired,
-  addItem: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired
-}
   
 const mapStateToProps = state => ({
   item: state.item
