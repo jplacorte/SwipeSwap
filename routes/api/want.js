@@ -159,7 +159,8 @@ router.post('/superwant/:item_id/:owner_id', auth, async (req, res) => {
                 userwant: req.user.id,
                 userwantavatar: user.avatar,
                 userwantname: user.user.name,
-                superwant:true
+                superwant:true,
+                accepted: "Pending"
             })
             await trans.save(async(data, result) => {
                 userTrans = new UserTransaction({
@@ -195,7 +196,7 @@ router.put('/:trans_id', auth, async (req, res) => {
 
         transaction = await Transaction.findOneAndUpdate(
             { _id: req.params.trans_id },
-            { $set: {accepted: true} },
+            { $set: {accepted: "true"} },
             { new: true }
         )
         return res.json(transaction)
@@ -218,7 +219,7 @@ router.put('/decline/:trans_id', auth, async (req, res) => {
 
         transaction = await Transaction.findOneAndUpdate(
             { _id: req.params.trans_id },
-            { $set: {accepted: false} },
+            { $set: {accepted: "false"} },
             { new: true }
         )
         return res.json(transaction)

@@ -51,7 +51,7 @@ const Notifications = ({ getAllTransaction, getUserWantTransaction, getUserWant1
                 id={superwant._id}
                 userID={superwant.userwant} 
                 name="Swipe Swap Team"
-                message={!superwant.accepted ? `Declined ${superwant.userwantname}'s super want` : superwant.accepted ? `Accepted ${superwant.userwantname}'s super want` : `${superwant.userwantname} wants your item`}
+                message={!superwant.accepted === "false"? `Declined ${superwant.userwantname}'s super want` : superwant.accepted === "true" ? `Accepted ${superwant.userwantname}'s super want` : `${superwant.userwantname} wants your item`}
                 profilePic={SwipeSwapLogo}
                 superwant = "true"
                 accepted = {superwant.accepted}
@@ -66,7 +66,7 @@ const Notifications = ({ getAllTransaction, getUserWantTransaction, getUserWant1
                     id={usertrans._id} 
                     userID={usertrans.owner}
                     name="Swipe Swap Team"
-                    message={!usertrans.accepted ? `${usertrans.ownername} declined your super want` : usertrans.accepted ? `${usertrans.ownername} accepted your super want` : `Waiting for ${usertrans.ownername}'s Approval`}
+                    message={usertrans.accepted === "false" ? `${usertrans.ownername} declined your super want` : usertrans.accepted === "true" ? `${usertrans.ownername} accepted your super want` : `Waiting for ${usertrans.ownername}'s Approval`}
                     profilePic={SwipeSwapLogo}
                     superwant = "true"
                     accepted = {usertrans.accepted}

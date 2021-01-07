@@ -133,7 +133,7 @@ const TransactionSchema = new mongoose.Schema({
         type: Boolean, default: false
     },
     accepted: {
-        type: Boolean, default: false
+        type: String
     }
 })
 
