@@ -2,7 +2,7 @@ import React from 'react';
 import { MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-import { acceptSuperWant } from "../../actions/match";
+import { acceptSuperWant, declineSuperWant } from "../../actions/match";
 import { connect } from 'react-redux';
 import { createConversation } from '../../actions/chat';
 import { useHistory } from 'react-router-dom';
@@ -10,10 +10,9 @@ import { useHistory } from 'react-router-dom';
 const Notification = ({ id, userID, name, message, profilePic, timestamp, superwant, usersuperwant, acceptSuperWant,accepted, messaged }) => {
     const accept = (val) => {
       acceptSuperWant(val)
-      usersuperwant = "false"
     }
     const decline = (val) => {
-      console.log(val)
+      declineSuperWant(val)
     }
 
     let history = useHistory()
@@ -60,6 +59,11 @@ const Notification = ({ id, userID, name, message, profilePic, timestamp, superw
                 <div className="notif-timestamp">{timestamp}</div>
             </div>
             {
+            accepted === "false" ? (<>
+              {
+                messaged
+              }
+            </>):
             accepted || usersuperwant === "true" ? (<>
             {
               messaged ? '' : <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => createMessage()}>Message</MDBBtn>

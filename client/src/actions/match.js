@@ -4,7 +4,8 @@ import {
     MATCH_FOUND,
     ERROR_MATCH,
     SUPERWANT,
-    ACCEPT_SUPERWANT
+    ACCEPT_SUPERWANT,
+    DECLINE_SUPERWANT
 } from './types';
 
 // @route   GET match/
@@ -59,6 +60,27 @@ export const acceptSuperWant = (transID) => async dispatch => {
 
         dispatch({
             type: ACCEPT_SUPERWANT,
+            payload: res.data
+        });
+        
+    } catch (err) {
+
+        dispatch({
+            type: ERROR_MATCH,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    
+    }
+}
+
+//Decline Super Want
+export const declineSuperWant = (transID) => async dispatch => {
+    try {
+
+        const res = await axios.put(`/api/want/decline/${transID}`);
+
+        dispatch({
+            type: DECLINE_SUPERWANT,
             payload: res.data
         });
         
