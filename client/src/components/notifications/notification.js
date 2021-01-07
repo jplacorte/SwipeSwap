@@ -64,7 +64,7 @@ const Notification = ({ id, userID, name, message, profilePic, timestamp, superw
                 messaged
               }
             </>):
-            accepted || usersuperwant === "true" ? (<>
+            accepted === "true" || usersuperwant === "true" ? (<>
             {
               messaged ? '' : <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => createMessage()}>Message</MDBBtn>
             }
