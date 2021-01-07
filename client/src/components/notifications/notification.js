@@ -7,12 +7,14 @@ import { connect } from 'react-redux';
 import { createConversation } from '../../actions/chat';
 import { useHistory } from 'react-router-dom';
 
-const Notification = ({ id, userID, name, message, profilePic, timestamp, superwant, usersuperwant, acceptSuperWant,accepted, messaged }) => {
+const Notification = ({ id, userID, name, message, profilePic, timestamp, superwant, usersuperwant, acceptSuperWant, declineSuperWant, accepted, messaged }) => {
     const accept = (val) => {
       acceptSuperWant(val)
+      window.location.reload(false)
     }
     const decline = (val) => {
       declineSuperWant(val)
+      window.location.reload(false)
     }
 
     let history = useHistory()
@@ -69,8 +71,8 @@ const Notification = ({ id, userID, name, message, profilePic, timestamp, superw
               messaged ? '' : <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => createMessage()}>Message</MDBBtn>
             }
             </>):(<>
-            <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => accept(id)} >Accept</MDBBtn>
-            <MDBBtn className="my-auto mr-3 notif-btn-decline p-1 text-capitalize" onClick={val => decline(id)} >Decline</MDBBtn></>)
+            <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => accept(id)}>Accept</MDBBtn>
+            <MDBBtn className="my-auto mr-3 notif-btn-decline p-1 text-capitalize" onClick={val => decline(id)}>Decline</MDBBtn></>)
             
             }
             
@@ -88,4 +90,4 @@ const mapStateToProps = state => ({
   match: state.match
 })
 
-export default connect(mapStateToProps, { acceptSuperWant })(Notification);
+export default connect(mapStateToProps, { acceptSuperWant, declineSuperWant })(Notification);

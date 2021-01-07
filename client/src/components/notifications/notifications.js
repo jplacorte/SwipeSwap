@@ -51,7 +51,7 @@ const Notifications = ({ getAllTransaction, getUserWantTransaction, getUserWant1
                 id={superwant._id}
                 userID={superwant.userwant} 
                 name="Swipe Swap Team"
-                message={!superwant.accepted === "false"? `Declined ${superwant.userwantname}'s super want` : superwant.accepted === "true" ? `Accepted ${superwant.userwantname}'s super want` : `${superwant.userwantname} wants your item`}
+                message={superwant.accepted === "false"? `Declined ${superwant.userwantname}'s super want` : superwant.accepted === "true" ? `Accepted ${superwant.userwantname}'s super want` : `${superwant.userwantname} wants your item`}
                 profilePic={SwipeSwapLogo}
                 superwant = "true"
                 accepted = {superwant.accepted}

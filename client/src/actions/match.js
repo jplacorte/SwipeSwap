@@ -77,7 +77,7 @@ export const acceptSuperWant = (transID) => async dispatch => {
 export const declineSuperWant = (transID) => async dispatch => {
     try {
 
-        const res = await axios.put(`/api/want/decline/${transID}`);
+        const res = await axios.put(`/api/want/dec/${transID}`);
 
         dispatch({
             type: DECLINE_SUPERWANT,

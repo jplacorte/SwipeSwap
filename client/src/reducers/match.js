@@ -4,6 +4,7 @@ const initialState = {
     match: null,
     superwant: null,
     superwantaccept: null,
+    superwantdecline: null,
     matches: [],
     loading: true,
     error: {}
@@ -32,11 +33,11 @@ export default function (state = initialState, action) {
                 loading: false
             };
         case DECLINE_SUPERWANT:
-                return {
-                    ...state,
-                    superwantaccept: payload,
-                    loading: false
-                };
+            return {
+                ...state,
+                superwantdecline: payload,
+                loading: false
+            };
         case ERROR_MATCH:
             return {
                 ...state,

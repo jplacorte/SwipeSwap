@@ -191,7 +191,6 @@ router.put('/:trans_id', auth, async (req, res) => {
     const owner = await Profile.findOne({user:req.user.id}).populate('user', ['name'])
 
     try {
-        
         await req.io.sockets.emit('accept', owner.user.name)
 
         transaction = await Transaction.findOneAndUpdate(
@@ -199,7 +198,7 @@ router.put('/:trans_id', auth, async (req, res) => {
             { $set: {accepted: "true"} },
             { new: true }
         )
-        return res.json(transaction)
+
     } catch (err) {
         console.error(err.message)
         res.status(500).send('Server Error')
@@ -209,12 +208,12 @@ router.put('/:trans_id', auth, async (req, res) => {
 // @route   PUT api/want/:trans_id
 // @des     Decline Super Want
 // @access  Private
-router.put('/decline/:trans_id', auth, async (req, res) => {
+router.put('/dec/:trans_id', auth, async (req, res) => {
 
     const owner = await Profile.findOne({user:req.user.id}).populate('user', ['name'])
 
     try {
-        
+
         await req.io.sockets.emit('decline', owner.user.name)
 
         transaction = await Transaction.findOneAndUpdate(
@@ -222,7 +221,7 @@ router.put('/decline/:trans_id', auth, async (req, res) => {
             { $set: {accepted: "false"} },
             { new: true }
         )
-        return res.json(transaction)
+
     } catch (err) {
         console.error(err.message)
         res.status(500).send('Server Error')
