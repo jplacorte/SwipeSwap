@@ -260,7 +260,7 @@ const ItemGallery = ({ getAllItemsByUser, item:{ items, swappedItems, loading },
               <img src={item.photo[0].url} alt="img.jpg"/>
               </MDBCol>
             ))): (<div className="mx-auto grey-text">No items yet</div>)
-          }
+          } */}
 
           
           
@@ -275,7 +275,7 @@ const ItemGallery = ({ getAllItemsByUser, item:{ items, swappedItems, loading },
                />
                </MDBAnimation>
                </MDBAnimation>
-          </Container> */}
+          </Container>
           
 
         </MDBRow>
