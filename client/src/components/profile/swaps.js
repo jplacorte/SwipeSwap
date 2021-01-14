@@ -4,38 +4,37 @@ import { MDBCol, MDBRow, MDBBtn, MDBModal, MDBRating, MDBCarousel, MDBCarouselIn
 import ItemImg from '../../assets/images/swipeswap_item.jpg';
 import Avatar from '../../assets/images/avatar.png';
 import ItemCondition from '../itemCondition';
-import PropTypes from 'prop-types'; 
-import { getReceivedItemsModal, getReceivedItems, rateItem } from '../../actions/item';
+import { getReviews, submitReview } from '../../actions/review';
 
-const Swaps = ({ getReceivedItemsModal, getReceivedItems, item: { loading, receivedItems, receivedItemsModal }, rateItem }) => {
+const Swaps = ({ getReviews, submitReview, review: { reviews, loading } }) => {
   
   useEffect(() => {
-    getReceivedItems()
-  }, [getReceivedItems])
+    getReviews()
+  }, [getReviews])
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = async (item_id, name, avatar) => {
-    getReceivedItemsModal(item_id)
-    
+  const handleShow = async (item_id, owner_id, review, ownername, avatar, itemname, desc, image) => {
     setItems({
       item_id: item_id,
-      itemname: !receivedItemsModal.itemname ? '' : receivedItemsModal.itemname,
-      photo1: !receivedItemsModal.photo[0] ? ItemImg : receivedItemsModal.photo[0].url,
-      photo2: !receivedItemsModal.photo[1] ? ItemImg : receivedItemsModal.photo[1].url,
-      photo3: !receivedItemsModal.photo[2] ? ItemImg : receivedItemsModal.photo[2].url,
-      photo4: !receivedItemsModal.photo[3] ? ItemImg : receivedItemsModal.photo[3].url,
-      desc: !receivedItemsModal ? '' : receivedItemsModal.description,
-      cat: !receivedItemsModal ? '' : Array.isArray(receivedItemsModal.categories) ? receivedItemsModal.categories.join(', ') : receivedItemsModal.categories,
-      name: name,
-      avatar: avatar
+      owner_id: owner_id,
+      name: ownername,
+      itemname: itemname,
+      avatar: avatar,
+      desc: desc,
+      photo1: image,
     }) 
+
+    setFormData({
+      reviewdetails: review
+    })
     setShow(true)
   };
 
   const [received_items, setItems] = useState({
     item_id: '',
+    owner_id: '',
     itemname: '',
     photo1: '',
     photo2: '',
@@ -59,6 +58,7 @@ const Swaps = ({ getReceivedItemsModal, getReceivedItems, item: { loading, recei
 
   const {
     item_id,
+    owner_id,
     itemname,
     photo1,
     photo2,
@@ -91,8 +91,9 @@ const Swaps = ({ getReceivedItemsModal, getReceivedItems, item: { loading, recei
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async e => {
-    e.preventDefault();
-    rateItem(formData, item_id)
+    e.preventDefault()
+    submitReview(item_id, owner_id, formData)
+    window.location.reload(false)
   }
   return (
         <div>
@@ -209,46 +210,40 @@ const Swaps = ({ getReceivedItemsModal, getReceivedItems, item: { loading, recei
          {/*//Modals  */}
         
         <MDBRow className="swaps-container mx-auto px-2 py-3">
-          
-        {
-
-        receivedItems.length > 0 ? (
-          receivedItems.map(item => (
-            item.receivedFromSwapped.map(receivedItems => (
+          {
+            reviews.map(review => (
               <MDBCol md="12">
               <a onClick={val => handleShow(
-                receivedItems.item,
-                receivedItems.name,
-                receivedItems.avatar
-                )}>
+                review.item,
+                review.owner,
+                review.review,
+                review.ownername,
+                review.avatar,
+                review.itemname,
+                review.itemdesc,
+                review.image
+              )}>
               <div className="chat">
-                <img src={`${receivedItems.itemimage}`} className="rounded-circle chat-image mr-3" alt="Item Img.jpg" />
+                <img src={review.image} className="rounded-circle chat-image mr-3" alt="Item Img.jpg" />
                 <div className="chat-details pt-3">
-                <div>{receivedItems.itemname}</div>
+                <div>{review.itemname}</div>
                   <p style={{color: "#00AF80"}}>Transaction Complete</p>
                 </div>
-                <img src={`${receivedItems.avatar}`} className="swap-item-img mr-3" alt="Owner Img.jpg"/>
+                <img src={review.avatar ? review.avatar : Avatar} className="swap-item-img mr-3" alt="Owner Img.jpg"/>
             </div>
             </a>
-        </MDBCol>
+          </MDBCol>
             ))
-          ))) : (<div className="mx-auto grey-text">No Swapped Items yet</div>)}
-
+          }
+        
         </MDBRow>
         </div>
 
   );
 }
 
-Swaps.propTypes = {
-  rateItem: PropTypes.func.isRequired,
-  getReceivedItemsModal: PropTypes.func.isRequired,
-  getReceivedItems: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired,
-}
-
 const mapStateToProps = state => ({
-  item: state.item
+  review: state.review
 });
 
-export default connect(mapStateToProps, {getReceivedItems, getReceivedItemsModal, rateItem})(Swaps);
+export default connect(mapStateToProps, { getReviews, submitReview })(Swaps);

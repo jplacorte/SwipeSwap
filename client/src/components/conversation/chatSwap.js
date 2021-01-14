@@ -7,11 +7,12 @@ import ProfileAvatar from '../../assets/images/avatar.png';
 import { connect } from 'react-redux';
 import { getTrans, approve } from '../../actions/transaction';
 import { getAllItemsByUser } from '../../actions/item';
-import MultiSelect from  'react-multiple-select-dropdown-lite';
+import { submitReview } from '../../actions/review';
+import Select from "react-select";
 import { useHistory } from 'react-router-dom';
 import ItemCondition from '../itemCondition'
 
-const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, loading }, auth: { isAuthenticated, user }, item: { items } }) => {
+const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transaction: { chats, loading }, auth: { isAuthenticated, user }, item: { items } }) => {
 
     useEffect(() => {
       getTrans()
@@ -29,7 +30,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
     const [formData, setFormData] = useState({
       reviewdetails:''
     })
-
+    const [item_id, setItemId] = useState('')
     const {
       reviewdetails,
     } = formData
@@ -41,7 +42,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
     const onSubmit = async e => {
       e.preventDefault();
       approve(formData, itemID2, userID2)
-    
+      submitReview(itemID, userID2, formData)
       setTimeout(() => {
         history.push('/profile')
       }, 1000);
@@ -157,13 +158,13 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
        }
      }
     })
-    const selecitems = [
-      { value: 'Ps4 Controller', label: 'Ps4 Controller' },
-      { value: 'Logitech Mouse M331 Silent', label: 'Logitech Mouse M331 Silent'},
-      { value: 'Sony Bluetooth Speaker', label: 'Sony Bluetooth Speaker' }
-    ];
-    const onChangeItem = () => {
-      console.log("Item Changed")
+
+    const onChangeItem = (e) => {
+      setItemId(e.value)
+    }
+
+    const changeItem = () => {
+      window.location.reload(false)
     }
 
     return (
@@ -173,17 +174,18 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
         <MDBModal isOpen={show} toggle={handleClose}>
           <MDBModalHeader toggle={handleClose}>Change Item</MDBModalHeader>
         <MDBModalBody className="px-4">
-        <MultiSelect
+        <Select
               className="w-100 mt-3"
               onChange={onChangeItem}
-              options={selecitems}
+              options={items.map((item) => ({
+                value: item._id, label: item.itemname
+              }))}
               placeholder="Change Item"
-              singleSelect={true}
             />
         </MDBModalBody>
           <MDBModalFooter className="mx-auto">
             <MDBBtn className="want-ignore-btn px-5 py-2" color="white" onClick={handleClose} >Close</MDBBtn>
-            <MDBBtn className="want-ignore-btn color1 px-5 py-2">Change</MDBBtn>
+            <MDBBtn className="want-ignore-btn color1 px-5 py-2" onClick={changeItem}>Change</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
 
@@ -359,4 +361,4 @@ const mapStateToProps = state => ({
   item: state.item
 })
 
-export default connect( mapStateToProps, { getTrans, approve, getAllItemsByUser })(ChatSwap);
+export default connect( mapStateToProps, { getTrans, approve, submitReview, getAllItemsByUser })(ChatSwap);

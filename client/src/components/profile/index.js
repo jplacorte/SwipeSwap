@@ -47,7 +47,7 @@ const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurren
       avatar: loading || !profile.avatar ? Avatar : profile.avatar,
       
     })
-  }, [loading, getCurrentProfile]);
+  }, [getCurrentProfile, loading]);
 
   useEffect(() => {
       

@@ -44,3 +44,6 @@ export const GET_USER_WANT_1 = "GET_USER_WANT_1";
 export const GET_USER_WANT_2 = "GET_USER_WANT_2";
 export const GET_CONVERSATIONS = "GET_CONVERSATIONS";
 export const CONVERSATION_ERROR = "CONVERSATION_ERROR";
+export const GET_REVIEWS = "GET_REVIEWS";
+export const REVIEW = "REVIEW";
+export const REVIEW_ERROR = "REVIEW_ERROR";

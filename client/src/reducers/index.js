@@ -6,6 +6,7 @@ import item from './item';
 import transaction from './transaction';
 import match from './match';
 import chat from './chat';
+import review from './review';
 
 export default combineReducers({
     alert,
@@ -14,5 +15,6 @@ export default combineReducers({
     item,
     transaction,
     match,
-    chat
+    chat,
+    review
 });

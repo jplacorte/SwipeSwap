@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getAllItemsByUser, addItem, useUploadPhoto } from '../../actions/item';
 import Loading from '../Loading';
@@ -288,4 +287,4 @@ const mapStateToProps = state => ({
   item: state.item
 });
 
-export default connect(mapStateToProps, { getAllItemsByUser, addItem })(withRouter(ItemGallery));
+export default connect(mapStateToProps, { getAllItemsByUser, addItem })(ItemGallery);
