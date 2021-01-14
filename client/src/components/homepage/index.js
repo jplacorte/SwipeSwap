@@ -15,6 +15,7 @@ import { superWant } from '../../actions/match';
 const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) => {
 
     useEffect(() => {
+      
       getAllItem() 
 
     }, [getAllItem])

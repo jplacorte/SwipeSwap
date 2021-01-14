@@ -18,6 +18,7 @@ export const getCurrentProfile = () => async dispatch => {
             type: GET_PROFILE,
             payload: res.data
         });
+        
     } catch (err) {
 
         const errors = err.response.data.errors;

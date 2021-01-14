@@ -22,7 +22,7 @@ const storage = new CloudinaryStorage({
     cloudinary : cloudinary,
     params:{
         folder: "swipeSwap",
-        allowed_formats: ["jpg", "png", "jpeg"],
+        allowed_formats: ["jpg", "png", "jpeg", "HEIC"],
         transformation: [{quality: 'auto' }]  
     }
 })

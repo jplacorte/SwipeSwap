@@ -1,49 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { ToastContainer, toast, Slide } from 'react-toastify';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { createProfile, getCurrentProfile, updateAvatar } from '../../actions/profile';
+// import Loading from '../Loading';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 import { MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBIcon } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Avatar from '../../assets/images/avatar.png';
 import Navbar from '../navbar';
 import ProfileTabs from './tabs';
-import { createProfile, getCurrentProfile, updateAvatar } from '../../actions/profile';
+
 
 const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurrentProfile, updateAvatar, history }) => {
-
-useEffect(() => {
-      
-  let socket = require('socket.io-client')('/', {
-    secure: true,
-    rejectUnauthorized: false,
-    path: '/chat/socket.io'
-  });
-
-  socket.on("messageFrom", (data) => toast(`New message from ${data}`, {
-    transition: Slide
-  }));
-
-  socket.on("match", (data) => toast.success(data, {
-    transition: Slide
-  }));
-
-  socket.on("accept", (data) => toast.success(`Superwant accepted by ${data}!`, {
-    transition: Slide
-  }));
-
-  return () => {
-    socket.removeListener("messageFrom");
-    socket.removeListener("accept");
-  };
-}, []);
-
-const [showModal, setShowModal] = useState(false);  
-const handleClose = () => setShowModal(false);
-const handleShow = () => setShowModal(true);
-
-const [formData, setFormData] = useState({
+  
+  const [formData, setFormData] = useState({
     name: '',
     location: '',
     email: '',
@@ -52,27 +23,57 @@ const [formData, setFormData] = useState({
     instagram: '',
     google: '',
     avatar:''
-})
-
-
-useEffect(() =>{
-  getCurrentProfile()
-
-  setFormData({
-    name: loading || !profile.user.name ? '' : profile.user.name,
-    email: loading || !profile.user.email ? '' : profile.user.email,
-    location: loading || !profile.location ? '' : profile.location,
-    dateofbirth: loading || !profile.dateofbirth ? '' : profile.dateofbirth,
-    facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
-    instagram: loading || !profile.social.instagram ? '' : profile.social.instagram,
-    google: loading || !profile.social.google ? '' : profile.social.google,
-    avatar: loading || !profile.avatar ? Avatar : profile.avatar,
-    
   })
-}, [getCurrentProfile, loading]);
 
-    const [picture, setPicture] = useState(null);
-    const [file, setfile] = useState(undefined)
+  const [showModal, setShowModal] = useState(false);  
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
+  const [picture, setPicture] = useState(null);
+  const [file, setfile] = useState(undefined)
+
+  useEffect(() =>{
+
+    getCurrentProfile()
+  
+    setFormData({
+      name: loading || !profile.user.name ? '' : profile.user.name,
+      email: loading || !profile.user.email ? '' : profile.user.email,
+      location: loading || !profile.location ? '' : profile.location,
+      dateofbirth: loading || !profile.dateofbirth ? '' : profile.dateofbirth,
+      facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
+      instagram: loading || !profile.social.instagram ? '' : profile.social.instagram,
+      google: loading || !profile.social.google ? '' : profile.social.google,
+      avatar: loading || !profile.avatar ? Avatar : profile.avatar,
+      
+    })
+  }, [loading, getCurrentProfile]);
+
+  useEffect(() => {
+      
+    let socket = require('socket.io-client')('/', {
+      secure: true,
+      rejectUnauthorized: false,
+      path: '/chat/socket.io'
+    });
+
+    socket.on("messageFrom", (data) => toast(`New message from ${data}`, {
+      transition: Slide
+    }));
+
+    socket.on("match", (data) => toast.success(data, {
+      transition: Slide
+    }));
+
+    socket.on("accept", (data) => toast.success(`Superwant accepted by ${data}!`, {
+      transition: Slide
+    }));
+
+    return () => {
+      socket.removeListener("messageFrom");
+      socket.removeListener("accept");
+    };
+  }, []);
 
     const onChangePicture = e => {
         setPicture(URL.createObjectURL(e.target.files[0]));
@@ -97,7 +98,6 @@ useEffect(() =>{
     const onSubmit = e => {
       e.preventDefault();
       createProfile(formData, history);
-      getCurrentProfile()
       handleClose();
       // window.location.reload()
     };
@@ -149,8 +149,8 @@ useEffect(() =>{
                 </div>
                 <div className="flex-grow-1 bd-highlight col-example">
                   <div className="">
-                    <div className="profile-name">{name}</div>
-                    <div className="profile-address">{location}</div>
+                    <div className="profile-name">{loading ? "Retrieving data..." :name}</div>
+                    <div className="profile-address">{loading ? "Retrieving data..." :location}</div>
                   </div>
                 </div>
               </div>
@@ -184,14 +184,6 @@ useEffect(() =>{
         </div>
       </> 
     );
-}
-
-Profile.propTypes = {
-  createProfile: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
-  updateAvatar: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({

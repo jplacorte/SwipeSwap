@@ -1,25 +1,22 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getAllItemsByUser, addItem, useUploadPhoto } from '../../actions/item';
+import Loading from '../Loading';
 import Add from '../../assets/images/additem.png';
 import ItemImg from '../../assets/images/swipeswap_item.jpg';
 import { MDBRow, MDBCol, MDBModal, MDBModalHeader, MDBModalBody, MDBBtn, MDBAnimation } from 'mdbreact';
 import { Container, Button } from 'react-floating-action-button';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
-import { getAllItemsByUser, getSwappedItems, addItem, useUploadPhoto } from '../../actions/item';
 import Select, { components } from "react-select";
 
 
-const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swappedItems }, addItem }) => {
+const ItemGallery = ({ getAllItemsByUser, item:{ items, swappedItems, loading }, addItem }) => {
 
   useEffect(() => {
-
     getAllItemsByUser()
-    getSwappedItems()
-
-  }, [getAllItemsByUser, getSwappedItems])
+  }, [getAllItemsByUser])
   
     const [showModal, setShowModal] = useState(false);  
     const handleClose = () => setShowModal(false);
@@ -235,6 +232,9 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
 
       <MDBRow className="mx-auto item-gallery-container" style={{ height: '650px' }}>
         {
+         loading ? (
+          <h1><Loading/></h1>
+         ) : (
           items.length > 0 ? (
             items.map(item => (
               <MDBCol size="4" className="item-gallery-image item-grid" style={{padding: '2px'}}>
@@ -245,15 +245,16 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
              </MDBCol>
             ))
           ) : (<div className="mx-auto grey-text mt-3">No items yet</div>)
+         )
         }
-          <MDBCol size="12" className="my-3 text-center">
+          {/* <MDBCol size="12" className="my-3 text-center">
               <div>Swapped Items</div>
-          </MDBCol>
+          </MDBCol> */}
           
 
           {/* Swapped Items */}
           
-          {
+          {/* {
             swappedItems.length > 0 ? (
               swappedItems.map((item) => (
               <MDBCol size="4" className="p-0 swapped-item item-grid">
@@ -275,16 +276,16 @@ const ItemGallery = ({ getAllItemsByUser, getSwappedItems, item:{ items, swapped
                />
                </MDBAnimation>
                </MDBAnimation>
-          </Container>
+          </Container> */}
           
 
         </MDBRow>
       </Fragment> 
     );
 }
-
-  
+ 
 const mapStateToProps = state => ({
   item: state.item
 });
-export default connect(mapStateToProps, { getAllItemsByUser, getSwappedItems, addItem })(withRouter(ItemGallery));
+
+export default connect(mapStateToProps, { getAllItemsByUser, addItem })(withRouter(ItemGallery));

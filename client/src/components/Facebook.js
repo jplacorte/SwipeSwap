@@ -12,13 +12,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Facebook = ({ login, isAuthenticated }) => {
 
+    let fbContent;
+
     const responseFacebook = response => {
         login(response.name, response.email, response.picture)
     }
 
-    let fbContent;
-
-    fbContent= (<FacebookLogin
+    fbContent = (<FacebookLogin
         appId="3246631198738334"
         fields="name,email,picture"
         disableMobileRedirect={true}
@@ -26,10 +26,22 @@ const Facebook = ({ login, isAuthenticated }) => {
         textButton="Login with facebook"
         icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
     />)
+    
     let history = useHistory()
 
     if(isAuthenticated){
-         history.push("/homepage")
+        fbContent = (<FacebookLogin
+            appId="3246631198738334"
+            fields="name,email,picture"
+            disableMobileRedirect={true}
+            callback={responseFacebook}
+            textButton="Redirecting..."
+            icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
+            isDisabled
+        />)
+        setTimeout(() => {
+            history.push("/profile")
+        }, 2500)     
     }
     return (               
         <Fragment>

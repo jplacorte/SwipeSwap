@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { getReceivedItemsModal, getReceivedItems, rateItem } from '../../actions/item';
 
 const Swaps = ({ getReceivedItemsModal, getReceivedItems, item: { loading, receivedItems, receivedItemsModal }, rateItem }) => {
+  
   useEffect(() => {
     getReceivedItems()
   }, [getReceivedItems])

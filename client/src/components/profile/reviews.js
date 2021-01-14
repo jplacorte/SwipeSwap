@@ -9,6 +9,7 @@ const Reviews = ({ getSwappedItems, item: { swappedItems, loading } }) => {
     useEffect(() => {
       getSwappedItems()
     }, [getSwappedItems])
+    
     const [basic] = useState([
       {
         tooltip: 'Poor'

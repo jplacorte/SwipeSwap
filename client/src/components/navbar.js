@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBIcon, MDBListGroup, MDBListGroupItem, MDBBadge } from 'mdbreact';
 import 'react-pro-sidebar/dist/css/styles.css';
 import Sidebar from "react-sidebar";

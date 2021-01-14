@@ -19,7 +19,7 @@ const storage = new CloudinaryStorage({
     cloudinary : cloudinary,
     params:{
         folder: "swipeSwap",
-        allowed_formats: ["jpg", "png", "jpeg", "webp"],
+        allowed_formats: ["jpg", "png", "jpeg", "webp", "HEIC"],
         transformation: [{quality: 'auto' }]  
     }
 })
@@ -234,7 +234,7 @@ router.put('/review/:id', auth, async (req, res) => {
         reviewdetails
     } = req.body
 
-    let userName =  await User.findById(req.user.id)
+    let userName = await User.findById(req.user.id)
 
     const itemFields = {}
     if(rating) itemFields.rating = rating
