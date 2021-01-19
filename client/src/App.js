@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './css/style.css'
 import Routes from './components/routing/Routes'
-import { LOGOUT } from './actions/types'
+import { LOGOUT, CLEAR_PROFILE } from './actions/types'
 import LandingPage from "./components/landing";
 
 //Redux
@@ -22,7 +22,10 @@ const App = () => {
 
     // log user out from all tabs if they log out in one tab
     window.addEventListener('storage', () => {
-      if (!localStorage.token) store.dispatch({ type: LOGOUT })
+      if (!localStorage.token) {
+        store.dispatch({ type: LOGOUT })
+        store.dispatch({ type: CLEAR_PROFILE })
+      }
     })
 
   }, [])

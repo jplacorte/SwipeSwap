@@ -55,4 +55,7 @@ export const login = (name, email, avatar) => async dispatch => {
 }
 
 // Logout
-export const logout = () => ({ type: LOGOUT });
+export const logout =  () => dispatch => {
+    dispatch({ type: LOGOUT });
+    dispatch({ type: CLEAR_PROFILE });
+}
