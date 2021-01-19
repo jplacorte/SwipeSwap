@@ -65,10 +65,10 @@ export const getSwappedItems = () => async dispatch => {
 // @route   GET item/:id
 // @des     Get item by id
 // @access  Private
-export const getItemById = itemID => async dispatch => {
+export const getItemById = id => async dispatch => {
     try {
 
-        const res = await api.get(`/item/${itemID}`);
+        const res = await api.get(`/item/${id}`);
 
         dispatch({
             type: GET_ITEM,

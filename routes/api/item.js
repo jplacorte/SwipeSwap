@@ -7,6 +7,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary')
 
 const Item = require('../../models/Item')
 const User = require('../../models/User')
+const checkObjectId = require('../../middleware/checkObjectId');
 
 
 cloudinary.config({
@@ -66,7 +67,7 @@ router.get('/swipe/items/all', auth, async (req, res) => {
 // @route   GET api/item/:id
 // @des     Get item by id
 // @access  Private
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', auth, checkObjectId('id'), async (req, res) => {
     try {
         const item = await Item.findById(req.params.id)
         
