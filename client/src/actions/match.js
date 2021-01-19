@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../utils/api';
 import {
     GET_MATCH,
     MATCH_FOUND,
@@ -14,7 +14,7 @@ import {
 export const getAllMatch = () => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/match`);
+        const res = await api.get(`/match`);
 
         dispatch({
             type: GET_MATCH,
@@ -35,7 +35,7 @@ export const getAllMatch = () => async dispatch => {
 export const superWant = (itemID, ownerID) => async dispatch => {
     try {
 
-        const res = await axios.post(`/api/want/superwant/${itemID}/${ownerID}`);
+        const res = await api.post(`/want/superwant/${itemID}/${ownerID}`);
 
         dispatch({
             type: SUPERWANT,
@@ -56,7 +56,7 @@ export const superWant = (itemID, ownerID) => async dispatch => {
 export const acceptSuperWant = (transID) => async dispatch => {
     try {
 
-        const res = await axios.put(`/api/want/${transID}`);
+        const res = await api.put(`/want/${transID}`);
 
         dispatch({
             type: ACCEPT_SUPERWANT,
@@ -77,7 +77,7 @@ export const acceptSuperWant = (transID) => async dispatch => {
 export const declineSuperWant = (transID) => async dispatch => {
     try {
 
-        const res = await axios.put(`/api/want/dec/${transID}`);
+        const res = await api.put(`/want/dec/${transID}`);
 
         dispatch({
             type: DECLINE_SUPERWANT,

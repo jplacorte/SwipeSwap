@@ -1,12 +1,11 @@
-import axios from 'axios';
-import { setAlert } from './alert';
+import api from '../utils/api';
 
 import { GET_CONVERSATIONS, CONVERSATION_ERROR } from './types';
 
 export const getUserConversation = () => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/chat`);
+        const res = await api.get(`/chat`);
 
         dispatch({
             type: GET_CONVERSATIONS,
@@ -28,7 +27,7 @@ export function useGetConversations() {
     const getConversations = async () => {
         try {
 
-            const res = await axios.get(`/api/chat`);
+            const res = await api.get(`/chat`);
     
             return res.data
 
@@ -47,7 +46,7 @@ export function useGetConversationMessages() {
     const getConversationMessages = async (id) => {
         try {
 
-            const res = await axios.get(`/api/chat/${id}`);
+            const res = await api.get(`/chat/${id}`);
     
             return res.data
 
@@ -74,7 +73,7 @@ export function useSendConversationMessage() {
             to: id, convID: convID, body: body
         }
         try{
-            const res = await axios.post(`/api/chat/messages/${trans_id}`, data, config)
+            const res = await api.post(`/chat/messages/${trans_id}`, data, config)
             return res.data
         }
         catch(err)
@@ -97,7 +96,7 @@ export const createConversation = async (id, trans_id) => {
     }
     try {
 
-        const res = await axios.post(`/api/chat/${trans_id}`, data, config)
+        const res = await api.post(`/chat/${trans_id}`, data, config)
         return res.data
 
     } catch (err) {

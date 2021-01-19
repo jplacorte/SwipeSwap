@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../utils/api';
 import { setAlert } from './alert';
 import {
     USER_LOADED,
@@ -8,29 +8,22 @@ import {
     LOGOUT,
     CLEAR_PROFILE
 } from './types';
-import setAuthToken from '../utils/setAuthToken';
 
 // Load User
 export const loadUser = () => async dispatch => {
-    if(localStorage.token){
-        setAuthToken(localStorage.token);
-    }
-
     try {
-
-        const res = await axios.get(`/api/auth`);
-
-        dispatch({
-            type: USER_LOADED,
-            payload: res.data
-        });
-
+      const res = await api.get('/auth');
+  
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data
+      });
     } catch (err) {
-        dispatch({
-            type: AUTH_ERROR
-        })
+      dispatch({
+        type: AUTH_ERROR
+      });
     }
-}
+};
 
 // Login User
 export const login = (name, email, avatar) => async dispatch => {
@@ -43,7 +36,7 @@ export const login = (name, email, avatar) => async dispatch => {
     const body = JSON.stringify({ name, email, avatar });
 
     try {
-        const res = await axios.post(`/api/auth`, body, config);
+        const res = await api.post(`/auth`, body, config);
 
         dispatch({
             type: LOGIN_SUCCESS,
@@ -61,7 +54,5 @@ export const login = (name, email, avatar) => async dispatch => {
     }
 }
 
-export const logout =  () => dispatch => {
-        dispatch({ type: LOGOUT });
-        dispatch({ type: CLEAR_PROFILE });
-}
+// Logout
+export const logout = () => ({ type: LOGOUT });

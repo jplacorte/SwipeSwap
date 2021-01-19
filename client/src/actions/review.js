@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { setAlert } from './alert';
+import api from '../utils/api';
 
 import {
     GET_REVIEWS,
@@ -10,7 +9,7 @@ import {
 export const getReviews = () => async dispatch => {
     try {
         
-        const res = await axios.get('/api/review');
+        const res = await api.get('/review');
 
         dispatch({
             type: GET_REVIEWS,
@@ -35,7 +34,7 @@ export const submitReview = (item_id, owner_id, formData) => async dispatch => {
             }
         }
 
-        const res = await axios.post(`/api/review/${item_id}/${owner_id}`, formData, config);
+        const res = await api.post(`/review/${item_id}/${owner_id}`, formData, config);
 
         dispatch({
             type: REVIEW,

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../utils/api';
 import { setAlert } from './alert';
 
 import {
@@ -22,7 +22,7 @@ import {
 export const getAllItemsByUser = () => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/item`);
+        const res = await api.get(`/item`);
 
         dispatch({
             type: GET_ITEMS,
@@ -45,7 +45,7 @@ export const getAllItemsByUser = () => async dispatch => {
 export const getSwappedItems = () => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/item/swapped/items`);
+        const res = await api.get(`/item/swapped/items`);
 
         dispatch({
             type: GET_SWAPPED_ITEMS,
@@ -68,7 +68,7 @@ export const getSwappedItems = () => async dispatch => {
 export const getItemById = itemID => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/item/${itemID}`);
+        const res = await api.get(`/item/${itemID}`);
 
         dispatch({
             type: GET_ITEM,
@@ -88,7 +88,7 @@ export const getItemById = itemID => async dispatch => {
 export const openItemModal = id => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/item/${id}`);
+        const res = await api.get(`/item/${id}`);
 
         dispatch({
             type: OPEN_ITEM_MODAL,
@@ -110,7 +110,7 @@ export const openItemModal = id => async dispatch => {
 export const getAllItem = () => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/item/swipe/items/all`);
+        const res = await api.get(`/item/swipe/items/all`);
 
         dispatch({
             type: GET_ITEMS,
@@ -140,7 +140,7 @@ export const addItem = (formData) => async dispatch => {
             }
         }
 
-        const res = await axios.post(`/api/item`, formData, config);
+        const res = await api.post(`/item`, formData, config);
 
         dispatch({
             type: ADD_ITEMS,
@@ -175,7 +175,7 @@ export function useUploadPhoto(){
                 'Content-Type': 'multipart/form-data'
               }
             }
-            const res = await axios.post(`/api/item/upload/image`, photoData, config);
+            const res = await api.post(`/item/upload/image`, photoData, config);
 
             return res.data
 
@@ -197,7 +197,7 @@ export const updateItem = (formData, itemID) => async dispatch => {
             }
         }
 
-        const res = await axios.put(`/api/item/${itemID}`, formData, config);
+        const res = await api.put(`/item/${itemID}`, formData, config);
 
         dispatch({
             type: UPDATE_ITEMS,
@@ -231,7 +231,7 @@ export const rateItem = (formData, itemID) => async dispatch => {
             }
         }
 
-        const res = await axios.put(`/api/item/review/${itemID}`, formData, config);
+        const res = await api.put(`/item/review/${itemID}`, formData, config);
 
         dispatch({
             type: RATE_ITEMS,
@@ -267,7 +267,7 @@ export const uploadImage = (file, item_id) => async dispatch => {
             }
         }
 
-        const res = await axios.put(`/api/item/upload/photo/${item_id}`, photoData, config)
+        const res = await api.put(`/item/upload/photo/${item_id}`, photoData, config)
 
         dispatch({
             type: UPLOAD_ITEM_IMAGE,
@@ -288,7 +288,7 @@ export const uploadImage = (file, item_id) => async dispatch => {
 export const wantItem = (itemID, userID) => async dispatch => {
     try {
 
-        const res = await axios.post(`/api/want/${itemID}/${userID}`);
+        const res = await api.post(`/want/${itemID}/${userID}`);
 
         dispatch({
             type: WANT_ITEM,
@@ -316,7 +316,7 @@ export const wantItem = (itemID, userID) => async dispatch => {
 export const getReceivedItems = () => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/transaction/swap/received/`)
+        const res = await api.get(`/transaction/swap/received/`)
 
         dispatch({
             type: GET_RECEIVED_ITEM,
@@ -339,7 +339,7 @@ export const getReceivedItems = () => async dispatch => {
 export const getReceivedItemsModal = (itemID) => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/profile/swap/received/${itemID}`)
+        const res = await api.get(`/profile/swap/received/${itemID}`)
 
         dispatch({
             type: GET_RECEIVED_ITEM_MODAL,

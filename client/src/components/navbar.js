@@ -39,13 +39,13 @@ class Navbar extends React.Component {
         <div className="sidemenu-logo my-4 mx-5">SWIPE<span>SWAP</span></div>
          <MDBListGroup className="sidemenu-list">
 
-          <NavLink to="/homepage" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
+          <a href="/homepage" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="sync" className="mr-3" />SwipeSwap</MDBListGroupItem>
-          </NavLink>
+          </a>
 
-          <NavLink to="/profile" activeStyle={{ fontWeight: "bold",color: "#167D7F!important" }}>
+          <a href="/profile" activeStyle={{ fontWeight: "bold",color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="user" className="mr-3" />My Profile</MDBListGroupItem>
-          </NavLink>
+          </a>
           
           <NavLink to="/marketplace" activeStyle={{ fontWeight: "bold", color: "#167D7F!important" }}>
           <MDBListGroupItem hover><MDBIcon icon="shopping-cart" className="mr-3" />Marketplace<MDBBadge className="ml-2" color="teal">Coming Soon!</MDBBadge></MDBListGroupItem>

@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { setAlert } from './alert';
+import api from '../utils/api';
 
 import {
     GET_TRANSACTION,
@@ -21,7 +20,7 @@ import {
 export const getAllTransaction = () => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/transaction`);
+        const res = await api.get(`/transaction`);
 
         dispatch({
             type: GET_TRANSACTIONS,
@@ -44,7 +43,7 @@ export const getAllTransaction = () => async dispatch => {
 export const getUserWantTransaction = () => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/want/`);
+        const res = await api.get(`/want`);
 
         dispatch({
             type: GET_USER_WANT_TRANSACTION,
@@ -67,7 +66,7 @@ export const getUserWantTransaction = () => async dispatch => {
 export const getUserWant1 = () => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/want/user/1`);
+        const res = await api.get(`/want/user/1`);
 
         dispatch({
             type: GET_USER_WANT_1,
@@ -90,7 +89,7 @@ export const getUserWant1 = () => async dispatch => {
 export const getUserWant2 = () => async dispatch => {
     try {
 
-        const res = await axios.get(`/api/want/want/user/2`);
+        const res = await api.get(`/want/want/user/2`);
 
         dispatch({
             type: GET_USER_WANT_2,
@@ -113,7 +112,7 @@ export const getUserWant2 = () => async dispatch => {
 export const getTrans = (con_id, trans_id) => async dispatch => {
     try {
         
-        const res = await axios.get(`/api/transaction/trans/chat/get/${con_id}/${trans_id}`);
+        const res = await api.get(`/transaction/trans/chat/get/${con_id}/${trans_id}`);
 
         dispatch({
             type: GET_CHATS,
@@ -136,7 +135,7 @@ export const getTrans = (con_id, trans_id) => async dispatch => {
 export const getTransactionUsers = trans_id => async dispatch => {
     try {
         
-        const res = await axios.get(`/api/transaction/match/chat/users/${trans_id}`);
+        const res = await api.get(`/transaction/match/chat/users/${trans_id}`);
 
         dispatch({
             type: GET_TRANSACTION_USERS,
@@ -165,7 +164,7 @@ export const approve = (formData, item_id, owner_id) => async dispatch => {
 
     try {
         
-        const res = await axios.post(`/api/transaction/swapped/${item_id}/${owner_id}`, formData, config);
+        const res = await api.post(`/transaction/swapped/${item_id}/${owner_id}`, formData, config);
 
         dispatch({
             type: GET_TRANSACTION_USERS,
