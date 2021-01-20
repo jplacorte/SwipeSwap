@@ -8,8 +8,9 @@ import { createConversation } from '../../actions/chat';
 import { useHistory } from 'react-router-dom';
 
 const Notification = ({ id, userID, name, message, profilePic, timestamp, superwant, usersuperwant, acceptSuperWant, declineSuperWant, accepted, messaged }) => {
-    const accept = (val) => {
-      acceptSuperWant(val)
+    const accept = (val, user_id) => {
+      acceptSuperWant(val, user_id)
+      console.log(user_id)
       window.location.reload(false)
     }
     const decline = (val) => {
@@ -71,7 +72,7 @@ const Notification = ({ id, userID, name, message, profilePic, timestamp, superw
               messaged ? '' : <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => createMessage()}>Message</MDBBtn>
             }
             </>):(<>
-            <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => accept(id)}>Accept</MDBBtn>
+            <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => accept(id, userID)}>Accept</MDBBtn>
             <MDBBtn className="my-auto mr-3 notif-btn-decline p-1 text-capitalize" onClick={val => decline(id)}>Decline</MDBBtn></>)
             
             }

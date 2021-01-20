@@ -16,17 +16,10 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
         getConversations().then((res) => setConversations(res));
     }, [newConversation]);
     
-    //Dev
-    // useEffect(() => {
-    //     let socket = require('socket.io-client')('http://localhost:5000', {
-    //         path: '/chat/socket.io'
-    //     });
-    //     socket.on("messages", (data) => setNewConversation(data));
-    
-    //     return () => {
-    //       socket.removeListener("messages");
-    //     };
-    // }, []);
+    let userid
+    if(isAuthenticated){
+      userid = user._id
+    }
 
     useEffect(() => {
         let socket = require('socket.io-client')('/', {
@@ -41,13 +34,13 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
             transition: Slide
         }));
         
-        socket.on("accept", (data) => toast.success(`Superwant accepted by ${data}!`, {
+        socket.on(`accept${userid}`, (data) => toast.success(`Superwant accepted by ${data}!`, {
             transition: Slide
         }));
     
         return () => {
           socket.removeListener("messages");
-          socket.removeListener("accept");
+          socket.removeListener(`accept${userid}`);
         };
     }, []);
 

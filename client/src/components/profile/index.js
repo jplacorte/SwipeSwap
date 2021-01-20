@@ -12,7 +12,7 @@ import Navbar from '../navbar';
 import ProfileTabs from './tabs';
 
 
-const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurrentProfile, updateAvatar, history }) => {
+const Profile = ({ profile:{ profile, loading }, auth: { isAuthenticated, user }, createProfile,  getCurrentProfile, updateAvatar, history }) => {
   
   const [formData, setFormData] = useState({
     name: '',
@@ -49,31 +49,36 @@ const Profile = ({ profile:{ profile, loading }, auth, createProfile,  getCurren
     })
   }, [getCurrentProfile, loading]);
 
-  useEffect(() => {
+  let userid
+    if(isAuthenticated){
+      userid = user._id
+    }
+    useEffect(() => {
       
-    let socket = require('socket.io-client')('/', {
-      secure: true,
-      rejectUnauthorized: false,
-      path: '/chat/socket.io'
-    });
+      let socket = require('socket.io-client')('/', {
+        secure: true,
+        rejectUnauthorized: false,
+        path: '/chat/socket.io'
+      });
 
-    socket.on("messageFrom", (data) => toast(`New message from ${data}`, {
-      transition: Slide
-    }));
+      socket.on(`messageFrom${userid}`, (data) => toast(`New message from ${data}`, {
+        transition: Slide
+      }));
 
-    socket.on("match", (data) => toast.success(data, {
-      transition: Slide
-    }));
+      socket.on(`match${userid}`, (data) => toast.success(data, {
+        transition: Slide
+      }));
 
-    socket.on("accept", (data) => toast.success(`Superwant accepted by ${data}!`, {
-      transition: Slide
-    }));
+      socket.on(`accept${userid}`, (data) => toast.success(`Superwant accepted by ${data}!`, {
+        transition: Slide
+      }));
 
-    return () => {
-      socket.removeListener("messageFrom");
-      socket.removeListener("accept");
-    };
-  }, []);
+      return () => {
+        socket.removeListener(`messageFrom${userid}`);
+        socket.removeListener(`accept${userid}`);
+        socket.removeListener(`match${userid}`);
+      };
+    }, []);
 
     const onChangePicture = e => {
         setPicture(URL.createObjectURL(e.target.files[0]));

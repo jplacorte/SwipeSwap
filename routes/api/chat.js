@@ -97,7 +97,7 @@ router.post('/messages/:trans_id', auth, async (req, res) => {
             })
             
             await req.io.sockets.emit('messages', req.body.body)
-            await req.io.sockets.emit('messageFrom', fromProfile.user.name)
+            await req.io.sockets.emit(`messageFrom${req.body.to}`, fromProfile.user.name)
 
             await chat.save()
             return res.json(chat)

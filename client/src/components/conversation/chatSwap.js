@@ -44,7 +44,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transact
       approve(formData, itemID2, userID2)
       submitReview(itemID, userID2, formData)
       setTimeout(() => {
-        history.push('/profile')
+        document.location.href='/profile'
       }, 1000);
       
     }

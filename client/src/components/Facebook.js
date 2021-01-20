@@ -36,9 +36,7 @@ const Facebook = ({ login, isAuthenticated }) => {
             icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
             isDisabled
         />)
-        setTimeout(() => {
-            document.location.href="/profile"
-        }, 2500)     
+        document.location.href="/profile"   
     }
     return (               
         <Fragment>

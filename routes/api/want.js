@@ -72,7 +72,7 @@ router.post('/:item_id/:owner_id', auth, async (req, res) => {
 
     if(checkUser1 && checkUser2){
 
-        await req.io.sockets.emit('match', 'Match found! Please check your notification')
+        await req.io.sockets.emit(`match${req.params.owner_id}`, 'Match found! Please check your notification')
 
         match = await Match.findOneAndUpdate(
             { user1: req.params.owner_id, user2: req.user.id },
@@ -191,7 +191,8 @@ router.put('/:trans_id', auth, async (req, res) => {
     const owner = await Profile.findOne({user:req.user.id}).populate('user', ['name'])
 
     try {
-        await req.io.sockets.emit('accept', owner.user.name)
+        
+        await req.io.sockets.emit(`accept${req.body.user}`, owner.user.name)
 
         transaction = await Transaction.findOneAndUpdate(
             { _id: req.params.trans_id },

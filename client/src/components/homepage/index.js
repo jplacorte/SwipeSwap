@@ -12,14 +12,18 @@ import Carousel, { slideNext, slidePrev } from "./carousel";
 import { getAllItem, wantItem } from '../../actions/item';
 import { superWant } from '../../actions/match';
 
-const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) => {
+const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading }, auth: { isAuthenticated, user } }) => {
 
     useEffect(() => {
       
       getAllItem() 
 
     }, [getAllItem])
-
+    
+    let userid
+    if(isAuthenticated){
+      userid = user._id
+    }
     useEffect(() => {
       
       let socket = require('socket.io-client')('/', {
@@ -28,21 +32,22 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
         path: '/chat/socket.io'
       });
 
-      socket.on("messageFrom", (data) => toast(`New message from ${data}`, {
+      socket.on(`messageFrom${userid}`, (data) => toast(`New message from ${data}`, {
         transition: Slide
       }));
 
-      socket.on("match", (data) => toast.success(data, {
+      socket.on(`match${userid}`, (data) => toast.success(data, {
         transition: Slide
       }));
 
-      socket.on("accept", (data) => toast.success(`Superwant accepted by ${data}!`, {
+      socket.on(`accept${userid}`, (data) => toast.success(`Superwant accepted by ${data}!`, {
         transition: Slide
       }));
 
       return () => {
-        socket.removeListener("messageFrom");
-        socket.removeListener("accept");
+        socket.removeListener(`messageFrom${userid}`);
+        socket.removeListener(`accept${userid}`);
+        socket.removeListener(`match${userid}`);
       };
     }, []);
 
@@ -365,7 +370,8 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading } }) 
   }
 
 const mapStateToProps = state => ({
-  item: state.item
+  item: state.item,
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { getAllItem, wantItem, superWant })(HomePage);

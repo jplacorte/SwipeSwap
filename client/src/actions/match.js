@@ -53,10 +53,21 @@ export const superWant = (itemID, ownerID) => async dispatch => {
 }
 
 //Accept Super Want
-export const acceptSuperWant = (transID) => async dispatch => {
+export const acceptSuperWant = (transID, user_id) => async dispatch => {
+    
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    let data = {
+        user: user_id
+    }
+
     try {
 
-        const res = await api.put(`/want/${transID}`);
+        const res = await api.put(`/want/${transID}`, data, config);
 
         dispatch({
             type: ACCEPT_SUPERWANT,
