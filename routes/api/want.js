@@ -230,23 +230,80 @@ router.put('/dec/:trans_id', auth, async (req, res) => {
 })
 
 // @route   PUT api/want/change/owner/:trans_id
-// @des     Change item by owner
+// @des     Change item superwant
 // @access  Private
 router.put('/change/owner/:trans_id', auth, async (req, res) => {
-    const {
-        item
-    } = req.body
-    const itemparams = await Item.findById(item)
-    try {
-        transaction = await Transaction.findOneAndUpdate(
-            { _id: req.params.trans_id },
-            { $set: {users:{ item:item, itemname:itemparams.itemname, itemphoto:itemparams.photo[0].url }} },
-            { new: true }
-        )
-        return res.json(transaction)
-    } catch (err){
-        console.error(err.message)
-        res.status(500).send('Server Error')
+
+    const itemparams = await Item.findById(req.body.item)
+    const checkUser = await Transaction.findOne({ owner: req.user.id }).select('owner')
+    const checkUser2 = await Transaction.findOne({ userwant: req.user.id }).select('userwant')
+    const checkUser3 = await Transaction.findOne({ user1: req.user.id }).select('user1')
+
+    console.log("ajapsjdpasjdpo")
+    if(checkUser){
+    
+        try {
+            trans = await Transaction.findOneAndUpdate(
+                { _id: req.params.trans_id },
+                { $set: { item: req.body.item, itemname: itemparams.itemname, itemdesc: itemparams.description, itemphoto: itemparams.photo[0].url } }
+            )
+            
+            await req.io.sockets.emit('change', 'item change')
+
+            return res.json(trans)
+
+        } catch (err){
+            console.error(err.message)
+            res.status(500).send('Server Error')
+        }
+
+    }else if(checkUser2){
+
+        try {
+            trans = await Transaction.findOneAndUpdate(
+                { _id: req.params.trans_id },
+                { $set: { userwantitem: req.body.item, userwantitemname: itemparams.itemname, userwantitemdesc: itemparams.description, userwantitemphoto: itemparams.photo[0].url } }
+            )
+            
+            await req.io.sockets.emit(`change`, req.params.trans_id)
+
+            return res.json(trans)
+
+        } catch (err){
+            console.error(err.message)
+            res.status(500).send('Server Error')
+        }
+    }else if (checkUser3){
+        try {
+            trans = await Transaction.findOneAndUpdate(
+                { _id: req.params.trans_id },
+                { $set: { item1: req.body.item, itemname1: itemparams.itemname, itemdesc1: itemparams.description, itemphoto1: itemparams.photo[0].url } }
+            )
+            
+            await req.io.sockets.emit(`change`, req.params.trans_id)
+
+            return res.json(trans)
+
+        } catch (err){
+            console.error(err.message)
+            res.status(500).send('Server Error')
+        }
+    }else{
+        try {
+            trans = await Transaction.findOneAndUpdate(
+                { _id: req.params.trans_id },
+                { $set: { item2: req.body.item, itemname2: itemparams.itemname, itemdesc2: itemparams.description, itemphoto2: itemparams.photo[0].url } }
+            )
+            
+            await req.io.sockets.emit(`change`, req.params.trans_id)
+
+            return res.json(trans)
+
+        } catch (err){
+            console.error(err.message)
+            res.status(500).send('Server Error')
+        }
     }
 })
+
 module.exports = router

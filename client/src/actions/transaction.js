@@ -1,13 +1,13 @@
 import api from '../utils/api';
 
 import {
-    GET_TRANSACTION,
+    // GET_TRANSACTION,
     GET_TRANSACTIONS,
     GET_TRANSACTION_USERS,
     GET_USER_WANT_TRANSACTION,
-    GET_CHAT,
+    // GET_CHAT,
     GET_CHATS,
-    SET_DATE_TRANS,
+    // SET_DATE_TRANS,
     APPROVE,
     TRANSACTION_ERROR,
     GET_USER_WANT_1,
@@ -167,7 +167,7 @@ export const approve = (formData, item_id, owner_id) => async dispatch => {
         const res = await api.post(`/transaction/swapped/${item_id}/${owner_id}`, formData, config);
 
         dispatch({
-            type: GET_TRANSACTION_USERS,
+            type: APPROVE,
             payload: res.data
         });
 
@@ -179,4 +179,30 @@ export const approve = (formData, item_id, owner_id) => async dispatch => {
         });
 
     }
+}
+
+export function useUpdateItem(){
+    const updateItem = async (item_id, trans_id) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        let data = {
+            item: item_id
+        }
+
+        try {
+        
+            const res = await api.put(`/want/change/owner/${trans_id}`, data, config);
+            return res.data
+        
+        } catch (err) {
+        
+            console.error(err)
+
+        }
+    }
+    return updateItem
 }

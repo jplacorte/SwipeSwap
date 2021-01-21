@@ -22,7 +22,7 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
         if(isAuthenticated && user._id === result.owner){
           userID = result.userwant 
           userName = result.userwantname
-          itemID = result.userwantitem ? result.users.userwantitem : ''
+          itemID = result.userwantitem ? result.userwantitem : ''
         }else{
           userID = result.owner 
           userName = result.ownername

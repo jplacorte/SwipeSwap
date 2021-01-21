@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { MDBView, MDBMask, MDBIcon, MDBBtn, MDBModal, MDBModalFooter, MDBModalBody, MDBModalHeader, MDBRow, MDBCol, MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBRating } from 'mdbreact';
+import { MDBView, MDBMask, MDBIcon, MDBBtn, MDBModal, MDBModalFooter, MDBModalBody, MDBModalHeader, MDBRow, MDBCol, MDBRating } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import SwipeImage from '../../assets/images/sslogo.png';
 import ProfileAvatar from '../../assets/images/avatar.png';
 import { connect } from 'react-redux';
-import { getTrans, approve } from '../../actions/transaction';
+import { getTrans, approve, useUpdateItem } from '../../actions/transaction';
 import { getAllItemsByUser } from '../../actions/item';
 import { submitReview } from '../../actions/review';
 import Select from "react-select";
-import { useHistory } from 'react-router-dom';
-import ItemCondition from '../itemCondition'
+// import { useHistory } from 'react-router-dom';
+// import ItemCondition from '../itemCondition'
 
 const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transaction: { chats, loading }, auth: { isAuthenticated, user }, item: { items } }) => {
 
@@ -18,6 +18,22 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transact
       getTrans()
       getAllItemsByUser()
     }, [getTrans, getAllItemsByUser])
+
+    useEffect(() => {
+
+      let socket = require('socket.io-client')('/', {
+        secure: true,
+        rejectUnauthorized: false,
+        path: '/chat/socket.io'
+      });
+
+      socket.on(`change`, (data) => data === chats[0]._id ? document.location.reload() : '');
+
+      return () => {
+        socket.removeListener(`change`);
+      };
+
+    })
 
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
@@ -30,12 +46,10 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transact
     const [formData, setFormData] = useState({
       reviewdetails:''
     })
-    const [item_id, setItemId] = useState('')
+    const [item_id, setItemId] = useState(null)
     const {
       reviewdetails,
     } = formData
-
-    let history = useHistory()
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     
@@ -162,9 +176,14 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transact
     const onChangeItem = (e) => {
       setItemId(e.value)
     }
-
+    const updateItem = useUpdateItem()
     const changeItem = () => {
-      window.location.reload(false)
+      document.getElementById('update-btn').style.display = "";
+      document.getElementById('change-btn').style.display = "none";
+
+      updateItem(item_id, chats[0]._id).then(() => {
+        document.location.reload()
+      })
     }
 
     return (
@@ -185,7 +204,8 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transact
         </MDBModalBody>
           <MDBModalFooter className="mx-auto">
             <MDBBtn className="want-ignore-btn px-5 py-2" color="white" onClick={handleClose} >Close</MDBBtn>
-            <MDBBtn className="want-ignore-btn color1 px-5 py-2" onClick={changeItem}>Change</MDBBtn>
+            <MDBBtn className="want-ignore-btn color1 px-5 py-2" id="change-btn" onClick={changeItem}>Change</MDBBtn>
+            <MDBBtn className="want-ignore-btn color1 px-5 py-2" id="update-btn" style={{ display: 'none' }} disabled>Updating...</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
 
