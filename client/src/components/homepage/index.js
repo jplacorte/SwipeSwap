@@ -62,6 +62,8 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading }, au
     const [count, setCount] = useState(1)
     const [prev, setPrev] = useState(0)
     const [prevNotif, setPrevNotif] = useState(4)
+    const [swantNotif, setSwantNotif] = useState(4)
+    const [swantCount, setSwantCount] = useState(0)
   
     const [itemsData, setItemsData] = useState({
       item_id: '',
@@ -104,11 +106,24 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading }, au
     }
 
     const superwant = () => {
-      superWant(items[count]._id, items[count].user._id)
+      
+      if(swantCount < 5){
 
-      setCount(count => count + 1)
+        superWant(items[count]._id, items[count].user._id)
 
-      slideNext()
+        setSwantNotif(swantNotif - 1)
+
+        setSwantCount(swantCount => swantCount + 1)
+
+        setCount(count => count + 1)
+
+        slideNext()
+        
+        toast.info(`You have ${swantNotif === 0 ? "" : swantNotif} ${swantNotif === 0 ? "no super wants" : "super wants"} left`)
+
+      }else{
+        toast.error("Max limit reached!")
+      }
 
       if(count === items.length - 1){
         setCount(count => count = 0)
