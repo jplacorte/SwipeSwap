@@ -26,6 +26,9 @@ const UserTransactionSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'transaction'
     },
+    swapped: {
+        type: String
+    }
     
 })
 

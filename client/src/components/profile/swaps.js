@@ -4,9 +4,9 @@ import { MDBCol, MDBRow, MDBBtn, MDBModal, MDBRating, MDBCarousel, MDBCarouselIn
 import ItemImg from '../../assets/images/swipeswap_item.jpg';
 import Avatar from '../../assets/images/avatar.png';
 import ItemCondition from '../itemCondition';
-import { getReviews, submitReview } from '../../actions/review';
+import { getReviews } from '../../actions/review';
 
-const Swaps = ({ getReviews, submitReview, review: { reviews, loading } }) => {
+const Swaps = ({ getReviews, review: { reviews, loading } }) => {
   
   useEffect(() => {
     getReviews()
@@ -88,18 +88,18 @@ const Swaps = ({ getReviews, submitReview, review: { reviews, loading } }) => {
         tooltip: 'Outstanding'
       }
     ]);
-  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+  // const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = async e => {
-    e.preventDefault()
-    submitReview(item_id, owner_id, formData)
-    window.location.reload(false)
-  }
+  // const onSubmit = async e => {
+  //   e.preventDefault()
+  //   submitReview(item_id, owner_id, formData)
+  //   window.location.reload(false)
+  // }
   return (
         <div>
           {/* Modals */}
           {/* Rate Modal */}
-          <MDBModal isOpen={show} onHide={handleClose}>
+          {/* <MDBModal isOpen={show} onHide={handleClose}>
           <div className="item-details-modal">
           <MDBRow>
             <MDBCol md="12">
@@ -205,7 +205,7 @@ const Swaps = ({ getReviews, submitReview, review: { reviews, loading } }) => {
             </MDBCol>
           </MDBRow>
           </div>
-          </MDBModal>
+          </MDBModal> */}
         {/* //Rate Modal */}
          {/*//Modals  */}
         
@@ -213,7 +213,7 @@ const Swaps = ({ getReviews, submitReview, review: { reviews, loading } }) => {
           {
             reviews.map(review => (
               <MDBCol md="12">
-              <a onClick={val => handleShow(
+              {/* <a onClick={val => handleShow(
                 review.item,
                 review.owner,
                 review.review,
@@ -222,7 +222,7 @@ const Swaps = ({ getReviews, submitReview, review: { reviews, loading } }) => {
                 review.itemname,
                 review.itemdesc,
                 review.image
-              )}>
+              )}> */}
               <div className="chat">
                 <img src={review.image} className="rounded-circle chat-image mr-3" alt="Item Img.jpg" />
                 <div className="chat-details pt-3">
@@ -231,7 +231,7 @@ const Swaps = ({ getReviews, submitReview, review: { reviews, loading } }) => {
                 </div>
                 <img src={review.avatar ? review.avatar : Avatar} className="swap-item-img mr-3" alt="Owner Img.jpg"/>
             </div>
-            </a>
+            {/* </a> */}
           </MDBCol>
             ))
           }
@@ -246,4 +246,4 @@ const mapStateToProps = state => ({
   review: state.review
 });
 
-export default connect(mapStateToProps, { getReviews, submitReview })(Swaps);
+export default connect(mapStateToProps, { getReviews })(Swaps);

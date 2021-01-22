@@ -239,7 +239,6 @@ router.put('/change/owner/:trans_id', auth, async (req, res) => {
     const checkUser2 = await Transaction.findOne({ userwant: req.user.id }).select('userwant')
     const checkUser3 = await Transaction.findOne({ user1: req.user.id }).select('user1')
 
-    console.log("ajapsjdpasjdpo")
     if(checkUser){
     
         try {
@@ -248,7 +247,7 @@ router.put('/change/owner/:trans_id', auth, async (req, res) => {
                 { $set: { item: req.body.item, itemname: itemparams.itemname, itemdesc: itemparams.description, itemphoto: itemparams.photo[0].url } }
             )
             
-            await req.io.sockets.emit('change', 'item change')
+            await req.io.sockets.emit('change', req.params.trans_id)
 
             return res.json(trans)
 

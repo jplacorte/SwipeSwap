@@ -33,6 +33,10 @@ class Settings extends React.Component {
                     <div className="settings-list mt-2 p-2"><MDBIcon far icon="bell" className="mr-2" />Push Notifications</div>
                     <div className="settings-list mt-2 p-2"><MDBIcon far icon="envelope" className="mr-2" />Email Notifications</div>
                 </MDBCol>
+                <MDBCol md="12" className="px-3 mt-4">
+                    <div className="settings-header"><MDBIcon icon="user" className="mr-2" />Account Settings</div>
+                    <div className="settings-list mt-2 p-2"><MDBIcon far icon="trash-alt" className="mr-2" />Delete Account</div>
+                </MDBCol>
             </MDBRow>    
           </MDBContainer>
         </div>

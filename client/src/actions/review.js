@@ -3,6 +3,7 @@ import api from '../utils/api';
 import {
     GET_REVIEWS,
     REVIEW,
+    GET_SWAPPED_ITEMS, 
     REVIEW_ERROR
 } from './types'
 
@@ -25,8 +26,31 @@ export const getReviews = () => async dispatch => {
     }
 }
 
-export const submitReview = (item_id, owner_id, formData) => async dispatch => {
+// @route   GET item/swapped/items
+// @des     Get swapped items
+// @access  Private
+export const getSwappedItems = () => async dispatch => {
     try {
+
+        const res = await api.get(`/review/revs`);
+
+        dispatch({
+            type: GET_SWAPPED_ITEMS,
+            payload: res.data
+        });
+        
+    } catch (err) {
+
+        dispatch({
+            type: REVIEW_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status }
+        });
+    
+    }
+}
+
+export function useSubmitReview() {
+    const submitReview = async (item_id, owner_id, formData) => {
 
         const config = {
             headers: {
@@ -34,18 +58,17 @@ export const submitReview = (item_id, owner_id, formData) => async dispatch => {
             }
         }
 
-        const res = await api.post(`/review/${item_id}/${owner_id}`, formData, config);
+        try {
 
-        dispatch({
-            type: REVIEW,
-            payload: res.data
-        });
+            const res = await api.post(`/review/${item_id}/${owner_id}`, formData, config);
 
-    } catch (err) {
+            return res.data
+
+        } catch (err) {
         
-        dispatch({
-            type: REVIEW_ERROR,
-            payload: { msg: err.response.statusText, status: err.response.status }
-        });
+            console.error(err)
+
+        }
     }
+    return submitReview
 }

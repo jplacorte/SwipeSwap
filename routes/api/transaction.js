@@ -103,7 +103,8 @@ router.post('/:item_id', auth, async (req, res) => {
 // @access  Private
 router.post('/swapped/:item_id/:owner_id', auth, async (req, res) => {
     const {
-        reviewdetails
+        reviewdetails,
+        trans_id
     } = req.body
 
     const user = await User.findById(req.user.id)
@@ -121,6 +122,18 @@ router.post('/swapped/:item_id/:owner_id', auth, async (req, res) => {
             {_id: req.params.item_id},
             { $set: itemFields },
             { new: true }
+        )
+
+        trans = await Transaction.findOneAndUpdate(
+            {_id: trans_id},
+            {$set: {swapped: true}},
+            {new: true}
+        )
+
+        userTrans = await UserTransaction.findOneAndUpdate(
+            {transaction: trans_id},
+            {$set: {swapped: true}},
+            {new: true}
         )
     } catch (err) {
 

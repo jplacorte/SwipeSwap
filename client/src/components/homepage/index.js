@@ -44,10 +44,13 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading }, au
         transition: Slide
       }));
 
+      socket.on(`approve`, (data) => document.location.reload(false));
+
       return () => {
         socket.removeListener(`messageFrom${userid}`);
         socket.removeListener(`accept${userid}`);
         socket.removeListener(`match${userid}`);
+        socket.removeListener(`approve`);
       };
     }, []);
 
@@ -93,51 +96,58 @@ const HomePage = ({ getAllItem, wantItem, superWant, item:{ items, loading }, au
     } = itemsData
 
     const want = () => {
-      wantItem(items[count]._id, items[count].user._id)
 
-      setCount(count => count + 1)
+      if(count === items.length){
+        
+        toast.error("No more items")
 
-      slideNext()
+      }else{
+
+        wantItem(items[count]._id, items[count].user._id)
+
+        setCount(count => count + 1)
+
+        slideNext()
       
-      if(count === items.length - 1){
-        setCount(count => count = 0)
       }
 
     }
 
     const superwant = () => {
       
-      if(swantCount < 5){
-
-        superWant(items[count]._id, items[count].user._id)
-
-        setSwantNotif(swantNotif - 1)
-
-        setSwantCount(swantCount => swantCount + 1)
-
-        setCount(count => count + 1)
-
-        slideNext()
-        
-        toast.info(`You have ${swantNotif === 0 ? "" : swantNotif} ${swantNotif === 0 ? "no super wants" : "super wants"} left`)
-
+      if(count === items.length){
+        toast.error("No more items")
       }else{
-        toast.error("Max limit reached!")
-      }
 
-      if(count === items.length - 1){
-        setCount(count => count = 0)
+        if(swantCount < 5){
+
+          superWant(items[count]._id, items[count].user._id)
+  
+          setSwantNotif(swantNotif - 1)
+  
+          setSwantCount(swantCount => swantCount + 1)
+  
+          setCount(count => count + 1)
+  
+          slideNext()
+          
+          toast.info(`You have ${swantNotif === 0 ? "" : swantNotif} ${swantNotif === 0 ? "no super wants" : "super wants"} left`)
+  
+        }else{
+          toast.error("Max limit reached!")
+        }
       }
 
     }
 
     const boring = () => {
-      setCount(count => count + 1)
       
-      slideNext()
-
-      if(count === items.length - 1){
-        setCount(count => count = 0)
+      if(count === items.length ){
+        toast.error("No more items")
+      }else{
+        setCount(count => count + 1)
+      
+        slideNext()
       }
     }
 

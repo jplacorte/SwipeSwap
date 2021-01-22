@@ -73,10 +73,13 @@ const Profile = ({ profile:{ profile, loading }, auth: { isAuthenticated, user }
         transition: Slide
       }));
 
+      socket.on(`approve`, (data) => document.location.reload(false));
+
       return () => {
         socket.removeListener(`messageFrom${userid}`);
         socket.removeListener(`accept${userid}`);
         socket.removeListener(`match${userid}`);
+        socket.removeListener(`approve`);
       };
     }, []);
 

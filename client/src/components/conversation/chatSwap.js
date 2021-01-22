@@ -7,12 +7,12 @@ import ProfileAvatar from '../../assets/images/avatar.png';
 import { connect } from 'react-redux';
 import { getTrans, approve, useUpdateItem } from '../../actions/transaction';
 import { getAllItemsByUser } from '../../actions/item';
-import { submitReview } from '../../actions/review';
+import { useSubmitReview } from '../../actions/review';
 import Select from "react-select";
 // import { useHistory } from 'react-router-dom';
 // import ItemCondition from '../itemCondition'
 
-const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transaction: { chats, loading }, auth: { isAuthenticated, user }, item: { items } }) => {
+const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, loading }, auth: { isAuthenticated, user }, item: { items } }) => {
 
     useEffect(() => {
       getTrans()
@@ -52,16 +52,6 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transact
     } = formData
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-    
-    const onSubmit = async e => {
-      e.preventDefault();
-      approve(formData, itemID2, userID2)
-      submitReview(itemID, userID2, formData)
-      setTimeout(() => {
-        document.location.href='/profile'
-      }, 1000);
-      
-    }
 
     const approveTrans = () => {
       handleShow2()
@@ -184,6 +174,19 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transact
       updateItem(item_id, chats[0]._id).then(() => {
         document.location.reload()
       })
+    }
+
+    const submitReview = useSubmitReview()
+    const onSubmit = e => {
+      e.preventDefault();
+      
+      document.getElementById('cnfrming-btn').style.display = "";
+      document.getElementById('cnfrm-btn').style.display = "none";
+      document.getElementById('cancel-btn').style.display = "none";
+      submitReview(itemID2, userID2, formData).then(() => {
+        window.location = '/profile'
+      })
+      
     }
 
     return (
@@ -325,8 +328,9 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, submitReview, transact
                     />
                   </div>
                   <div className="mx-auto mt-4">
-                    <MDBBtn className="modal-btn-sm p-2 px-4" color="white" onClick={handleClose2}>Cancel</MDBBtn>
-                    <MDBBtn  className="modal-btn-sm p-2 px-4 color1" type="submit">Confirm</MDBBtn>
+                    <MDBBtn className="modal-btn-sm p-2 px-4" color="white" onClick={handleClose2} id="cancel-btn">Cancel</MDBBtn>
+                    <MDBBtn  className="modal-btn p-2 px-4 color1"id="cnfrming-btn" style={{ display:'none' }} disabled>Confirming...</MDBBtn>
+                    <MDBBtn  className="modal-btn-sm p-2 px-4 color1" type="submit" id="cnfrm-btn">Confirm</MDBBtn>
                    </div>
                   </form>
               </div>
@@ -381,4 +385,4 @@ const mapStateToProps = state => ({
   item: state.item
 })
 
-export default connect( mapStateToProps, { getTrans, approve, submitReview, getAllItemsByUser })(ChatSwap);
+export default connect( mapStateToProps, { getTrans, approve, getAllItemsByUser })(ChatSwap);

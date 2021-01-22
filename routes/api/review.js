@@ -6,11 +6,30 @@ const Review = require('../../models/Review')
 const Item = require('../../models/Item')
 
 // @route   GET api/review/
-// @des     Get all reviews from user
+// @des     Get swapped items
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {
         const review = await Review.find({ user: req.user.id })
+
+        if(!review){
+            return res.status(400).json({ msg: 'Empty...' })
+        }
+
+        res.json(review)
+
+    } catch (err) {
+        console.error(err)
+        res.status(500).send("Server Error")
+    }
+})
+
+// @route   GET api/review/
+// @des     Get all reviews
+// @access  Private
+router.get('/revs', auth, async (req, res) => {
+    try {
+        const review = await Review.find({ owner: req.user.id })
 
         if(!review){
             return res.status(400).json({ msg: 'Empty...' })
@@ -49,6 +68,14 @@ router.post('/:id/:owner_id', auth, async (req, res) => {
                 { new: true }
             )
         }else{
+            await req.io.sockets.emit(`approve`, 'item approved')
+
+            await Item.findByIdAndUpdate(
+                {_id: req.params.id},
+                { $set: { swapped: true } },
+                { new: true }
+            )
+
             review = new Review({
                 user: req.user.id,
                 owner: owner.user._id,

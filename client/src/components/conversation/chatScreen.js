@@ -5,7 +5,7 @@ import { getTrans } from '../../actions/transaction';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
-import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBNavbar, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
+import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBNavbar, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBView, MDBMask } from 'mdbreact';
 import ChatSwap from './chatSwap';
 import 'react-chat-elements/dist/main.css';
 import { useGetConversationMessages, useSendConversationMessage } from '../../actions/chat';
@@ -94,8 +94,8 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
   
-    // const [ inputFile, setInputFile ] = useState ('');
-    // const [ input, setInput ] = useState ('');
+    const [ inputFile, setInputFile ] = useState ('');
+    const [ input, setInput ] = useState ('');
     // const [ messages, setMessages ] = useState ([
         {
             // name: 'John Phillip Lacorte',
@@ -201,7 +201,7 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
                 )
             )}
                     <form className="chat-screen-input" onSubmit={handleSubmit}>
-                    {/* <div className="input-group" style={{width: '50px', zIndex: '-1'}}
+                    <div className="input-group" style={{width: '50px', zIndex: '-1'}}
                     >
                       <MDBView className="custom-file mt-1">
                       <MDBIcon icon="paperclip" size="lg" style={{color: '#167D7F'}} />
@@ -215,7 +215,7 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
                         />
                         </MDBMask>
                       </MDBView>
-                    </div> */}
+                    </div>
                         <input 
                             name="message"
                             onChange={(e) => setNewMessage(e.target.value)}

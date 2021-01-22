@@ -134,6 +134,9 @@ const TransactionSchema = new mongoose.Schema({
     },
     accepted: {
         type: String
+    },
+    swapped: {
+        type: String
     }
 })
 

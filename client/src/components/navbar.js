@@ -63,7 +63,6 @@ class Navbar extends React.Component {
           <MDBListGroupItem hover><MDBIcon icon="question" className="mr-3" />Support</MDBListGroupItem>
           </NavLink>
 
-          <MDBListGroupItem className="red-text" href="#" hover><MDBIcon icon="trash-alt" className="mr-3" />Delete Account</MDBListGroupItem>
           </MDBListGroup>
         
         

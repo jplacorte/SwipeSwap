@@ -9,7 +9,6 @@ import {
     WANT_ITEM,
     RATE_ITEMS,
     ITEMS_ERROR,
-    GET_SWAPPED_ITEMS, 
     OPEN_ITEM_MODAL,
     UPLOAD_ITEM_IMAGE,
     GET_RECEIVED_ITEM,
@@ -26,29 +25,6 @@ export const getAllItemsByUser = () => async dispatch => {
 
         dispatch({
             type: GET_ITEMS,
-            payload: res.data
-        });
-        
-    } catch (err) {
-
-        dispatch({
-            type: ITEMS_ERROR,
-            payload: { msg: err.response.statusText, status: err.response.status }
-        });
-    
-    }
-}
-
-// @route   GET item/swapped/items
-// @des     Get swapped items
-// @access  Private
-export const getSwappedItems = () => async dispatch => {
-    try {
-
-        const res = await api.get(`/item/swapped/items`);
-
-        dispatch({
-            type: GET_SWAPPED_ITEMS,
             payload: res.data
         });
         

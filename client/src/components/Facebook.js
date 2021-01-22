@@ -36,7 +36,7 @@ const Facebook = ({ login, isAuthenticated }) => {
             icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
             isDisabled
         />)
-        document.location.href="/profile"   
+        window.location="/profile"   
     }
     return (               
         <Fragment>

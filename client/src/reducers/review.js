@@ -1,8 +1,9 @@
-import { GET_REVIEWS, REVIEW, REVIEW_ERROR } from '../actions/types';
+import { GET_REVIEWS, REVIEW, REVIEW_ERROR, GET_SWAPPED_ITEMS } from '../actions/types';
 
 const initialState = {
     review: null,
     reviews: [],
+    swappedItems:[],
     loading: true,
     error: {}
 }
@@ -15,6 +16,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 reviews: payload,
+                loading: false
+            };
+        case GET_SWAPPED_ITEMS:
+            return {
+                ...state,
+                swappedItems: payload,
                 loading: false
             };
         case REVIEW_ERROR:
