@@ -7,6 +7,7 @@ import transaction from './transaction';
 import match from './match';
 import chat from './chat';
 import review from './review';
+import limit from './limit';
 
 export default combineReducers({
     alert,
@@ -16,5 +17,6 @@ export default combineReducers({
     transaction,
     match,
     chat,
-    review
+    review,
+    limit
 });

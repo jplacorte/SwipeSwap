@@ -7,6 +7,7 @@ const { check, validationResult } = require('express-validator')
 
 const User = require('../../models/User')
 const Profile = require('../../models/Profile')
+const Limitation = require('../../models/Limitation')
 
 
 // @route    GET api/auth
@@ -38,7 +39,18 @@ router.post('/',
         
         try {
             let user = await User.findOne({ email })
+            
+            let checkUser = await Limitation.findOne({ user: user._id }).select('user')
+            
+            if(!checkUser){
+                limit = new Limitation({
+                    user: user._id,
+                    rewind: 0,
+                    superwant: 0
+                })
 
+                await limit.save()
+            }
             if(!user){            
                 user = new User({
                     name,
@@ -56,7 +68,14 @@ router.post('/',
 
                     profile = new Profile(profileFields)
                     await profile.save()
-                })   
+                })
+                limit = new Limitation({
+                    user: docs._id,
+                    rewind: 0,
+                    superwant: 0
+                })
+    
+                await limit.save()   
                 
             }
 

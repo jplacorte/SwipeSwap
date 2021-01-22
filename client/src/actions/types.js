@@ -47,3 +47,6 @@ export const CONVERSATION_ERROR = "CONVERSATION_ERROR";
 export const GET_REVIEWS = "GET_REVIEWS";
 export const REVIEW = "REVIEW";
 export const REVIEW_ERROR = "REVIEW_ERROR";
+export const GET_ALL_LIMITS = "GET_ALL_LIMITS";
+export const ADD_LIMITS = "ADD_LIMITS";
+export const LIMIT_ERROR = "LIMIT_ERROR";

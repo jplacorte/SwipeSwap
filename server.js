@@ -12,6 +12,7 @@ const match = require('./routes/api/match')
 const want = require('./routes/api/want')
 const chat = require('./routes/api/chat')
 const review = require('./routes/api/review')
+const limitation = require('./routes/api/limitation')
 
 const app = express()
 
@@ -56,3 +57,4 @@ app.use('/api/match', match)
 app.use('/api/want', want)
 app.use('/api/chat', chat)
 app.use('/api/review', review)
+app.use('/api/limitation', limitation)
