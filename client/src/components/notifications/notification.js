@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
@@ -7,7 +7,29 @@ import { connect } from 'react-redux';
 import { createConversation } from '../../actions/chat';
 import { useHistory } from 'react-router-dom';
 
-const Notification = ({ id, userID, name, message, profilePic, timestamp, superwant, usersuperwant, acceptSuperWant, declineSuperWant, accepted, messaged }) => {
+const Notification = ({ id, userID, name, message, profilePic, timestamp, superwant, usersuperwant, acceptSuperWant, declineSuperWant, accepted, messaged, auth: { isAuthenticated, user } }) => {
+    
+    let userid
+
+    if(isAuthenticated){
+      userid = user._id
+    }
+    useEffect(() => {
+
+      let socket = require('socket.io-client')('/', {
+        secure: true,
+        rejectUnauthorized: false,
+        path: '/chat/socket.io'
+      });
+
+      socket.on(`messaged${userid}`, (data) => setMessaged(true))
+
+      return () => {
+        socket.removeListener(`messaged${userid}`);
+      };
+
+    }, [])
+
     const accept = (val, user_id) => {
       acceptSuperWant(val, user_id)
       console.log(user_id)
@@ -25,6 +47,9 @@ const Notification = ({ id, userID, name, message, profilePic, timestamp, superw
         history.push('/conversation')
       })
     }
+
+    const [msg, setMessaged] = useState(false)
+
     return (
       <>
       {superwant === "false" ? 
@@ -41,7 +66,7 @@ const Notification = ({ id, userID, name, message, profilePic, timestamp, superw
                   <div className="notif-message">{message}</div>
                   <div className="notif-timestamp">{timestamp}</div>
               </div>
-              {messaged ?  '' : <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => createMessage()}>Message</MDBBtn>}
+              {messaged || msg ?  '' : <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => createMessage()}>Message</MDBBtn>}
                            
             </div>
             </MDBCol>
@@ -69,7 +94,7 @@ const Notification = ({ id, userID, name, message, profilePic, timestamp, superw
             </>):
             accepted === "true" || usersuperwant === "true" ? (<>
             {
-              messaged ? '' : <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => createMessage()}>Message</MDBBtn>
+              messaged || msg ? '' : <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => createMessage()}>Message</MDBBtn>
             }
             </>):(<>
             <MDBBtn className="my-auto mr-3 notif-btn-accept p-1 text-capitalize" onClick={val => accept(id, userID)}>Accept</MDBBtn>
@@ -88,7 +113,8 @@ const Notification = ({ id, userID, name, message, profilePic, timestamp, superw
 }
 
 const mapStateToProps = state => ({
-  match: state.match
+  match: state.match,
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { acceptSuperWant, declineSuperWant })(Notification);

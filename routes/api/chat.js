@@ -118,6 +118,9 @@ router.post('/:trans_id', auth, async (req, res) => {
         const toProfile = await Profile.findOne({user:req.body.to}).populate('user', ['name'])
         
     try {
+
+        await req.io.sockets.emit(`messaged${req.body.to}`, req.body.body)
+
         const con = new Conversation({
             transaction: req.params.trans_id,
             users: [req.user.id, req.body.to],

@@ -118,7 +118,11 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
   const superwant = () => {
 
     if (count === items.length) {
+
       toast.error("No more items")
+
+      superWant(items[0]._id, items[0].user._id)
+
     } else {
 
       if (swantCount < 5) {
