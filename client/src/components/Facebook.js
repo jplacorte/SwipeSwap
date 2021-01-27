@@ -36,7 +36,12 @@ const Facebook = ({ login, isAuthenticated }) => {
             icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
             isDisabled
         />)
-        window.location="/profile"   
+        //Dev
+        window.location.replace("/profile")
+        
+        //Deploy
+        //For ios compatibility
+        //window.location.replace("https://swipeswap.me/profile")
     }
     return (               
         <Fragment>

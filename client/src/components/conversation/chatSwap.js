@@ -184,7 +184,12 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
       document.getElementById('cnfrm-btn').style.display = "none";
       document.getElementById('cancel-btn').style.display = "none";
       submitReview(itemID2, userID2, formData).then(() => {
-        window.location = '/profile'
+        //Dev
+        window.location.replace("/profile")
+
+        //Deploy
+        //For ios compatibility
+        //window.location.replace("https://swipeswap.me/profile")
       })
       
     }
