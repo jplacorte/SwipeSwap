@@ -185,11 +185,11 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
       document.getElementById('cancel-btn').style.display = "none";
       submitReview(itemID2, userID2, formData).then(() => {
         //Dev
-        window.location.replace("/profile")
+        // window.location.replace("/profile")
 
         //Deploy
         //For ios compatibility
-        //window.location.replace("https://swipeswap.me/profile")
+        window.location.replace("https://swipeswap.me/profile")
       })
       
     }
