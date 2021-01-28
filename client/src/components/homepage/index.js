@@ -125,7 +125,7 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
 
     } else {
 
-      if (swantCount < 5) {
+      if (swantCount < 5 && limits.superwant < 4) {
 
         superWant(items[count]._id, items[count].user._id)
 
@@ -160,7 +160,7 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
   }
 
   const rewind = () => {
-    if (prev < 5) {
+    if (prev < 5 && limits.rewind < 4) {
       setPrev(prev => prev + 1)
       
       addLimits(prev, swantCount)
