@@ -25,7 +25,7 @@ export const getAllLimits = () => async dispatch => {
     }
 }
 
-export const addLimits = (prev, swantCount) => async dispatch => {
+export const addLimits = (prev, swantCount, prevLeft, swantLeft) => async dispatch => {
 
     const config = {
         headers: {
@@ -35,7 +35,9 @@ export const addLimits = (prev, swantCount) => async dispatch => {
 
     let data = {
         prev: prev,
-        swantCount: swantCount
+        swantCount: swantCount,
+        rewindsleft: prevLeft,
+        superwantleft: swantLeft
     }
 
     try {

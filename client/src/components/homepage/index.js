@@ -123,6 +123,8 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
 
       superWant(items[0]._id, items[0].user._id)
 
+      toast.info(`You have ${swantNotif === 0 ? "" : swantNotif} ${swantNotif === 0 ? "no super wants" : "super wants"} left`)
+
     } else {
 
       if (swantCount < 5 && limits.superwant < 4) {
@@ -135,7 +137,7 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
 
         setCount(count => count + 1)
 
-        addLimits(prev, swantCount)
+        addLimits(prev, swantCount, prevNotif, swantNotif)
 
         slideNext()
 
@@ -163,7 +165,7 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
     if (prev < 5 && limits.rewind < 4) {
       setPrev(prev => prev + 1)
       
-      addLimits(prev, swantCount)
+      addLimits(prev, swantCount, prevNotif, swantNotif)
 
       setCount(count => count - 1)
 
@@ -172,7 +174,7 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
       slidePrev()
 
 
-      toast.info(`You have ${prevNotif === 0 ? "" : prevNotif} ${prevNotif === 0 ? "no rewinds" : "rewinds"} left`)
+      toast.info(`You have ${prevNotif === 0 || limits.rewindsleft === 0 ? "" : limits.rewindsleft === 4 ? prevNotif : limits.rewindsleft === 2 ? 2 : 1} ${prevNotif === 0 || limits.rewindsleft === 0 ? "no rewinds" : "rewinds"} left`)
     } else {
       toast.error("Max limit reached!")
     }

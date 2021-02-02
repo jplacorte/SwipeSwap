@@ -189,7 +189,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
 
         //Deploy
         //For ios compatibility
-        window.location.replace("https://swipeswap.me/profile")
+        window.location="https://swipeswap.me/profile"
       })
       
     }

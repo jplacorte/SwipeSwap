@@ -37,11 +37,11 @@ const Facebook = ({ login, isAuthenticated }) => {
             isDisabled
         />)
         //Dev
-        // window.location.replace("/profile")
+        // window.location="/profile"
         
         //Deploy
         //For ios compatibility
-        window.location.replace("https://swipeswap.me/profile")
+        window.location="https://swipeswap.me/profile"
     }
     return (               
         <Fragment>

@@ -7,11 +7,19 @@ const LimitSchema = new mongoose.Schema({
         ref: 'user'
     },
     rewind: {
-            type: Number
+        type: Number
         },
     superwant: {
-            type: Number
+        type: Number
         },
+    rewindsleft: {
+        type: Number,
+        default: 4
+    },
+    superwantleft: {
+        type: Number,
+        default: 4
+    },
     date: {
         type: String,
         default: Date.now,
