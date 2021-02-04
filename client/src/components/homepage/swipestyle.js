@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const NEXT = "NEXT";
 export const PREV = "PREV";
+export const LOAD = "LOAD";
 
 export const Item = styled.div`
   text-align: center;

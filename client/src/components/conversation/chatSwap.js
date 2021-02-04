@@ -29,6 +29,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
 
       socket.on(`change`, (data) => data === chats[0]._id ? document.location.reload() : '');
 
+      socket.on(`count${userID}`, (data) => setFormData({ ...formData, count: data }) );
       return () => {
         socket.removeListener(`change`);
       };
@@ -44,17 +45,20 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
     const handleShow2 = () => setShow2(true);
 
     const [formData, setFormData] = useState({
-      reviewdetails:''
+      reviewdetails:'',
+      count: 0
     })
     const [item_id, setItemId] = useState(null)
     const {
       reviewdetails,
+      count
     } = formData
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const approveTrans = () => {
       handleShow2()
+      setFormData({...formData, count: count+1})
     }
 
     let userID = ''
@@ -179,19 +183,21 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
     const submitReview = useSubmitReview()
     const onSubmit = e => {
       e.preventDefault();
-      
-      document.getElementById('cnfrming-btn').style.display = "";
-      document.getElementById('cnfrm-btn').style.display = "none";
-      document.getElementById('cancel-btn').style.display = "none";
-      submitReview(itemID2, userID2, formData).then(() => {
-        //Dev
-        // window.location.replace("/profile")
+      submitReview(itemID2, userID2, formData)
+      if(count === 2){
+        submitReview(itemID2, userID2, formData).then(() => {
+          //Dev
+          // window.location="/profile"
 
-        //Deploy
-        //For ios compatibility
-        window.location="https://swipeswap.me/profile"
-      })
-      
+          //Deploy
+          //For ios compatibility
+          window.location="https://swipeswap.me/profile"
+        })
+      }else{
+        document.getElementById('cnfrm-btn').style.display = "none";
+        document.getElementById('cancel-btn').style.display = "none";
+        document.getElementById('cnfrming-btn').style.display = "";
+      }     
     }
 
     return (
@@ -334,7 +340,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
                   </div>
                   <div className="mx-auto mt-4">
                     <MDBBtn className="modal-btn-sm p-2 px-4" color="white" onClick={handleClose2} id="cancel-btn">Cancel</MDBBtn>
-                    <MDBBtn  className="modal-btn p-2 px-4 color1"id="cnfrming-btn" style={{ display:'none' }} disabled>Confirming...</MDBBtn>
+                    <MDBBtn  className="modal-btn p-2 px-4 color1"id="cnfrming-btn" style={{ display:'none' }} disabled>Pending Confirmation...</MDBBtn>
                     <MDBBtn  className="modal-btn-sm p-2 px-4 color1" type="submit" id="cnfrm-btn">Confirm</MDBBtn>
                    </div>
                   </form>

@@ -8,18 +8,23 @@ import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
 import SwipeImage from '../../assets/images/swipeswap_item.jpg';
 import Avatar from '../../assets/images/avatar.png';
-import Carousel, { slideNext, slidePrev } from "./carousel";
+import Carousel, { slideNext, slidePrev, loadCount } from "./carousel";
 import { getAllItem, wantItem } from '../../actions/item';
-import { getAllLimits, addLimits } from '../../actions/limit';
+import { getAllLimits, addLimits, useGetLimits } from '../../actions/limit';
 import { superWant } from '../../actions/match';
 
 const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, item: { items, loading }, auth: { isAuthenticated, user }, limit: { limits } }) => {
 
+  const getLimits = useGetLimits()
+  var num = limits.count
   useEffect(() => {
 
     getAllItem()
+    getLimits().then((res) => {
+      loadCount(res.count)
+    })
     getAllLimits()
-
+    
   }, [getAllItem, getAllLimits])
 
   let userid
@@ -64,7 +69,7 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
   const handleClose = () => setShowModal(false);
   const handleClose2 = () => setShowModal2(false);
 
-  const [count, setCount] = useState(1)
+  // const [count, setCount] = useState(1)
   const [prev, setPrev] = useState(0)
   const [prevNotif, setPrevNotif] = useState(4)
   const [swantNotif, setSwantNotif] = useState(4)
@@ -99,15 +104,19 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
 
   const want = () => {
 
-    if (count === items.length) {
+    if (num+1 === items.length) {
 
       toast.error("No more items")
 
+      wantItem(items[num+1 === items.length ? 0 : num+1]._id, items[num+1 === items.length ? 0 : num+1].user._id)
+
     } else {
 
-      wantItem(items[count]._id, items[count].user._id)
+      wantItem(items[num+1]._id, items[num+1].user._id)
 
-      setCount(count => count + 1)
+      // setCount(count => count + 1)
+
+      addLimits(prev, swantCount, prevNotif, swantNotif, num + 1)
 
       slideNext()
 
@@ -117,11 +126,11 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
 
   const superwant = () => {
 
-    if (count === items.length) {
+    if (num+1 === items.length) {
 
       toast.error("No more items")
 
-      superWant(items[0]._id, items[0].user._id)
+      superWant(items[num+1 === items.length ? 0 : num+1]._id, items[num+1 === items.length ? 0 : num+1].user._id)
 
       toast.info(`You have ${swantNotif === 0 ? "" : swantNotif} ${swantNotif === 0 ? "no super wants" : "super wants"} left`)
 
@@ -129,15 +138,15 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
 
       if (swantCount < 5 && limits.superwant < 4) {
 
-        superWant(items[count]._id, items[count].user._id)
+        superWant(items[num+1]._id, items[num+1].user._id)
 
         setSwantNotif(swantNotif - 1)
 
         setSwantCount(swantCount => swantCount + 1)
 
-        setCount(count => count + 1)
+        // setCount(count => count + 1)
 
-        addLimits(prev, swantCount, prevNotif, swantNotif)
+        addLimits(prev, swantCount, prevNotif, swantNotif, num + 1)
 
         slideNext()
 
@@ -151,13 +160,16 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
   }
 
   const boring = () => {
-
-    if (count === items.length) {
+    console.log(num+1, items.length)
+    if (num+1 === items.length) {
       toast.error("No more items")
     } else {
-      setCount(count => count + 1)
+      // setCount(count => count + 1)
 
       slideNext()
+      
+      addLimits(prev, swantCount, prevNotif, swantNotif, num + 1)
+      
     }
   }
 
@@ -165,9 +177,9 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
     if (prev < 5 && limits.rewind < 4) {
       setPrev(prev => prev + 1)
       
-      addLimits(prev, swantCount, prevNotif, swantNotif)
+      addLimits(prev, swantCount, prevNotif, swantNotif, num + 1)
 
-      setCount(count => count - 1)
+      // setCount(count => count - 1)
 
       setPrevNotif(prevNotif - 1)
 
@@ -180,8 +192,8 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
     }
 
 
-    if (count === 0) {
-      setCount(count => count = items.length - 1)
+    if (num === 0) {
+      num = items.length - 1
     }
   }
 

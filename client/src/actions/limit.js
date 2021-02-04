@@ -25,7 +25,25 @@ export const getAllLimits = () => async dispatch => {
     }
 }
 
-export const addLimits = (prev, swantCount, prevLeft, swantLeft) => async dispatch => {
+export function useGetLimits() {
+
+    const getLimits = async () => {
+        try {
+
+            const res = await api.get('/limitation')
+
+            return res.data
+        
+        } catch (err) {
+
+            console.error(err)
+
+        }
+    }
+    return getLimits
+}
+
+export const addLimits = (prev, swantCount, prevLeft, swantLeft, count) => async dispatch => {
 
     const config = {
         headers: {
@@ -37,7 +55,8 @@ export const addLimits = (prev, swantCount, prevLeft, swantLeft) => async dispat
         prev: prev,
         swantCount: swantCount,
         rewindsleft: prevLeft,
-        superwantleft: swantLeft
+        superwantleft: swantLeft,
+        count: count
     }
 
     try {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
 import {
   Wrapper,
@@ -6,7 +6,8 @@ import {
   CarouselSlot,
   SlideButton,
   PREV,
-  NEXT
+  NEXT,
+  LOAD
 } from "./swipestyle";
 
 
@@ -16,8 +17,10 @@ const getOrder = ({ index, pos, numItems }) => {
 const initialState = { pos: 0, sliding: false, dir: NEXT };
 
 // var a, b
+var load
 
 const Carousel = props => {
+
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const numItems = React.Children.count(props.children);
 
@@ -26,6 +29,13 @@ const Carousel = props => {
 
   const slide = dir => {
     dispatch({ type: dir, numItems });
+    setTimeout(() => {
+      dispatch({ type: "stopSliding" });
+    }, 50);
+  };
+
+    load = (dir, num) => {
+    dispatch({ type: dir, num });
     setTimeout(() => {
       dispatch({ type: "stopSliding" });
     }, 50);
@@ -78,12 +88,20 @@ export const slideNext = () => {
   document.getElementById("nextBtn").click()
 }
 
+export const loadCount = (val) => {
+  load(LOAD, val)
+}
 
 
-function reducer(state, { type, numItems }) {
+function reducer(state, { type, numItems, num }) {
   switch (type) {
     case "reset":
       return initialState;
+    case LOAD:
+      return {
+        ...state,
+        pos: num
+      }
     case PREV:
       return {
         ...state,

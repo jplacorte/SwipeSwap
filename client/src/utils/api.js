@@ -3,7 +3,7 @@ import store from '../store';
 import { LOGOUT, CLEAR_PROFILE } from '../actions/types';
 
 const api = axios.create({
-  baseURL: '/api'
+  baseURL: 'http://localhost:5000/api'
 });
 /**
  intercept any error responses from the api

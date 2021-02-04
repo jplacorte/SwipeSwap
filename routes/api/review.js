@@ -54,7 +54,8 @@ router.post('/:id/:owner_id', auth, async (req, res) => {
     const owner = await Profile.findOne({user:req.params.owner_id}).populate('user', ['name'])
 
     const {
-        reviewdetails
+        reviewdetails,
+        count
     } = req.body
 
     // const image2 = item.photo[1].url ? item.photo[1].url : ''
@@ -68,35 +69,37 @@ router.post('/:id/:owner_id', auth, async (req, res) => {
                 { new: true }
             )
         }else{
-            await req.io.sockets.emit(`approve`, 'item approved')
+            await req.io.sockets.emit(`count${owner.user_id}`, count)
+             if(count === 2){
+                await req.io.sockets.emit(`approve`, 'item approved')
 
-            await Item.findByIdAndUpdate(
-                {_id: req.params.id},
-                { $set: { swapped: true } },
-                { new: true }
-            )
+                await Item.findByIdAndUpdate(
+                    {_id: req.params.id},
+                    { $set: { swapped: true } },
+                    { new: true }
+                )
 
-            review = new Review({
-                user: req.user.id,
-                owner: owner.user._id,
-                avatar: owner.avatar,
-                ownername: owner.user.name,
-                name: user.user.name,
-                item: req.params.id,
-                itemname: item.itemname,
-                itemdesc: item.description,
-                itemstatus: item.status,
-                review: reviewdetails,
-                image: item.photo[0].url,
-                // image2: image2,
-                // image3: image3,
-                // image4: image4,
-            })
+                review = new Review({
+                    user: req.user.id,
+                    owner: owner.user._id,
+                    avatar: owner.avatar,
+                    ownername: owner.user.name,
+                    name: user.user.name,
+                    item: req.params.id,
+                    itemname: item.itemname,
+                    itemdesc: item.description,
+                    itemstatus: item.status,
+                    review: reviewdetails,
+                    image: item.photo[0].url,
+                    // image2: image2,
+                    // image3: image3,
+                    // image4: image4,
+                })
 
-            await review.save()
-        }
-
-        return res.json(review)
+                await review.save()
+                return res.json(review)
+            }
+        }  
 
     } catch (err) {
 

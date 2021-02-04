@@ -30,7 +30,7 @@ router.post('/', auth, async (req, res) => {
         if(user){
             const limit = await Limitation.findOneAndUpdate(
                 { user: req.user.id },
-                { $set: { rewind: req.body.prev, superwant: req.body.swantCount, rewindsleft: req.body.rewindsleft, superwantleft: req.body.superwantleft } }                
+                { $set: { rewind: req.body.prev, superwant: req.body.swantCount, rewindsleft: req.body.rewindsleft, superwantleft: req.body.superwantleft, count: req.body.count } }                
             )
             return res.json(limit)
         }else{
@@ -39,7 +39,8 @@ router.post('/', auth, async (req, res) => {
                 rewind: req.body.prev,
                 superwant: req.body.swantCount,
                 rewindsleft: req.body.rewindsleft,
-                superwantleft: req.body.superwantleft
+                superwantleft: req.body.superwantleft,
+                count: req.body.count
             })
 
             await limit.save()

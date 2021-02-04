@@ -46,7 +46,8 @@ router.post('/',
                 limit = new Limitation({
                     user: user._id,
                     rewind: 0,
-                    superwant: 0
+                    superwant: 0,
+                    count: 0
                 })
 
                 await limit.save()
@@ -72,7 +73,8 @@ router.post('/',
                 limit = new Limitation({
                     user: docs._id,
                     rewind: 0,
-                    superwant: 0
+                    superwant: 0,
+                    count: 0
                 })
     
                 await limit.save()   

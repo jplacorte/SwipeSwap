@@ -20,6 +20,9 @@ const LimitSchema = new mongoose.Schema({
         type: Number,
         default: 4
     },
+    count: {
+        type: Number
+    },
     date: {
         type: String,
         default: Date.now,
