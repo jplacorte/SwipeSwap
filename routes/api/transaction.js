@@ -101,40 +101,19 @@ router.post('/:item_id', auth, async (req, res) => {
 // @route   POST api/transaction/swapped/:item_id
 // @des     Approve a transaction
 // @access  Private
-router.post('/swapped/:item_id/:owner_id', auth, async (req, res) => {
-    const {
-        reviewdetails,
-        trans_id
-    } = req.body
-
-    const user = await User.findById(req.user.id)
-
-    const itemFields = {}
-    itemFields.swapped = true
-    itemFields.review = {}
-    itemFields.review.user = req.user.id,
-    itemFields.review.name = user.name,
-    itemFields.review.reviewdetails = reviewdetails
+router.post('/swapped/:trans_id', auth, async (req, res) => {
+    
 
     try {
+        await req.io.sockets.emit(`count${req.body.user}`, req.body.count)
         
-        item = await Item.findByIdAndUpdate(
-            {_id: req.params.item_id},
-            { $set: itemFields },
-            { new: true }
-        )
-
-        trans = await Transaction.findOneAndUpdate(
-            {_id: trans_id},
-            {$set: {swapped: true}},
+        const trans = await Transaction.findByIdAndUpdate(
+            { _id:req.params.trans_id },
+            {$set: {count: req.body.count} },
             {new: true}
         )
 
-        userTrans = await UserTransaction.findOneAndUpdate(
-            {transaction: trans_id},
-            {$set: {swapped: true}},
-            {new: true}
-        )
+        return res.json(trans)
     } catch (err) {
 
         console.error(err.message)

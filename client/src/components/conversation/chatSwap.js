@@ -5,7 +5,7 @@ import "../../css/mediaQuery.css";
 import SwipeImage from '../../assets/images/sslogo.png';
 import ProfileAvatar from '../../assets/images/avatar.png';
 import { connect } from 'react-redux';
-import { getTrans, approve, useUpdateItem } from '../../actions/transaction';
+import { getTrans, useApprove, useUpdateItem } from '../../actions/transaction';
 import { getAllItemsByUser } from '../../actions/item';
 import { useSubmitReview } from '../../actions/review';
 import Select from "react-select";
@@ -14,7 +14,7 @@ import Select from "react-select";
 
 var showChangeModal
 
-const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, loading }, auth: { isAuthenticated, user }, item: { items } }) => {
+const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }, auth: { isAuthenticated, user }, item: { items } }) => {
 
     useEffect(() => {
       getTrans()
@@ -41,6 +41,8 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
 
+    const [count, setCount] = useState(1);
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const handleClose2 = () => setShow2(false);
@@ -48,19 +50,27 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
 
     const [formData, setFormData] = useState({
       reviewdetails:'',
-      count: 0
     })
     const [item_id, setItemId] = useState(null)
     const {
-      reviewdetails,
-      count
+      reviewdetails
     } = formData
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+    const approve = useApprove()
+
     const approveTrans = () => {
-      handleShow2()
-      setFormData({count: count+1})
+      setCount(count => count + 1)
+      document.getElementById('approvingBtn').style.display = "";
+      document.getElementById('declineBtn').style.display = "none";
+      document.getElementById('approveBtn').style.display = "none";
+      approve(count, userID2, chats[0]._id).then(res => {
+        handleShow2()
+        document.getElementById('approvingBtn').style.display = "none";
+        document.getElementById('approveBtn').innerHTML="View Status"
+        document.getElementById('approveBtn').style.display = "";
+      })
     }
 
     showChangeModal = handleShow
@@ -172,7 +182,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
     })
 
     useEffect(() => {
-      
+
       let socket = require('socket.io-client')('/', {
         secure: true,
         rejectUnauthorized: false,
@@ -180,18 +190,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
       });
 
       socket.on(`count${userID}`, (data) => {
-        setFormData({ count: data })
-        
-        if(data === 2){
-          submitReview(itemID2, userID2, formData).then(() => {
-            //Dev
-            // window.location="/profile"
-  
-            //Deploy
-            //For ios compatibility
-            window.location="https://swipeswap.me/profile"
-          })
-        }
+        setCount(data)
       });
       
       return () => {
@@ -211,20 +210,20 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
         document.location.reload()
       })
     }
-
+    
     const submitReview = useSubmitReview()
+    
     const onSubmit = e => {
       e.preventDefault();
-      submitReview(itemID2, userID2, formData)
-      if(count === 2){
-        // submitReview(itemID2, userID2, formData).then(() => {
+      if(chats[0].count === 2 || count === 2){
+        submitReview(itemID2, userID2, formData).then(() => {
           //Dev
           // window.location="/profile"
-          console.log("approved")
+
           //Deploy
           //For ios compatibility
-          // window.location="https://swipeswap.me/profile"
-        // })
+          window.location="https://swipeswap.me/profile"
+        })
       }else{
         document.getElementById('cnfrm-btn').style.display = "none";
         document.getElementById('cancel-btn').style.display = "none";
@@ -408,8 +407,9 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
       </div>
 
       <div className="mb-3 text-center">
-          <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger">Decline</MDBBtn>
-          <MDBBtn onClick={val => approveTrans()} className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
+          <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger" id="declineBtn">Decline</MDBBtn>
+          <MDBBtn id="approvingBtn" className="chat-swap-btn-approve mx-2" disabled style={{ display: 'none' }}>Confirming...</MDBBtn>
+          <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
           {/* {
             chats.length > 0 ? chats.map(users => (
               <MDBBtn onClick={val => approveTrans(userID, userName, itemID)} className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
@@ -432,4 +432,4 @@ const mapStateToProps = state => ({
   item: state.item
 })
 
-export default connect( mapStateToProps, { getTrans, approve, getAllItemsByUser })(ChatSwap);
+export default connect( mapStateToProps, { getTrans, getAllItemsByUser })(ChatSwap);

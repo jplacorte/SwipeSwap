@@ -155,30 +155,31 @@ export const getTransactionUsers = trans_id => async dispatch => {
 // @route   POST api/transaction/swapped/:item_id
 // @des     Get all users by transaction
 // @access  Private
-export const approve = (formData, item_id, owner_id) => async dispatch => {
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
+export function useApprove () {
+    const approve = async (count, userID, trans_id) => {
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
         }
-    }
 
-    try {
+        let data = {
+            count: count, user: userID
+        }
+        try {
         
-        const res = await api.post(`/transaction/swapped/${item_id}/${owner_id}`, formData, config);
+            const res = await api.post(`/transaction/swapped/${trans_id}`, data, config);
 
-        dispatch({
-            type: APPROVE,
-            payload: res.data
-        });
+            return res.data
 
-    } catch (err) {
+        } catch (err) {
         
-        dispatch({
-            type: TRANSACTION_ERROR,
-            payload: { msg: err.response.statusText, status: err.response.status }
-        });
-
+            console.error(err)
+        }
+        
     }
+    return approve
 }
 
 export function useUpdateItem(){

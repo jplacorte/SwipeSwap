@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { count } = require('./Review')
 const Schema = mongoose.Schema
 
 const TransactionSchema = new mongoose.Schema({
@@ -137,6 +138,9 @@ const TransactionSchema = new mongoose.Schema({
     },
     swapped: {
         type: String
+    },
+    count: {
+        type: Number, default: 0
     }
 })
 
