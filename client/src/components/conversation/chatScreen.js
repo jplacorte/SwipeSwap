@@ -371,7 +371,7 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
                 ) : ""
                 )
             )}
-                    <form className="chat-screen-input" onSubmit={handleSubmit}>
+              {chats.map(trans => trans.swapped === "true" || trans.swapped === "Declined" ? ('') : (<form className="chat-screen-input" onSubmit={handleSubmit}>
                     <div className="input-group" style={{width: '50px', zIndex: '-1'}}
                     >
                       <MDBView className="custom-file mt-1">
@@ -399,7 +399,7 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
                             required="true"
                         />
                         <button type="submit" className="chat-screen-input-btn">Send</button>
-                    </form>
+                    </form>))}
                     </MDBCol>
                 </MDBRow>
         </MDBContainer>

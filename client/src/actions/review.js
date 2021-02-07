@@ -50,7 +50,7 @@ export const getSwappedItems = () => async dispatch => {
 }
 
 export function useSubmitReview() {
-    const submitReview = async (item_id, owner_id, formData) => {
+    const submitReview = async (item_id, owner_id, trans_id, formData) => {
 
         const config = {
             headers: {
@@ -60,7 +60,7 @@ export function useSubmitReview() {
 
         try {
 
-            const res = await api.post(`/review/${item_id}/${owner_id}`, formData, config);
+            const res = await api.post(`/review/${item_id}/${owner_id}/${trans_id}`, formData, config);
 
             return res.data
 
@@ -71,4 +71,19 @@ export function useSubmitReview() {
         }
     }
     return submitReview
+}
+
+export function useDeclineTrans() {
+    const declineTrans = async (userID, trans_id) => {
+        try {
+            
+            const res = await api.put(`/review/decline/${userID}/${trans_id}`);
+
+            return res.data
+
+        } catch (err) {
+            console.error(err)
+        }
+    }
+    return declineTrans
 }

@@ -137,7 +137,7 @@ const TransactionSchema = new mongoose.Schema({
         type: String
     },
     swapped: {
-        type: String
+        type: String, default: 'pending'
     },
     count: {
         type: Number, default: 0

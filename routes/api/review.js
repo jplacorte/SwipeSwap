@@ -4,6 +4,7 @@ const auth = require('../../middleware/auth')
 
 const Review = require('../../models/Review')
 const Item = require('../../models/Item')
+const Transaction = require('../../models/Transaction')
 
 // @route   GET api/review/
 // @des     Get swapped items
@@ -43,10 +44,29 @@ router.get('/revs', auth, async (req, res) => {
     }
 })
 
+// @route   PUT api/decline/:id/:user_id
+// @desc    Deline transaction
+// @access  Private
+router.put('/decline/:user_id/:id', auth, async (req, res) => {
+    try {
+         console.log("aa")
+        await req.io.sockets.emit(`declineTrans${req.params.user_id}`, 'Declined Trans')
+        const trans = await Transaction.findByIdAndUpdate(
+            {_id: req.params.id},
+            {$set: {swapped: 'Declined'}},
+            {new: true}
+        )
+        return res.json(trans)
+    } catch (err) {
+        console.error(err)
+        res.status(500).send("Server Error")
+    }
+})
+
 // @route   POST api/review/:id
 // @des     Post/Update a review
 // @access  Private
-router.post('/:id/:owner_id', auth, async (req, res) => {
+router.post('/:id/:owner_id/:trans_id', auth, async (req, res) => {
 
     const item = await Item.findById(req.params.id)
     const itemReview = await Review.findOne({ item: req.params.id })
@@ -54,8 +74,7 @@ router.post('/:id/:owner_id', auth, async (req, res) => {
     const owner = await Profile.findOne({user:req.params.owner_id}).populate('user', ['name'])
 
     const {
-        reviewdetails,
-        count
+        reviewdetails
     } = req.body
 
     // const image2 = item.photo[1].url ? item.photo[1].url : ''
@@ -75,7 +94,13 @@ router.post('/:id/:owner_id', auth, async (req, res) => {
                 await Item.findByIdAndUpdate(
                     {_id: req.params.id},
                     { $set: { swapped: true } },
-                    { new: true }
+                    {new: true}
+                )
+
+                await Transaction.findById(
+                    {_id: req.params.trans_id},
+                    {$set: {swapped: 'true'}},
+                    {new: true}
                 )
 
                 review = new Review({

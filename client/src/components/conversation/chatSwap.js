@@ -7,9 +7,8 @@ import ProfileAvatar from '../../assets/images/avatar.png';
 import { connect } from 'react-redux';
 import { getTrans, useApprove, useUpdateItem } from '../../actions/transaction';
 import { getAllItemsByUser } from '../../actions/item';
-import { useSubmitReview } from '../../actions/review';
+import { useSubmitReview, useDeclineTrans } from '../../actions/review';
 import Select from "react-select";
-import chat from '../../reducers/chat';
 // import { useHistory } from 'react-router-dom';
 // import ItemCondition from '../itemCondition'
 
@@ -30,7 +29,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
         path: '/chat/socket.io'
       });
 
-      socket.on(`change`, (data) => data === chats[0]._id ? document.location.reload() : '');
+      socket.on(`change`, (data) => data === chats[0]._id ? window.location.reload(true) : '');
 
       
       return () => {
@@ -58,24 +57,6 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
     } = formData
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const approve = useApprove()
-
-    const approveTrans = () => {
-      if(chats[0].count === 2 || count === 2){
-        handleShow2()
-      }else{
-        document.getElementById('approvingBtn').style.display = "";
-        document.getElementById('approveBtn').style.display = "none";
-        document.getElementById('declineBtn').style.display = "none";
-        approve(count, userID2, chats[0]._id).then(res => {
-          document.getElementById('approvingBtn').style.display = "none";
-          document.getElementById('pending-btn').style.display = "";
-          document.getElementById('declineBtn').style.display = "none";
-          document.getElementById('approveBtn').style.display = "none";
-        })
-      }
-    }
 
     showChangeModal = handleShow
 
@@ -197,6 +178,8 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
         setCount(2)
         approve(count, userID2, chats[0]._id).then(() => setCount(2))     
       });
+
+      socket.on(`declineTrans${userID2}`, (data) => window.location.reload(true));
       
       return () => {
         socket.removeListener(`count${userID}`);
@@ -212,26 +195,58 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
       document.getElementById('change-btn').style.display = "none";
 
       updateItem(item_id, chats[0]._id).then(() => {
-        document.location.reload()
+        window.location.reload(true)
       })
+    }
+
+    const approve = useApprove()
+
+    const approveTrans = () => {
+      if(chats[0].count === 2 || count === 2){
+        handleShow2()
+      }else{
+        document.getElementById('approvingBtn').style.display = "";
+        document.getElementById('approveBtn').style.display = "none";
+        document.getElementById('declineBtn').style.display = "none";
+        approve(count, userID2, chats[0]._id).then(res => {
+          document.getElementById('approvingBtn').style.display = "none";
+          document.getElementById('pending-btn').style.display = "";
+          document.getElementById('declineBtn').style.display = "none";
+          document.getElementById('approveBtn').style.display = "none";
+        })
+      }
     }
     
     const submitReview = useSubmitReview()
     
     const onSubmit = e => {
+      
       e.preventDefault();
       document.getElementById('cnfrming-btn').style.display = "";
       document.getElementById('cnfrm-btn').style.display = "none";
-      submitReview(itemID2, userID2, formData).then(() => {
-        //Dev
+      
+      submitReview(itemID2, userID2, chats[0]._id, formData).then(res => {
+        // Dev
         // window.location="/profile"
-
+        
         //Deploy
         //For ios compatibility
         window.location="https://swipeswap.me/profile"
       })   
     }
 
+    const declineTrans = useDeclineTrans()
+    
+    const declineOffer = () => {
+
+      document.getElementById('approvingBtn').innerHTML = "Declining..."
+      document.getElementById('approvingBtn').style.display = "";
+      document.getElementById('approveBtn').style.display = "none";
+      document.getElementById('declineBtn').style.display = "none";
+      declineTrans(userID2, chats[0]._id).then(res => {
+          window.location.reload(true)
+      })
+    }
     return (
       <div className="">
 
@@ -410,17 +425,21 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
       <div className="mb-3 text-center">
         {
           chats.map(trans =>
-            trans.count === 1 ? (
-              <MDBBtn className="chat-swap-btn-approve mx-2" id="pending-btn" disabled>Pending Approval...</MDBBtn>
-            ) 
-            : trans.count === 2 || count === 2 ? (
-              <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Review and Submit</MDBBtn>
-            ) : (<>
-              <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger" id="declineBtn">Decline</MDBBtn>
-              <MDBBtn id="approvingBtn" className="chat-swap-btn-approve mx-2" disabled style={{ display: 'none' }}>Confirming...</MDBBtn>
-              <MDBBtn className="chat-swap-btn-approve mx-2" id="pending-btn" style={{ display:'none' }} disabled>Pending Approval...</MDBBtn>
-              <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
-            </>)
+           trans.swapped === "true" ? 
+            (<p>Transaction Completed</p>) : 
+             trans.swapped === "Declined" ? (
+              <p>Transaction Declined</p>
+              ): (trans.count === 1 ? (
+                  <MDBBtn className="chat-swap-btn-approve mx-2" id="pending-btn" disabled>Pending Approval...</MDBBtn>
+                ) 
+                : trans.count === 2 || count === 2 ? (
+                  <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Review and Submit</MDBBtn>
+                ) : (<>
+                  <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger"  id="declineBtn" onClick={val => declineOffer()}>Decline</MDBBtn>
+                  <MDBBtn id="approvingBtn" className="chat-swap-btn-approve mx-2"  disabled style={{ display: 'none' }}>Confirming...</MDBBtn>
+                  <MDBBtn className="chat-swap-btn-approve mx-2" id="pending-btn"   style={{ display:'none' }} disabled>Pending Approval...</MDBBtn>
+                  <MDBBtn onClick={val => approveTrans()} id="approveBtn"   className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
+                </>))
           )
           
         }
