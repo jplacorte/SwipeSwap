@@ -41,7 +41,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
 
-    const [count, setCount] = useState(1);
+    const [count, setCount] = useState(0);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -61,15 +61,25 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
     const approve = useApprove()
 
     const approveTrans = () => {
-      document.getElementById('approvingBtn').style.display = "";
-      document.getElementById('declineBtn').style.display = "none";
-      document.getElementById('approveBtn').style.display = "none";
-      approve(count, userID2, chats[0]._id).then(res => {
-        handleShow2()
+      if(chats[0].count === 1 || count === 1){
+        setCount(1)
         document.getElementById('approvingBtn').style.display = "none";
-        document.getElementById('approveBtn').innerHTML="View Status"
-        document.getElementById('approveBtn').style.display = "";
-      })
+        document.getElementById('declineBtn').style.display = "none";
+        document.getElementById('approveBtn').style.display = "none";
+        document.getElementById('pending-btn').style.display = "";
+        approve(count, userID2, chats[0]._id)
+      }else if(chats[0].count === 2 || count === 2){
+        handleShow2()
+      }else{
+        approve(count, userID2, chats[0]._id).then(res => {
+          document.getElementById('approvingBtn').style.display = "none";
+          document.getElementById('pending-btn').style.display = "none";
+          document.getElementById('declineBtn').style.display = "none";
+          document.getElementById('approveBtn').innerHTML="Review and Submit"
+          document.getElementById('approveBtn').style.display = "";
+          handleShow2()  
+        })
+      }
     }
 
     showChangeModal = handleShow
@@ -229,7 +239,6 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
       }else{
         document.getElementById('cnfrm-btn').style.display = "none";
         document.getElementById('cancel-btn').style.display = "none";
-        document.getElementById('pending-btn').style.display = "";
       }     
     }
 
@@ -373,7 +382,6 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
                   </div>
                   <div className="mx-auto mt-4">
                     <MDBBtn className="modal-btn-sm p-2 px-4" color="white" onClick={handleClose2} id="cancel-btn">Cancel</MDBBtn>
-                    <MDBBtn  className="modal-btn p-2 px-4 color1"id="pending-btn" style={{ display:'none' }} disabled>Pending Confirmation...</MDBBtn>
                     <MDBBtn  className="modal-btn p-2 px-4 color1"id="cnfrming-btn" style={{ display:'none' }} disabled>Confirming...</MDBBtn>
                     <MDBBtn  className="modal-btn-sm p-2 px-4 color1" type="submit" id="cnfrm-btn">Confirm</MDBBtn>
                    </div>
@@ -410,9 +418,17 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
       </div>
 
       <div className="mb-3 text-center">
-          <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger" id="declineBtn">Decline</MDBBtn>
-          <MDBBtn id="approvingBtn" className="chat-swap-btn-approve mx-2" disabled style={{ display: 'none' }}>Confirming...</MDBBtn>
-          <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
+        {
+          chats[0].count === 1 || count === 1 || chats[0].count === 2 || count === 2 ? (
+            <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Review and Submit</MDBBtn>
+          ) : (<>
+            <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger" id="declineBtn">Decline</MDBBtn>
+            <MDBBtn id="approvingBtn" className="chat-swap-btn-approve mx-2" disabled style={{ display: 'none' }}>Confirming...</MDBBtn>
+            <MDBBtn className="chat-swap-btn-approve mx-2" id="pending-btn" style={{ display:'none' }} disabled>Pending Approval...</MDBBtn>
+            <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
+          </>)
+        }
+          
           {/* {
             chats.length > 0 ? chats.map(users => (
               <MDBBtn onClick={val => approveTrans(userID, userName, itemID)} className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
