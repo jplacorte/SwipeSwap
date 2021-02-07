@@ -419,10 +419,10 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
       <div className="mb-3 text-center">
         {
           chats.map(trans =>
-            trans.count === 1 || count === 1 ? (
+            trans.count === 1 ? (
               <MDBBtn className="chat-swap-btn-approve mx-2" id="pending-btn" disabled>Pending Approval...</MDBBtn>
             ) 
-            : trans.count === 2 || count === 2 ? (
+            : trans.count === 2 ? (
               <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Review and Submit</MDBBtn>
             ) : (<>
               <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger" id="declineBtn">Decline</MDBBtn>
