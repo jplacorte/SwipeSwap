@@ -42,7 +42,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
 
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(1);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -65,8 +65,9 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
       if(chats[0].count === 2 || count === 2){
         handleShow2()
       }else{
-        setCount(1)
         document.getElementById('approvingBtn').style.display = "";
+        document.getElementById('approveBtn').style.display = "none";
+        document.getElementById('declineBtn').style.display = "none";
         approve(count, userID2, chats[0]._id).then(res => {
           document.getElementById('approvingBtn').style.display = "none";
           document.getElementById('pending-btn').style.display = "";
@@ -219,21 +220,16 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
     
     const onSubmit = e => {
       e.preventDefault();
-      if(chats[0].count === 2 || count === 2){
-        document.getElementById('cnfrming-btn').style.display = "";
-        document.getElementById('cnfrm-btn').style.display = "none";
-        submitReview(itemID2, userID2, formData).then(() => {
-          //Dev
-          // window.location="/profile"
+      document.getElementById('cnfrming-btn').style.display = "";
+      document.getElementById('cnfrm-btn').style.display = "none";
+      submitReview(itemID2, userID2, formData).then(() => {
+        //Dev
+        // window.location="/profile"
 
-          //Deploy
-          //For ios compatibility
-          window.location="https://swipeswap.me/profile"
-        })
-      }else{
-        document.getElementById('cnfrm-btn').style.display = "none";
-        document.getElementById('cancel-btn').style.display = "none";
-      }     
+        //Deploy
+        //For ios compatibility
+        window.location="https://swipeswap.me/profile"
+      })   
     }
 
     return (
