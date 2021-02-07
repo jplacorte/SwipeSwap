@@ -195,7 +195,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
 
       socket.on(`count${userID}`, (data) => {
         setCount(2)
-        window.location.reload(true)
+        approve(count, userID2, chats[0]._id).then(() => setCount(2))     
       });
       
       return () => {
@@ -413,7 +413,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
             trans.count === 1 ? (
               <MDBBtn className="chat-swap-btn-approve mx-2" id="pending-btn" disabled>Pending Approval...</MDBBtn>
             ) 
-            : trans.count === 2 ? (
+            : trans.count === 2 || count === 2 ? (
               <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Review and Submit</MDBBtn>
             ) : (<>
               <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger" id="declineBtn">Decline</MDBBtn>
