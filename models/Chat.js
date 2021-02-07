@@ -27,8 +27,10 @@ const ChatSchema = new mongoose.Schema({
         type: String
     },
     body: {
-        type: String,
-        required: true
+        type: String
+    },
+    photos: {
+        type: [String]
     },
     date: {
         type: String,

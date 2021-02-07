@@ -12,6 +12,8 @@ import Select from "react-select";
 // import { useHistory } from 'react-router-dom';
 // import ItemCondition from '../itemCondition'
 
+var showChangeModal
+
 const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, loading }, auth: { isAuthenticated, user }, item: { items } }) => {
 
     useEffect(() => {
@@ -60,6 +62,8 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
       handleShow2()
       setFormData({...formData, count: count+1})
     }
+
+    showChangeModal = handleShow
 
     let userID = ''
     let userName = ''
@@ -213,7 +217,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
               options={items.map((item) => ({
                 value: item._id, label: item.itemname
               }))}
-              placeholder="Change Item"
+              placeholder="Choose an Item"
             />
         </MDBModalBody>
           <MDBModalFooter className="mx-auto">
@@ -388,6 +392,10 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
 
     </div>
     );
+}
+
+export const openModal = () => {
+  showChangeModal()
 }
 
 const mapStateToProps = state => ({

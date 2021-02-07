@@ -85,6 +85,30 @@ export function useSendConversationMessage() {
     return sendConversationMessage;
 }
 
+export function useSendPhoto() {
+
+    const sendPhoto = async (id, convID, photo, photo2, photo3, photo4, trans_id) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        let data = {
+            to: id, convID: convID, photo: photo, photo2: photo2, photo3: photo3, photo4: photo4,
+        }
+        try{
+            const res = await api.post(`/chat/messages/photos/${trans_id}`, data, config)
+            return res.data
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
+    };
+
+    return sendPhoto;
+}
+
 export const createConversation = async (id, trans_id) => {
     const config = {
         headers: {

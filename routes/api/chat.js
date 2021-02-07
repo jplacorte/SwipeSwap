@@ -109,6 +109,54 @@ router.post('/messages/:trans_id', auth, async (req, res) => {
     )
 })
 
+// @route   POST api/chat/message
+// @des     Send photo
+// @access  Private
+router.post('/messages/photos/:trans_id', auth, async (req, res) => {
+    let fromProfile = await Profile.findOne({user:req.user.id}).populate('user', ['name'])
+    let toProfile = await Profile.findOne({user:req.body.to}).populate('user', ['name'])
+
+    await Conversation.findOneAndUpdate({
+        _id: req.body.convID
+    }, 
+    {
+        transaction: req.params.trans_id,
+        users: [req.user.id, req.body.to],
+        avatars: [fromProfile.avatar, toProfile.avatar],
+        names:[fromProfile.user.name, toProfile.user.name],
+        lastMessage: `${fromProfile.user.name} sent a photo`,
+        date: Date.now()
+    },
+    { upsert: true, new: true },
+    async (err, conversation) => {
+
+        try {
+
+            let chat = new Chat({
+                conversation: conversation._id,
+                to: req.body.to,
+                toAvatar: toProfile.avatar,
+                toName: toProfile.user.name,
+                from: req.user.id,
+                fromAvatar: fromProfile.avatar,
+                fromName:fromProfile.user.name,
+                photos: [req.body.photo, req.body.photo2, req.body.photo3, req.body.photo4],
+                date: Date.now()
+            })
+            
+            await req.io.sockets.emit('messages', req.body.photo)
+            await req.io.sockets.emit(`messageFrom${req.body.to}`, fromProfile.user.name)
+
+            await chat.save()
+            return res.json(chat)
+        } catch (err) {
+            console.error(err.message)
+            res.status(500).send("Server Error")
+        }
+     }
+    )
+})
+
 //  @route  POST api/chat/:trans_id
 //  @desc   Create a new message
 //  @access Private

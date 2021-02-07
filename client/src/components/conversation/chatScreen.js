@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link }  from 'react-router-dom';
 import { getTrans } from '../../actions/transaction';
+import Add from '../../assets/images/additem.png';
 import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Navbar from '../navbar';
 import { MDBRow, MDBCol, MDBContainer, MDBIcon, MDBNavbar, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBView, MDBMask } from 'mdbreact';
-import ChatSwap from './chatSwap';
+import ChatSwap, { openModal } from './chatSwap';
 import 'react-chat-elements/dist/main.css';
-import { useGetConversationMessages, useSendConversationMessage } from '../../actions/chat';
+import { useGetConversationMessages, useSendConversationMessage, useSendPhoto } from '../../actions/chat';
+import { useUploadPhoto } from '../../actions/item';
 
 // CHATSCREEN 
 const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading }, match, auth: { isAuthenticated, user } }) => {
@@ -46,10 +48,16 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [lastMessage, setLastMessage] = useState(null);
+  const [photo, setPhoto] = useState(null);
+  const [photo2, setPhoto2] = useState(null);
+  const [photo3, setPhoto3] = useState(null);
+  const [photo4, setPhoto4] = useState(null);
   // let chatBottom = useRef(null);
 
   const getConversationMessages = useGetConversationMessages();
   const sendConversationMessage = useSendConversationMessage();
+  const sendPhoto = useSendPhoto();
+  const uploadPhoto = useUploadPhoto();
 
   useEffect(() => {
     reloadMessages();
@@ -82,20 +90,147 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    sendConversationMessage(userID, match.params.conID, newMessage, match.params.id).then((res) => {
-      setNewMessage("");
-    });
-  };
+    const [picture, setPicture] = useState(null);
+    const [picture2, setPicture2] = useState(null);
+    const [picture3, setPicture3] = useState(null);
+    const [picture4, setPicture4] = useState(null);
+
+    const [file, setfile] = useState(undefined);
+    const [file2, setfile2] = useState(undefined);
+    const [file3, setfile3] = useState(undefined);
+    const [file4, setfile4] = useState(undefined);
 
     const [show, setShow] = useState(false);
+    const handleClose2 = () => setShowModal(false);
+    const handleShow2 = () => setShowModal(true);
+    const [showModal, setShowModal] = useState(false);  
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
   
-    const [ inputFile, setInputFile ] = useState ('');
-    const [ input, setInput ] = useState ('');
+    // const [ inputFile, setInputFile ] = useState ('');
+    // const [ input, setInput ] = useState ('');
+
+    const onChangePicture = e => {
+      document.getElementById('uploadButton').style.display = "";
+      document.getElementById('sendBtn').style.display = "none";
+
+      setPicture(URL.createObjectURL(e.target.files[0]));
+      setfile(e.target.files[0])
+
+      uploadPhoto(e.target.files[0]).then((res) => {
+        document.getElementById('uploadButton').style.display = "none";
+        document.getElementById('sendBtn').style.display = "";
+        setPhoto(res)
+        console.log(photo)
+      })
+    };
+
+    const onChangePicture2 = e => {
+      document.getElementById('uploadButton').style.display = "";
+      document.getElementById('sendBtn').style.display = "none";
+
+      setPicture2(URL.createObjectURL(e.target.files[0]));
+      setfile2(e.target.files[0])
+
+      uploadPhoto(e.target.files[0]).then((res) => {
+        document.getElementById('uploadButton').style.display = "none";
+        document.getElementById('sendBtn').style.display = "";
+        setPhoto2(res)
+      })
+    };
+
+    const onChangePicture3 = e => {
+      document.getElementById('uploadButton').style.display = "";
+      document.getElementById('sendBtn').style.display = "none";
+
+      setPicture3(URL.createObjectURL(e.target.files[0]));
+      setfile3(e.target.files[0])
+
+      uploadPhoto(e.target.files[0]).then((res) => {
+        document.getElementById('uploadButton').style.display = "none";
+        document.getElementById('sendBtn').style.display = "";
+        setPhoto3(res)
+      })
+    };
+
+    const onChangePicture4 = e => {
+      document.getElementById('uploadButton').style.display = "";
+      document.getElementById('sendBtn').style.display = "none";
+
+      setPicture4(URL.createObjectURL(e.target.files[0]));
+      setfile4(e.target.files[0])
+
+      uploadPhoto(e.target.files[0]).then((res) => {
+        document.getElementById('uploadButton').style.display = "none";
+        document.getElementById('sendBtn').style.display = "";
+        setPhoto4(res)
+      })
+    };
+
+// src={picture ? picture : ''} 
+    const ImgUpload = () =>{
+      return(
+        <label htmlFor="photo-upload" className="item-prev-upload flex-center">
+          <div className="item-prev-upload-wrap item-prev-upload-img" >
+            <img htmlFor="photo-upload" src={picture ? picture : Add} />
+          </div>
+          <input id="photo-upload" type="file" onChange={onChangePicture}/> 
+        </label>
+      );
+    }
+
+    const ImgUpload2 = () =>{
+      return(
+        <label htmlFor="photo-upload2" className="item-prev-upload flex-center">
+          <div className="item-prev-upload-wrap item-prev-upload-img" >
+            <img htmlFor="photo-upload2" src={picture2 ? picture2 : Add} />
+          </div>
+          <input id="photo-upload2" type="file" onChange={onChangePicture2}/> 
+        </label>
+      );
+    }
+
+    const ImgUpload3 = () =>{
+      return(
+        <label htmlFor="photo-upload3" className="item-prev-upload flex-center">
+          <div className="item-prev-upload-wrap item-prev-upload-img" >
+            <img htmlFor="photo-upload3" src={picture3 ? picture3 : Add} />
+          </div>
+          <input id="photo-upload3" type="file" onChange={onChangePicture3}/> 
+        </label>
+      );
+    }
+
+    const ImgUpload4 = () =>{
+      return(
+        <label htmlFor="photo-upload4" className="item-prev-upload flex-center">
+          <div className="item-prev-upload-wrap item-prev-upload-img" >
+            <img htmlFor="photo-upload4" src={picture4 ? picture4 : Add} />
+          </div>
+          <input id="photo-upload4" type="file" onChange={onChangePicture4}/> 
+        </label>
+      );
+    }
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      sendConversationMessage(userID, match.params.conID, newMessage, match.params.id).then((res) => {
+        setNewMessage("");
+      });
+    };
+
+    const onSubmit = (e) => {
+      e.preventDefault();
+      document.getElementById('sendingBtn').style.display = "";
+      document.getElementById('sendBtn').style.display = "none";
+      sendPhoto(userID, match.params.conID, photo, photo2, photo3, photo4, match.params.id).then((res) => {
+        handleClose2();
+        setNewMessage("");
+        document.getElementById('sendingBtn').style.display = "none";
+        document.getElementById('sendBtn').style.display = "";
+      });
+    };
     // const [ messages, setMessages ] = useState ([
         {
             // name: 'John Phillip Lacorte',
@@ -135,6 +270,36 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
         </MDBModalFooter>
           </MDBModal>
         {/* //Set Schedule Modal */}
+
+        <MDBModal isOpen={showModal} toggle={handleClose2}>
+      <MDBModalHeader toggle={handleClose2}>Add Images</MDBModalHeader>
+        <MDBModalBody className="px-4 text-center">
+        {/*  */}
+          <form onSubmit={e => onSubmit(e)} >
+          <MDBRow className="mx-auto">
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload/>
+            </MDBCol>
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload2/>
+            </MDBCol>
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload3/>
+            </MDBCol>
+            <MDBCol className="item-prev-col flex-center" size="6">
+              <ImgUpload4/>
+            </MDBCol>
+            </MDBRow>
+   
+            <div className="flex-center">
+            <MDBBtn className="modal-btn-sm p-2 px-4" color="white" onClick={handleClose2}>Cancel</MDBBtn>
+            <MDBBtn className="confirm-btn color1 my-4 py-2 px-5" id="uploadButton" style={{ display: "none" }} disabled>Uploading Photo...</MDBBtn>
+            <MDBBtn className="confirm-btn color1 my-4 py-2 px-5" id="sendingBtn" style={{ display: "none" }} disabled>Sending...</MDBBtn>
+              <MDBBtn type="submit" className="confirm-btn color1 my-4 py-2 px-5" id="sendBtn">Send</MDBBtn>
+            </div>
+          </form>
+        </MDBModalBody>
+      </MDBModal>
 
          {/*//Modals  */}
 
@@ -184,19 +349,25 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
             {/*Chat*/}    
             {messages && (messages.map((m) => 
                   isAuthenticated ? user._id === m.to ? (
+                    <>
                 <div className="chat-screen-message">
                     <img 
                         src={m.fromAvatar} 
                         className="rounded-circle chat-screen-image mb-2"   
                         alt={m.fromName}
                     />
-                    <p className="chat-screen-text">{m.body}</p>
+                    <p >{m.body}</p>
+                    { m.photos.length > 0 ? m.photos.map(photo => photo != null ?<img src={photo} alt="msg" style={{ height:"200px", width:"200px" }}/>: '') : '' }
                 </div>
+                
+                </>
                 ) : 
-                (
+                (<>
                 <div className="chat-screen-message">
                  <p className="chat-screen-text-user">{m.body}</p>
+                 { m.photos.length > 0 ? m.photos.map(photo => photo != null ? <img src={photo} alt="msg" style={{ height:"200px", width:"200px" }}/> : '') : '' }
                  </div>
+                 </>
                 ) : ""
                 )
             )}
@@ -204,16 +375,18 @@ const ChatScreen = ({ getTrans, transaction: { chats, transaction_users, loading
                     <div className="input-group" style={{width: '50px', zIndex: '-1'}}
                     >
                       <MDBView className="custom-file mt-1">
-                      <MDBIcon icon="paperclip" size="lg" style={{color: '#167D7F'}} />
+                      <a onClick={handleShow2}>
                       <MDBMask className="flex-center">
-                        <input
-                          value={inputFile}
-                          onChange={(e) => setInputFile(e.target.value)}
-                          type="file"
-                          className="custom-file-input chat-screen-input-field"
-                          style={{zIndex: '1!important'}}
-                        />
-                        </MDBMask>
+                      <MDBIcon icon="fas fa-plus-circle" size="lg" style={{color: '#167D7F'}} />
+                      </MDBMask>
+                      </a>
+                      </MDBView>
+                      <MDBView className="custom-file mt-1">
+                      <a onClick={openModal}>
+                      <MDBMask className="flex-center">
+                      <MDBIcon icon="exchange-alt" size="lg" style={{color: '#167D7F'}} />
+                      </MDBMask>
+                      </a>
                       </MDBView>
                     </div>
                         <input 

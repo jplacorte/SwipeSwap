@@ -41,7 +41,7 @@ const Facebook = ({ login, isAuthenticated }) => {
         
         //Deploy
         //For ios compatibility
-        window.location="https://swipeswap.me/profile"
+        window.location="https://www.swipeswap.me/profile"
     }
     return (               
         <Fragment>
