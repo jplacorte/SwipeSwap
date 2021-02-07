@@ -62,12 +62,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
     const approve = useApprove()
 
     const approveTrans = () => {
-      if(chats[0].count === 1 || count === 1){
-        document.getElementById('approvingBtn').style.display = "none";
-        document.getElementById('declineBtn').style.display = "none";
-        document.getElementById('approveBtn').style.display = "none";
-        document.getElementById('pending-btn').style.display = "";
-      }else if(chats[0].count === 2 || count === 2){
+      if(chats[0].count === 2 || count === 2){
         handleShow2()
       }else{
         setCount(1)
