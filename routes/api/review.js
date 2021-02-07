@@ -69,7 +69,6 @@ router.post('/:id/:owner_id', auth, async (req, res) => {
                 { new: true }
             )
         }else{
-            await req.io.sockets.emit(`count${owner.user_id}`, count)
              if(count === 2){
                 await req.io.sockets.emit(`approve`, 'item approved')
 
@@ -98,6 +97,8 @@ router.post('/:id/:owner_id', auth, async (req, res) => {
 
                 await review.save()
                 return res.json(review)
+            }else{
+                await req.io.sockets.emit(`count${owner.user_id}`, count)
             }
         }  
 

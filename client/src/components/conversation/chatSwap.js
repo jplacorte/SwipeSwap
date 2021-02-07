@@ -31,9 +31,9 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
 
       socket.on(`change`, (data) => data === chats[0]._id ? document.location.reload() : '');
 
-      socket.on(`count${userID}`, (data) => setFormData({ ...formData, count: data }) );
+      
       return () => {
-        socket.removeListener(`change`);
+        socket.removeListener(`change`)
       };
 
     })
@@ -60,7 +60,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
 
     const approveTrans = () => {
       handleShow2()
-      setFormData({...formData, count: count+1})
+      setFormData({count: count+1})
     }
 
     showChangeModal = handleShow
@@ -171,6 +171,27 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
      }
     })
 
+    useEffect(() => {
+      socket.on(`count${userID}`, (data) => {
+        setFormData({ count: data })
+        
+        if(data === 2){
+          submitReview(itemID2, userID2, formData).then(() => {
+            //Dev
+            // window.location="/profile"
+  
+            //Deploy
+            //For ios compatibility
+            window.location="https://swipeswap.me/profile"
+          })
+        }
+      });
+      
+      return () => {
+        socket.removeListener(`count${userID}`);
+      }
+    })
+
     const onChangeItem = (e) => {
       setItemId(e.value)
     }
@@ -189,14 +210,14 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
       e.preventDefault();
       submitReview(itemID2, userID2, formData)
       if(count === 2){
-        submitReview(itemID2, userID2, formData).then(() => {
+        // submitReview(itemID2, userID2, formData).then(() => {
           //Dev
           // window.location="/profile"
-
+          console.log("approved")
           //Deploy
           //For ios compatibility
-          window.location="https://swipeswap.me/profile"
-        })
+          // window.location="https://swipeswap.me/profile"
+        // })
       }else{
         document.getElementById('cnfrm-btn').style.display = "none";
         document.getElementById('cancel-btn').style.display = "none";
