@@ -188,7 +188,10 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
         path: '/chat/socket.io'
       });
 
-      socket.on(`count${userID}`, (data) => setCount(2));
+      socket.on(`count${userID}`, (data) => {
+        setCount(2)
+        window.location.reload(true)
+      });
       
       return () => {
         socket.removeListener(`count${userID}`);
@@ -214,6 +217,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
       e.preventDefault();
       if(chats[0].count === 2 || count === 2){
         document.getElementById('cnfrming-btn').style.display = "";
+        document.getElementById('cnfrm-btn').style.display = "none";
         submitReview(itemID2, userID2, formData).then(() => {
           //Dev
           // window.location="/profile"
