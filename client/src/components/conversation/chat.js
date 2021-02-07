@@ -3,7 +3,7 @@ import { Link }  from 'react-router-dom';
 
 function Chat({ name, message, profilePic, timestamp, id, conID }) {
     return (
-    <Link to={`/chatScreen/${conID}/${id}`}>
+    <a href={`/chatScreen/${conID}/${id}`}>
       <div className="chat">
         <img src={`${profilePic}`} className="rounded-circle chat-image mr-3" alt="KB" />
           <div className="chat-details pt-3">
@@ -12,7 +12,7 @@ function Chat({ name, message, profilePic, timestamp, id, conID }) {
           </div>
             <p className="chat-timestamp pt-3">{timestamp}</p>
       </div>
-    </Link>
+    </a>
     );
 }
 
