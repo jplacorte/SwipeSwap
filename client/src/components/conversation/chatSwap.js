@@ -172,6 +172,13 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, approve, transaction: { chats, 
     })
 
     useEffect(() => {
+      
+      let socket = require('socket.io-client')('/', {
+        secure: true,
+        rejectUnauthorized: false,
+        path: '/chat/socket.io'
+      });
+
       socket.on(`count${userID}`, (data) => {
         setFormData({ count: data })
         
