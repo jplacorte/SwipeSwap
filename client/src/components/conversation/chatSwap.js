@@ -9,6 +9,7 @@ import { getTrans, useApprove, useUpdateItem } from '../../actions/transaction';
 import { getAllItemsByUser } from '../../actions/item';
 import { useSubmitReview } from '../../actions/review';
 import Select from "react-select";
+import chat from '../../reducers/chat';
 // import { useHistory } from 'react-router-dom';
 // import ItemCondition from '../itemCondition'
 
@@ -419,14 +420,17 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
 
       <div className="mb-3 text-center">
         {
-          chats[0].count === 1 || count === 1 || chats[0].count === 2 || count === 2 ? (
-            <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Review and Submit</MDBBtn>
-          ) : (<>
-            <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger" id="declineBtn">Decline</MDBBtn>
-            <MDBBtn id="approvingBtn" className="chat-swap-btn-approve mx-2" disabled style={{ display: 'none' }}>Confirming...</MDBBtn>
-            <MDBBtn className="chat-swap-btn-approve mx-2" id="pending-btn" style={{ display:'none' }} disabled>Pending Approval...</MDBBtn>
-            <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
-          </>)
+          chats.map(trans =>
+            trans.count === 1 || count === 1 || trans.count === 2 || count === 2 ? (
+              <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Review and Submit</MDBBtn>
+            ) : (<>
+              <MDBBtn className="chat-swap-btn-ignore mx-2" color="danger" id="declineBtn">Decline</MDBBtn>
+              <MDBBtn id="approvingBtn" className="chat-swap-btn-approve mx-2" disabled style={{ display: 'none' }}>Confirming...</MDBBtn>
+              <MDBBtn className="chat-swap-btn-approve mx-2" id="pending-btn" style={{ display:'none' }} disabled>Pending Approval...</MDBBtn>
+              <MDBBtn onClick={val => approveTrans()} id="approveBtn" className="chat-swap-btn-approve mx-2">Approve</MDBBtn>
+            </>)
+          )
+          
         }
           
           {/* {
