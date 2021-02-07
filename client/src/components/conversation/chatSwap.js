@@ -61,7 +61,6 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
     const approve = useApprove()
 
     const approveTrans = () => {
-      setCount(count => count + 1)
       document.getElementById('approvingBtn').style.display = "";
       document.getElementById('declineBtn').style.display = "none";
       document.getElementById('approveBtn').style.display = "none";
@@ -189,9 +188,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
         path: '/chat/socket.io'
       });
 
-      socket.on(`count${userID}`, (data) => {
-        setCount(data)
-      });
+      socket.on(`count${userID}`, (data) => setCount(2));
       
       return () => {
         socket.removeListener(`count${userID}`);
@@ -216,6 +213,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
     const onSubmit = e => {
       e.preventDefault();
       if(chats[0].count === 2 || count === 2){
+        document.getElementById('cnfrming-btn').style.display = "";
         submitReview(itemID2, userID2, formData).then(() => {
           //Dev
           // window.location="/profile"
@@ -227,7 +225,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
       }else{
         document.getElementById('cnfrm-btn').style.display = "none";
         document.getElementById('cancel-btn').style.display = "none";
-        document.getElementById('cnfrming-btn').style.display = "";
+        document.getElementById('pending-btn').style.display = "";
       }     
     }
 
@@ -371,7 +369,8 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
                   </div>
                   <div className="mx-auto mt-4">
                     <MDBBtn className="modal-btn-sm p-2 px-4" color="white" onClick={handleClose2} id="cancel-btn">Cancel</MDBBtn>
-                    <MDBBtn  className="modal-btn p-2 px-4 color1"id="cnfrming-btn" style={{ display:'none' }} disabled>Pending Confirmation...</MDBBtn>
+                    <MDBBtn  className="modal-btn p-2 px-4 color1"id="pending-btn" style={{ display:'none' }} disabled>Pending Confirmation...</MDBBtn>
+                    <MDBBtn  className="modal-btn p-2 px-4 color1"id="cnfrming-btn" style={{ display:'none' }} disabled>Confirming...</MDBBtn>
                     <MDBBtn  className="modal-btn-sm p-2 px-4 color1" type="submit" id="cnfrm-btn">Confirm</MDBBtn>
                    </div>
                   </form>
