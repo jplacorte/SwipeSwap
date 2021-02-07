@@ -63,22 +63,20 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
 
     const approveTrans = () => {
       if(chats[0].count === 1 || count === 1){
-        setCount(1)
         document.getElementById('approvingBtn').style.display = "none";
         document.getElementById('declineBtn').style.display = "none";
         document.getElementById('approveBtn').style.display = "none";
         document.getElementById('pending-btn').style.display = "";
-        approve(count, userID2, chats[0]._id)
       }else if(chats[0].count === 2 || count === 2){
         handleShow2()
       }else{
+        setCount(1)
+        document.getElementById('approvingBtn').style.display = "";
         approve(count, userID2, chats[0]._id).then(res => {
           document.getElementById('approvingBtn').style.display = "none";
-          document.getElementById('pending-btn').style.display = "none";
+          document.getElementById('pending-btn').style.display = "";
           document.getElementById('declineBtn').style.display = "none";
-          document.getElementById('approveBtn').innerHTML="Review and Submit"
-          document.getElementById('approveBtn').style.display = "";
-          handleShow2()  
+          document.getElementById('approveBtn').style.display = "none";
         })
       }
     }
