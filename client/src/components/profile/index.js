@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile, updateAvatar } from '../../actions/profile';
 // import Loading from '../Loading';
+import { useUploadPhoto } from '../../actions/item';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBIcon } from 'mdbreact';
 import "../../css/style.css";
@@ -83,10 +84,20 @@ const Profile = ({ profile:{ profile, loading }, auth: { isAuthenticated, user }
       };
     }, []);
 
+    const uploadPhoto = useUploadPhoto()
+
     const onChangePicture = e => {
+        document.getElementById('uploadingBtn').style.display = "";
+        document.getElementById('confirmBtn').style.display = "none";
+
         setPicture(URL.createObjectURL(e.target.files[0]));
         setfile(e.target.files[0])
-        updateAvatar(e.target.files[0])
+
+        uploadPhoto(e.target.files[0]).then(res => {
+          document.getElementById('uploadingBtn').style.display = "none";
+          document.getElementById('confirmBtn').style.display = "";
+          setFormData({ avatar: res })
+        })
     };
 
 
@@ -138,7 +149,8 @@ const Profile = ({ profile:{ profile, loading }, auth: { isAuthenticated, user }
           <input type="text" name="facebook" value={facebook} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Facebook Link" />
           <input type="text" name="instagram" value={instagram} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Instagram Link" />
           <input type="text" name="google" value={google} onChange={ e => onChange(e) } className="form-control mt-3" placeholder="Gmail Link" />
-          <MDBBtn className="confirm-btn color1 mx-auto mt-4 mb-2 py-2 px-5" type="submit">Confirm</MDBBtn>
+          <MDBBtn className="confirm-btn color1 mx-auto mt-4 mb-2 py-2 px-5" id="uploadingBtn" style={{ display:'none' }} disabled>Uploading Image...</MDBBtn>
+          <MDBBtn className="confirm-btn color1 mx-auto mt-4 mb-2 py-2 px-5" id="confirmBtn" type="submit">Confirm</MDBBtn>
           </form>
         </MDBModalBody>
       </MDBModal>
