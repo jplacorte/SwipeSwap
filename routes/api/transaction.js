@@ -105,12 +105,12 @@ router.post('/swapped/:trans_id', auth, async (req, res) => {
     
 
     try {
-        if(req.body.count === 1){
-            await req.io.sockets.emit(`count${req.body.user}`, req.body.count)
-        }
+
+        await req.io.sockets.emit(`count${req.body.user}`, req.body.count)
+        
         const trans = await Transaction.findByIdAndUpdate(
             { _id:req.params.trans_id },
-            {$set: {count: req.body.count} },
+            {$set: {count: 2} },
             {new: true}
         )
 

@@ -216,6 +216,18 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
         })
       }
     }
+
+    const redirect = () => {
+
+      // Dev
+      // window.location.href="/profile"
+        
+      //Deploy
+      //For ios compatibility
+      window.location.href="https://swipeswap.me/profile";
+      return false
+      
+    }
     
     const submitReview = useSubmitReview()
     
@@ -226,12 +238,7 @@ const ChatSwap = ({ getAllItemsByUser, getTrans, transaction: { chats, loading }
       document.getElementById('cnfrm-btn').style.display = "none";
       
       submitReview(itemID2, userID2, chats[0]._id, formData).then(res => {
-        // Dev
-        // window.location="/profile"
-        
-        //Deploy
-        //For ios compatibility
-        window.location="https://swipeswap.me/profile"
+          redirect()
       })   
     }
 

@@ -17,6 +17,17 @@ const Facebook = ({ login, isAuthenticated }) => {
         login(response.name, response.email, response.picture)
     }
 
+    const redirect = () => {
+        //Dev
+        // window.location.href="/profile"
+        
+        //Deploy
+        // For ios compatibility
+        window.location.href = "https://swipeswap.me/profile"
+
+        return false
+    }
+
     fbContent = (<FacebookLogin
         appId="3246631198738334"
         fields="name,email,picture"
@@ -36,12 +47,7 @@ const Facebook = ({ login, isAuthenticated }) => {
             icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
             isDisabled
         />)
-        //Dev
-        // window.location="/profile"
-        
-        //Deploy
-        //For ios compatibility
-        window.location="https://swipeswap.me/profile"
+        redirect()
     }
     return (               
         <Fragment>
