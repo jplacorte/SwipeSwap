@@ -16,7 +16,6 @@ import { superWant } from '../../actions/match';
 const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, item: { items, loading }, auth: { isAuthenticated, user }, limit: { limits } }) => {
 
   const getLimits = useGetLimits()
-  var num = limits.count
   useEffect(() => {
 
     getAllItem()
@@ -69,11 +68,17 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
   const handleClose = () => setShowModal(false);
   const handleClose2 = () => setShowModal2(false);
 
-  // const [count, setCount] = useState(1)
+  const [count, setCount] = useState(1)
   const [prev, setPrev] = useState(0)
   const [prevNotif, setPrevNotif] = useState(4)
   const [swantNotif, setSwantNotif] = useState(4)
   const [swantCount, setSwantCount] = useState(0)
+
+  useEffect(() => {
+    getLimits().then((res) => {
+      setCount(res.count)
+    })
+  },[])
 
   const [itemsData, setItemsData] = useState({
     item_id: '',
@@ -104,19 +109,19 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
 
   const want = () => {
 
-    if (num+1 === items.length) {
+    if (count+1 === items.length) {
 
       toast.error("No more items")
 
-      wantItem(items[num+1 === items.length ? 0 : num+1]._id, items[num+1 === items.length ? 0 : num+1].user._id)
+      wantItem(items[count+1 === items.length ? 0 : count+1]._id, items[count+1 === items.length ? 0 : count+1].user._id)
 
     } else {
 
-      wantItem(items[num+1]._id, items[num+1].user._id)
+      wantItem(items[count+1]._id, items[count+1].user._id)
 
-      // setCount(count => count + 1)
+      setCount(count => count + 1)
 
-      addLimits(prev, swantCount, prevNotif, swantNotif, num + 1)
+      addLimits(prev, swantCount, prevNotif, swantNotif, count+1)
 
       slideNext()
 
@@ -126,11 +131,11 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
 
   const superwant = () => {
 
-    if (num+1 === items.length) {
+    if (count+1 === items.length) {
 
       toast.error("No more items")
 
-      superWant(items[num+1 === items.length ? 0 : num+1]._id, items[num+1 === items.length ? 0 : num+1].user._id)
+      superWant(items[count+1 === items.length ? 0 : count+1]._id, items[count+1 === items.length ? 0 : count+1].user._id)
 
       toast.info(`You have ${swantNotif === 0 ? "" : swantNotif} ${swantNotif === 0 ? "no super wants" : "super wants"} left`)
 
@@ -138,15 +143,15 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
 
       if (swantCount < 5 && limits.superwant < 4) {
 
-        superWant(items[num+1]._id, items[num+1].user._id)
+        superWant(items[count+1]._id, items[count+1].user._id)
 
         setSwantNotif(swantNotif - 1)
 
         setSwantCount(swantCount => swantCount + 1)
 
-        // setCount(count => count + 1)
+        setCount(count => count + 1)
 
-        addLimits(prev, swantCount, prevNotif, swantNotif, num + 1)
+        addLimits(prev, swantCount, prevNotif, swantNotif, count+1)
 
         slideNext()
 
@@ -160,15 +165,16 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
   }
 
   const boring = () => {
-    console.log(num+1, items.length)
-    if (num+1 === items.length) {
+    // console.log(num+1, items.length)
+    // console.log(count+1,"asdsa")
+    if (count+1 === items.length) {
       toast.error("No more items")
     } else {
-      // setCount(count => count + 1)
+      setCount(count => count + 1)
 
       slideNext()
       
-      addLimits(prev, swantCount, prevNotif, swantNotif, num + 1)
+      addLimits(prev, swantCount, prevNotif, swantNotif, count+1)
       
     }
   }
@@ -177,9 +183,9 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
     if (prev < 5 && limits.rewind < 4) {
       setPrev(prev => prev + 1)
       
-      addLimits(prev, swantCount, prevNotif, swantNotif, num + 1)
+      addLimits(prev, swantCount, prevNotif, swantNotif, count-1)
 
-      // setCount(count => count - 1)
+      setCount(count => count - 1)
 
       setPrevNotif(prevNotif - 1)
 
@@ -192,8 +198,8 @@ const HomePage = ({ getAllItem, getAllLimits, addLimits, wantItem, superWant, it
     }
 
 
-    if (num === 0) {
-      num = items.length - 1
+    if (count === 0) {
+      count = items.length - 1
     }
   }
 
