@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Facebook = ({ login, isAuthenticated }) => {
 
-    let fbContent;
+    let fbContent, disabled = false;
 
     const responseFacebook = response => {
         login(response.name, response.email, response.picture)
@@ -28,27 +28,21 @@ const Facebook = ({ login, isAuthenticated }) => {
         return false
     }
 
+    if(isAuthenticated){
+        disabled = true
+        redirect()
+    }
+    
     fbContent = (<FacebookLogin
         appId="3246631198738334"
         fields="name,email,picture"
         disableMobileRedirect={true}
         callback={responseFacebook}
-        textButton="Login with facebook"
+        textButton={isAuthenticated ? "Redirecting..." : "Login with facebook"}
         icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
+        isDisabled={disabled}
     />)
 
-    if(isAuthenticated){
-        fbContent = (<FacebookLogin
-            appId="3246631198738334"
-            fields="name,email,picture"
-            disableMobileRedirect={true}
-            callback={responseFacebook}
-            textButton="Redirecting..."
-            icon={<MDBIcon fab icon="facebook-square" className="mr-2" size="lg" />}
-            isDisabled
-        />)
-        redirect()
-    }
     return (               
         <Fragment>
         <div>
