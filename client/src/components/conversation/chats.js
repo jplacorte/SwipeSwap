@@ -6,7 +6,7 @@ import "../../css/style.css";
 import "../../css/mediaQuery.css";
 import Chat from './chat';
 
-const Chats = ({props, auth: { isAuthenticated, user } }) => {
+const Chats = ({auth: { isAuthenticated, user } }) => {
 
     const [conversations, setConversations] = useState([]);
     const [newConversation, setNewConversation] = useState(null);
@@ -64,31 +64,6 @@ const Chats = ({props, auth: { isAuthenticated, user } }) => {
                  </>
              ) : (<center><h1>Conversation is Empty...</h1></center>)
          }
-                {/* <Chat
-                    id="aasdad"
-                    name="Jaypee"
-                    message="Hello!"
-                    // timestamp="40 seconds ago"
-                    // profilePic={}
-                /> */}
-            {/* {
-             transactions.length > 0 ? (
-                 transactions.map( transaction => (
-                    transaction.users.length > 1 && transaction.superwant != true ? (
-                    
-                ): '')) 
-             ):(<h4>Chat is empty....</h4>)
-            }
-            {
-                transactions.length > 0 ? (
-                    transactions.map( transaction => transaction.superwant === true ? (<Chat
-                        id={transaction._id}
-                        name={transaction.users[0].userwantname}
-                        message="Hello!"
-                        profilePic={`${transaction.users[0].userwantavatar}`}
-                    />) : ''
-                )) : ("")
-            } */}
     </div>
     );
 }
