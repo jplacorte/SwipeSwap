@@ -52,35 +52,7 @@ const NotificationsList = ({ auth: { isAuthenticated, user } }) => {
               </MDBCol>
                 <MDBCol md="12" className="">
                   <div className="my-4">
-
-                  {/* <MDBNav className="nav-pills flex-center mb-4">
-                    <MDBNavItem>
-                      <MDBNavLink link to="#" active={this.state.items["default"] === "1"}  onClick={this.togglePills("default", "1")} className="notif-pills mx-1 text-center" >
-                        All
-                      </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem>
-                      <MDBNavLink link to="#" active={this.state.items["default"] === "2"}  onClick={this.togglePills("default", "2")} className="notif-pills mx-1 text-center" >
-                        Unread
-                      </MDBNavLink>
-                    </MDBNavItem>
-                    <MDBNavItem>
-                      <MDBNavLink link to="#" active={this.state.items["default"] === "3"}  onClick={this.togglePills("default", "3")} className="notif-pills mx-1 text-center" >
-                        Matches
-                      </MDBNavLink>
-                    </MDBNavItem>
-                  </MDBNav> */}
-                  {/* <MDBTabContent activeItem={this.state.items["default"]}>
-                    <MDBTabPane tabId="1"> */}
                       <Notifications />
-                    {/* </MDBTabPane>
-                    <MDBTabPane tabId="2">
-                      <Notifications />
-                    </MDBTabPane>
-                    <MDBTabPane tabId="3">
-                      <Notifications />
-                    </MDBTabPane>
-                  </MDBTabContent> */}
                   </div>
                 </MDBCol>
             </MDBRow>
